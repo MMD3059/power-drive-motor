@@ -91,3 +91,22 @@ body {
 .animate-pulse-glow {
   animation: pulse-glow 2s ease-in-out infinite;
 }
+
+@media (max-width: 480px) {
+  .container-480 {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  .text-xs-480 {
+    font-size: 0.75rem;
+  }
+  .mobile-full {
+    width: 100% !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .hide-on-mobile {
+    display: none !important;
+  }
+}

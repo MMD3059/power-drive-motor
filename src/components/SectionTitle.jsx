@@ -8,13 +8,13 @@ export default function SectionTitle({
   const alignClass = align === "left" ? "text-left" : "text-center"
 
   return (
-    <div className={`max-w-3xl mx-auto mb-16 ${alignClass}`}>
+    <div className={`max-w-3xl mx-auto mb-10 md:mb-16 ${alignClass}`}>
       {subtitle && (
         <span className="inline-block px-4 py-1.5 text-xs font-semibold tracking-widest uppercase text-neon-500 bg-neon-500/10 border border-neon-500/20 rounded-full mb-4">
           {subtitle}
         </span>
       )}
-      <h2 className={`text-3xl md:text-5xl font-bold tracking-tight ${light ? "text-white" : "text-white"}`}>
+      <h2 className={`text-2xl sm:text-3xl md:text-5xl font-bold tracking-tight ${light ? "text-white" : "text-white"}`}>
         {title}
       </h2>
       {description && (

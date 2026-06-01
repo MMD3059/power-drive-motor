@@ -26,11 +26,11 @@ export default function Home() {
           <div className="absolute inset-0 bg-gradient-to-r from-dark-900/95 via-dark-900/80 to-dark-900/60 z-10" />
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(0,212,255,0.08),transparent_60%)]" />
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(0,136,204,0.05),transparent_50%)]" />
-          <div className="absolute top-1/4 -right-32 w-[500px] h-[500px] rounded-full border border-neon-500/10 animate-pulse-glow" />
-          <div className="absolute bottom-1/4 -left-32 w-[400px] h-[400px] rounded-full border border-neon-500/5" />
+          <div className="absolute top-1/4 -right-32 w-[500px] h-[500px] rounded-full border border-neon-500/10 animate-pulse-glow max-md:hidden" />
+          <div className="absolute bottom-1/4 -left-32 w-[400px] h-[400px] rounded-full border border-neon-500/5 max-md:hidden" />
         </div>
 
-        <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-20">
+        <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 md:pt-32 pb-16 md:pb-20">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <motion.div
               initial={{ opacity: 0, x: -50 }}
@@ -40,7 +40,7 @@ export default function Home() {
               <span className="inline-block px-4 py-1.5 text-xs font-semibold tracking-widest uppercase text-neon-500 bg-neon-500/10 border border-neon-500/20 rounded-full mb-6">
                 Premium Automotive Concierge
               </span>
-              <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold text-white leading-[1.1] tracking-tight mb-6">
+              <h1 className="text-3xl sm:text-5xl lg:text-7xl font-bold text-white leading-[1.1] tracking-tight mb-4 md:mb-6">
                 Drive The{" "}
                 <span className="gradient-text">Extraordinary</span>
                 <br />
@@ -98,7 +98,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="py-20 relative">
+      <section className="py-12 md:py-20 relative">
         <div className="absolute inset-0 bg-gradient-to-b from-dark-800/50 to-transparent" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
@@ -120,7 +120,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="py-20 relative">
+      <section className="py-12 md:py-20 relative">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(0,212,255,0.03),transparent_60%)]" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionTitle
@@ -195,7 +195,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="py-20 relative bg-dark-800/50">
+      <section className="py-12 md:py-20 relative bg-dark-800/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionTitle
             subtitle="Services"
@@ -245,7 +245,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="py-20 relative">
+      <section className="py-12 md:py-20 relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionTitle
             subtitle="Testimonials"
@@ -285,7 +285,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="py-20 relative bg-dark-800/50 overflow-hidden">
+      <section className="py-12 md:py-20 relative bg-dark-800/50 overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,212,255,0.05),transparent_60%)]" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div

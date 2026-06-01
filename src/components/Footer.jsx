@@ -5,7 +5,6 @@ const quickLinks = [
   { name: "Home", path: "/" },
   { name: "Inventory", path: "/inventory" },
   { name: "Services", path: "/services" },
-  { name: "About Us", path: "/about" },
   { name: "Contact", path: "/contact" },
   { name: "Financing", path: "/financing" },
 ]
@@ -23,8 +22,8 @@ export default function Footer() {
   return (
     <footer className="relative bg-dark-800 border-t border-neon-500/10">
       <div className="absolute inset-0 bg-gradient-to-b from-dark-700/20 to-transparent pointer-events-none" />
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 md:pt-20 pb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 mb-12 md:mb-16">
           <div>
             <div className="flex items-center gap-3 mb-6">
               <img

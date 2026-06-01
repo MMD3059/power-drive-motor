@@ -11,7 +11,7 @@ const iconMap = {
 export default function Services() {
   return (
     <div className="pt-24 min-h-screen">
-      <div className="relative py-20 bg-dark-800/50">
+      <div className="relative py-12 md:py-20 bg-dark-800/50">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(0,212,255,0.05),transparent_60%)]" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionTitle
@@ -22,7 +22,7 @@ export default function Services() {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
         <div className="grid md:grid-cols-2 gap-6">
           {services.map((service, i) => {
             const Icon = iconMap[service.icon] || Sparkles
@@ -58,7 +58,7 @@ export default function Services() {
         </div>
       </div>
 
-      <div className="relative py-20 bg-dark-800/50 overflow-hidden">
+      <div className="relative py-12 md:py-20 bg-dark-800/50 overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,212,255,0.04),transparent_60%)]" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
@@ -66,7 +66,7 @@ export default function Services() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-6">
               Not Sure What You Need?{" "}
               <span className="gradient-text">Let's Talk</span>
             </h2>

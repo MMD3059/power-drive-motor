@@ -73,7 +73,7 @@ export default function Inventory() {
 
   return (
     <div className="pt-20 min-h-screen">
-      <div className="relative py-20 bg-dark-800/50">
+      <div className="relative py-12 md:py-20 bg-dark-800/50">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(0,212,255,0.05),transparent_60%)]" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionTitle
@@ -263,7 +263,7 @@ export default function Inventory() {
                     <p className="text-dark-200 text-xs font-semibold tracking-wider uppercase mb-1">{car.brand}</p>
                     <h3 className="text-white font-bold text-lg mb-1 group-hover:text-neon-500 transition-colors">{car.name}</h3>
                     <div className="flex items-center justify-between mb-4">
-                      <p className="text-neon-500 font-bold text-xl">${car.price.toLocaleString()}</p>
+                      <p className="text-neon-500 font-bold text-lg md:text-xl">${car.price.toLocaleString()}</p>
                     </div>
                     <div className="flex items-center gap-3 text-dark-200 text-xs border-t border-neon-500/10 pt-4">
                       <span className="flex items-center gap-1">

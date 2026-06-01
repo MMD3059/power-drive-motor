@@ -52,7 +52,7 @@ export default function Financing() {
 
   return (
     <div className="pt-24 min-h-screen">
-      <div className="relative py-20 bg-dark-800/50">
+      <div className="relative py-12 md:py-20 bg-dark-800/50">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(0,212,255,0.05),transparent_60%)]" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionTitle

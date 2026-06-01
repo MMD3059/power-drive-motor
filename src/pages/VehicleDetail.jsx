@@ -38,8 +38,8 @@ export default function VehicleDetail() {
   const nextImg = () => setCurrentImg((p) => (p === allImages.length - 1 ? 0 : p + 1))
 
   return (
-    <div className="pt-24 min-h-screen">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="pt-20 md:pt-24 min-h-screen">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-8">
         <Link
           to="/inventory"
           className="inline-flex items-center gap-2 text-dark-200 hover:text-neon-500 transition-colors mb-8 group"
@@ -155,11 +155,11 @@ export default function VehicleDetail() {
             transition={{ duration: 0.6, delay: 0.2 }}
           >
             <p className="text-neon-500 text-sm font-semibold tracking-widest uppercase mb-2">{car.brand}</p>
-            <h1 className="text-3xl md:text-5xl font-bold text-white mb-2">{car.name}</h1>
+            <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold text-white mb-2">{car.name}</h1>
             <p className="text-dark-200 text-lg mb-6">{car.model}</p>
 
             <div className="flex items-center gap-4 mb-8">
-              <div className="text-4xl md:text-5xl font-bold gradient-text">
+              <div className="text-2xl sm:text-4xl md:text-5xl font-bold gradient-text">
                 ${car.price.toLocaleString()}
               </div>
               {car.sold && (

@@ -8,7 +8,7 @@ import { CarProvider } from "./contexts/CarContext"
 import Home from "./pages/Home"
 import Inventory from "./pages/Inventory"
 import VehicleDetail from "./pages/VehicleDetail"
-import About from "./pages/About"
+
 import Services from "./pages/Services"
 import Contact from "./pages/Contact"
 import Financing from "./pages/Financing"
@@ -46,7 +46,7 @@ function PublicLayout() {
             <Route path="/" element={<Home />} />
             <Route path="/inventory" element={<Inventory />} />
             <Route path="/inventory/:id" element={<VehicleDetail />} />
-            <Route path="/about" element={<About />} />
+
             <Route path="/services" element={<Services />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/financing" element={<Financing />} />
