@@ -4,7 +4,6 @@ import { ArrowRight, ChevronRight, Sparkles, Shield, Clock, Award } from "lucide
 import SectionTitle from "../components/SectionTitle"
 import { useCars } from "../contexts/CarContext"
 import { services } from "../data/services"
-import { testimonials } from "../data/testimonials"
 import { thumbnail } from "../utils/images"
 
 const featuredServices = services.slice(0, 3)
@@ -242,46 +241,6 @@ export default function Home() {
               <ChevronRight size={20} className="group-hover:translate-x-1 transition-transform" />
             </Link>
           </motion.div>
-        </div>
-      </section>
-
-      <section className="py-12 md:py-20 relative">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <SectionTitle
-            subtitle="Testimonials"
-            title="What Our Clients Say"
-            description="Trust built through exceptional service. Hear from our discerning clientele."
-          />
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {testimonials.slice(0, 3).map((t, i) => (
-              <motion.div
-                key={t.id}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                className="glass-card rounded-xl p-8"
-              >
-                <div className="flex gap-1 mb-6">
-                  {Array.from({ length: t.rating }).map((_, j) => (
-                    <span key={j} className="text-neon-500 text-lg">★</span>
-                  ))}
-                </div>
-                <p className="text-dark-200 text-sm leading-relaxed mb-6 italic">"{t.content}"</p>
-                <div className="flex items-center gap-3">
-                  <img
-                    src={t.avatar}
-                    alt={t.name}
-                    className="w-12 h-12 rounded-full object-cover border border-neon-500/20"
-                  />
-                  <div>
-                    <p className="text-white font-semibold text-sm">{t.name}</p>
-                    <p className="text-dark-200 text-xs">{t.role}</p>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
         </div>
       </section>
 

@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { useParams, Link } from "react-router-dom"
 import { motion } from "framer-motion"
-import { ArrowLeft, Fuel, Gauge, Car, Zap, Armchair, ShieldCheck, Check, Phone, Mail, MapPin, ChevronLeft, ChevronRight, X } from "lucide-react"
+import { ArrowLeft, Fuel, Gauge, Car, Zap, Users, ShieldCheck, Check, Phone, Mail, MapPin, ChevronLeft, ChevronRight, X } from "lucide-react"
 import { useCars } from "../contexts/CarContext"
 
 export default function VehicleDetail() {
@@ -30,7 +30,7 @@ export default function VehicleDetail() {
     { label: "Transmission", value: car.transmission, icon: Car },
     { label: "Fuel Type", value: car.fuelType, icon: Fuel },
     { label: "Mileage", value: `${car.mileage.toLocaleString()} mi`, icon: MapPin },
-    { label: "Seats", value: `${car.seats} Seats`, icon: Armchair },
+    { label: "Seats", value: `${car.seats} Seats`, icon: Users },
     { label: "Year", value: car.year, icon: ShieldCheck },
   ]
 
