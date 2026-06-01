@@ -1,20 +1,36 @@
 import { useState } from "react"
 import { motion } from "framer-motion"
-import { Check, Loader2, Send, Shield, Clock, DollarSign, Phone, Mail, MapPin, ArrowRight, Car, Calendar, Hash, Gauge } from "lucide-react"
+import { Check, Loader2, Send, Shield, Clock, DollarSign, Phone, Mail, MapPin, ArrowRight, Car, Calendar, Hash, Gauge, Users, Building, CreditCard, Home } from "lucide-react"
 import SectionTitle from "../components/SectionTitle"
 import { Link } from "react-router-dom"
+import { useCars } from "../contexts/CarContext"
 
 const initialForm = {
+  appType: "individual",
+  relationship: "",
+  vehicleInterest: "",
+  purchaseType: "finance",
+  purchaseTerm: "",
+  leaseMiles: "",
+  monthlyPayment: "",
+  amountToFinance: "",
   firstName: "",
   lastName: "",
   email: "",
-  phone: "",
+  homePhone: "",
+  contactPhone: "",
   address: "",
   city: "",
   state: "SD",
   zip: "",
+  yearsAtAddress: "",
+  housingStatus: "",
+  monthlyHousing: "",
   dob: "",
   ssn: "",
+  maritalStatus: "",
+  driversLicense: "",
+  licenseExp: "",
   employStatus: "",
   employer: "",
   jobTitle: "",
@@ -22,11 +38,13 @@ const initialForm = {
   annualIncome: "",
   downPayment: "",
   loanTerm: "60",
+  tradeIn: "no",
   tradeYear: "",
   tradeMake: "",
   tradeModel: "",
   tradeMileage: "",
-  tradeCondition: "Good",
+  tradeVin: "",
+  tradePayoff: "",
   contactMethod: "Call",
   message: "",
   consent: false,
@@ -41,6 +59,7 @@ const states = [
 ]
 
 export default function CreditApplication() {
+  const { cars } = useCars()
   const [form, setForm] = useState(initialForm)
   const [submitted, setSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -60,18 +79,33 @@ export default function CreditApplication() {
       const payload = {
         name: `${form.firstName} ${form.lastName}`,
         email: form.email,
-        phone: form.phone,
+        phone: form.contactPhone || form.homePhone,
         subject: "Credit Application",
         message: `
-DOB: ${form.dob}
-SSN: ${form.ssn}
-Address: ${form.address}, ${form.city}, ${form.state} ${form.zip}
-Employment: ${form.employStatus} - ${form.jobTitle} at ${form.employer} (${form.monthsEmployed}mo)
+--- Application Info ---
+Type: ${form.appType === "individual" ? "Individual" : "Joint"}${form.relationship ? ` (${form.relationship})` : ""}
+Vehicle Interest: ${form.vehicleInterest || "Not specified"}
+Purchase: ${form.purchaseType === "finance" ? "Finance" : "Lease"} | Term: ${form.purchaseTerm}mo | Monthly: $${form.monthlyPayment} | Amount: $${form.amountToFinance}${form.leaseMiles ? ` | Lease Miles: ${form.leaseMiles}` : ""}
+
+--- Personal ---
+DOB: ${form.dob} | SSN: ${form.ssn} | Marital: ${form.maritalStatus}
+DL#: ${form.driversLicense} | Exp: ${form.licenseExp}
+Address: ${form.address}, ${form.city}, ${form.state} ${form.zip} (${form.yearsAtAddress})
+Housing: ${form.housingStatus} | $${form.monthlyHousing}/mo
+Home Phone: ${form.homePhone} | Contact: ${form.contactPhone}
+
+--- Employment ---
+${form.employStatus} - ${form.jobTitle} at ${form.employer} (${form.monthsEmployed})
 Annual Income: $${form.annualIncome}
-Down Payment: $${form.downPayment}
-Loan Term: ${form.loanTerm}mo
-Trade-In: ${form.tradeYear} ${form.tradeMake} ${form.tradeModel} - ${form.tradeMileage}mi (${form.tradeCondition})
-Contact Method: ${form.contactMethod}
+
+--- Loan ---
+Down Payment: $${form.downPayment} | Term: ${form.loanTerm}mo
+
+--- Trade-In ---
+Has Trade: ${form.tradeIn === "yes" ? `Yes - ${form.tradeYear} ${form.tradeMake} ${form.tradeModel} | Mileage: ${form.tradeMileage} | VIN: ${form.tradeVin} | Payoff: $${form.tradePayoff}` : "No"}
+
+--- Contact ---
+Method: ${form.contactMethod}
 Notes: ${form.message}
         `.trim(),
         type: "credit",
@@ -87,7 +121,7 @@ Notes: ${form.message}
     setLoading(false)
   }
 
-  const isValid = form.firstName && form.lastName && form.email && form.phone && form.consent
+  const isValid = form.firstName && form.lastName && form.email && form.consent
 
   return (
     <div className="pt-24 min-h-screen">
@@ -131,345 +165,340 @@ Notes: ${form.message}
                 </motion.div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-6">
-                  <h3 className="text-2xl font-bold text-white">Personal Information</h3>
-                  <div className="grid sm:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-dark-200 mb-2">First Name *</label>
-                      <input
-                        type="text"
-                        name="firstName"
-                        value={form.firstName}
-                        onChange={handleChange}
-                        className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-dark-200 mb-2">Last Name *</label>
-                      <input
-                        type="text"
-                        name="lastName"
-                        value={form.lastName}
-                        onChange={handleChange}
-                        className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all"
-                      />
-                    </div>
-                  </div>
 
-                  <div className="grid sm:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-dark-200 mb-2">Email Address *</label>
-                      <input
-                        type="email"
-                        name="email"
-                        value={form.email}
-                        onChange={handleChange}
-                        className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all"
-                      />
+                  {/* Application Type */}
+                  <div className="border-b border-neon-500/10 pb-6">
+                    <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                      <Users size={20} className="text-neon-500" /> Application Type
+                    </h3>
+                    <div className="flex gap-3 flex-wrap">
+                      {["individual", "joint"].map((t) => (
+                        <label key={t}
+                          className={`flex items-center gap-2 px-5 py-3 rounded-xl border cursor-pointer transition-all capitalize ${
+                            form.appType === t
+                              ? "bg-neon-500/20 border-neon-500 text-neon-500"
+                              : "bg-dark-700/80 border-neon-500/10 text-dark-200 hover:border-neon-500/30"
+                          }`}
+                        >
+                          <input type="radio" name="appType" value={t} checked={form.appType === t} onChange={handleChange} className="hidden" />
+                          {t === "individual" ? "Individual" : "Joint"}
+                        </label>
+                      ))}
                     </div>
-                    <div>
-                      <label className="block text-sm font-medium text-dark-200 mb-2">Phone Number *</label>
-                      <input
-                        type="tel"
-                        name="phone"
-                        value={form.phone}
-                        onChange={handleChange}
-                        className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all"
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-dark-200 mb-2">Street Address</label>
-                    <input
-                      type="text"
-                      name="address"
-                      value={form.address}
-                      onChange={handleChange}
-                      className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all"
-                    />
-                  </div>
-
-                  <div className="grid sm:grid-cols-3 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-dark-200 mb-2">City</label>
-                      <input
-                        type="text"
-                        name="city"
-                        value={form.city}
-                        onChange={handleChange}
-                        className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-dark-200 mb-2">State</label>
-                      <select
-                        name="state"
-                        value={form.state}
-                        onChange={handleChange}
-                        className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all cursor-pointer"
-                      >
-                        {states.map((s) => (
-                          <option key={s} value={s}>{s}</option>
-                        ))}
-                      </select>
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-dark-200 mb-2">ZIP Code</label>
-                      <input
-                        type="text"
-                        name="zip"
-                        value={form.zip}
-                        onChange={handleChange}
-                        className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="grid sm:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-dark-200 mb-2">Date of Birth</label>
-                      <input
-                        type="date"
-                        name="dob"
-                        value={form.dob}
-                        onChange={handleChange}
-                        className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-dark-200 mb-2">Social Security Number</label>
-                      <input
-                        type="password"
-                        name="ssn"
-                        value={form.ssn}
-                        onChange={handleChange}
-                        maxLength={9}
-                        placeholder="XXX-XX-XXXX"
-                        className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="border-t border-neon-500/10 pt-6">
-                    <h3 className="text-xl font-bold text-white mb-6">Employment & Financial</h3>
-                    <div className="grid sm:grid-cols-2 gap-4">
-                      <div>
-                        <label className="block text-sm font-medium text-dark-200 mb-2">Employment Status</label>
-                        <select
-                          name="employStatus"
-                          value={form.employStatus}
-                          onChange={handleChange}
+                    {form.appType === "joint" && (
+                      <div className="mt-4">
+                        <label className="block text-sm font-medium text-dark-200 mb-2">Relationship to Co-Applicant</label>
+                        <select name="relationship" value={form.relationship} onChange={handleChange}
                           className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all cursor-pointer"
                         >
+                          <option value="">Select...</option>
+                          <option value="Resides With">Resides With</option>
+                          <option value="Parent">Parent</option>
+                          <option value="Other">Other</option>
+                        </select>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Vehicle Of Interest */}
+                  <div className="border-b border-neon-500/10 pb-6">
+                    <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                      <Car size={20} className="text-neon-500" /> Vehicle Of Interest
+                    </h3>
+                    <select name="vehicleInterest" value={form.vehicleInterest} onChange={handleChange}
+                      className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all cursor-pointer"
+                    >
+                      <option value="">Select a vehicle...</option>
+                      {cars.map((c) => (
+                        <option key={c.id} value={`${c.year || ""} ${c.name} - $${c.price?.toLocaleString()}`}>
+                          {c.year || ""} {c.name} - ${c.price?.toLocaleString()}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {/* Purchase Information */}
+                  <div className="border-b border-neon-500/10 pb-6">
+                    <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                      <CreditCard size={20} className="text-neon-500" /> Purchase Information
+                    </h3>
+                    <div className="mb-4">
+                      <label className="block text-sm font-medium text-dark-200 mb-2">Finance or Lease?</label>
+                      <div className="flex gap-3">
+                        {["finance", "lease"].map((p) => (
+                          <label key={p}
+                            className={`flex items-center gap-2 px-5 py-3 rounded-xl border cursor-pointer transition-all capitalize ${
+                              form.purchaseType === p
+                                ? "bg-neon-500/20 border-neon-500 text-neon-500"
+                                : "bg-dark-700/80 border-neon-500/10 text-dark-200 hover:border-neon-500/30"
+                            }`}
+                          >
+                            <input type="radio" name="purchaseType" value={p} checked={form.purchaseType === p} onChange={handleChange} className="hidden" />
+                            {p === "finance" ? "Finance" : "Lease"}
+                          </label>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="grid sm:grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-sm font-medium text-dark-200 mb-2">Desired Term (months)</label>
+                        <select name="purchaseTerm" value={form.purchaseTerm} onChange={handleChange}
+                          className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all cursor-pointer"
+                        >
+                          <option value="">Select...</option>
+                          {[12,24,36,48,60,72,84].map((m) => (
+                            <option key={m} value={m}>{m} months</option>
+                          ))}
+                        </select>
+                      </div>
+                      {form.purchaseType === "lease" && (
+                        <div>
+                          <label className="block text-sm font-medium text-dark-200 mb-2">Lease Miles / Year</label>
+                          <input type="number" name="leaseMiles" value={form.leaseMiles} onChange={handleChange}
+                            className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all" />
+                        </div>
+                      )}
+                    </div>
+                    <div className="grid sm:grid-cols-2 gap-4 mt-4">
+                      <div>
+                        <label className="block text-sm font-medium text-dark-200 mb-2">Down Payment ($)</label>
+                        <input type="number" name="downPayment" value={form.downPayment} onChange={handleChange}
+                          className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all" />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-dark-200 mb-2">Monthly Payment Desired ($)</label>
+                        <input type="number" name="monthlyPayment" value={form.monthlyPayment} onChange={handleChange}
+                          className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all" />
+                      </div>
+                    </div>
+                    <div className="mt-4">
+                      <label className="block text-sm font-medium text-dark-200 mb-2">Amount to Finance ($)</label>
+                      <input type="number" name="amountToFinance" value={form.amountToFinance} onChange={handleChange}
+                        className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all" />
+                    </div>
+                  </div>
+
+                  {/* Personal Information */}
+                  <div className="border-b border-neon-500/10 pb-6">
+                    <h3 className="text-xl font-bold text-white mb-4">Personal Information</h3>
+                    <div className="grid sm:grid-cols-2 gap-4">
+                      <div><label className="block text-sm font-medium text-dark-200 mb-2">First Name *</label>
+                        <input type="text" name="firstName" value={form.firstName} onChange={handleChange}
+                          className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all" /></div>
+                      <div><label className="block text-sm font-medium text-dark-200 mb-2">Last Name *</label>
+                        <input type="text" name="lastName" value={form.lastName} onChange={handleChange}
+                          className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all" /></div>
+                    </div>
+                    <div className="grid sm:grid-cols-2 gap-4 mt-4">
+                      <div><label className="block text-sm font-medium text-dark-200 mb-2">Email *</label>
+                        <input type="email" name="email" value={form.email} onChange={handleChange}
+                          className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all" /></div>
+                      <div><label className="block text-sm font-medium text-dark-200 mb-2">Home Phone</label>
+                        <input type="tel" name="homePhone" value={form.homePhone} onChange={handleChange}
+                          className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all" /></div>
+                    </div>
+                    <div className="grid sm:grid-cols-2 gap-4 mt-4">
+                      <div><label className="block text-sm font-medium text-dark-200 mb-2">Contact Phone</label>
+                        <input type="tel" name="contactPhone" value={form.contactPhone} onChange={handleChange}
+                          className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all" /></div>
+                      <div><label className="block text-sm font-medium text-dark-200 mb-2">Date of Birth</label>
+                        <input type="date" name="dob" value={form.dob} onChange={handleChange}
+                          className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all" /></div>
+                    </div>
+                    <div className="grid sm:grid-cols-3 gap-4 mt-4">
+                      <div><label className="block text-sm font-medium text-dark-200 mb-2">SSN (9 digits)</label>
+                        <input type="password" name="ssn" value={form.ssn} onChange={handleChange} maxLength={9}
+                          className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all" /></div>
+                      <div><label className="block text-sm font-medium text-dark-200 mb-2">Marital Status</label>
+                        <select name="maritalStatus" value={form.maritalStatus} onChange={handleChange}
+                          className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all cursor-pointer">
+                          <option value="">Select...</option>
+                          <option value="Married">Married</option>
+                          <option value="Single">Single</option>
+                          <option value="Divorced">Divorced</option>
+                          <option value="Separated">Separated</option>
+                          <option value="Widowed">Widowed</option>
+                        </select></div>
+                      <div><label className="block text-sm font-medium text-dark-200 mb-2">Driver's License #</label>
+                        <input type="text" name="driversLicense" value={form.driversLicense} onChange={handleChange}
+                          className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all" /></div>
+                    </div>
+                    <div className="mt-4">
+                      <label className="block text-sm font-medium text-dark-200 mb-2">Driver's License Expiration</label>
+                      <input type="date" name="licenseExp" value={form.licenseExp} onChange={handleChange}
+                        className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all" />
+                    </div>
+                  </div>
+
+                  {/* Address & Housing */}
+                  <div className="border-b border-neon-500/10 pb-6">
+                    <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                      <Home size={20} className="text-neon-500" /> Current Address
+                    </h3>
+                    <div>
+                      <label className="block text-sm font-medium text-dark-200 mb-2">Street Address</label>
+                      <input type="text" name="address" value={form.address} onChange={handleChange}
+                        className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all" />
+                    </div>
+                    <div className="grid sm:grid-cols-3 gap-4 mt-4">
+                      <div><label className="block text-sm font-medium text-dark-200 mb-2">City</label>
+                        <input type="text" name="city" value={form.city} onChange={handleChange}
+                          className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all" /></div>
+                      <div><label className="block text-sm font-medium text-dark-200 mb-2">State</label>
+                        <select name="state" value={form.state} onChange={handleChange}
+                          className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all cursor-pointer">
+                          {states.map((s) => (<option key={s} value={s}>{s}</option>))}
+                        </select></div>
+                      <div><label className="block text-sm font-medium text-dark-200 mb-2">ZIP</label>
+                        <input type="text" name="zip" value={form.zip} onChange={handleChange}
+                          className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all" /></div>
+                    </div>
+                    <div className="grid sm:grid-cols-3 gap-4 mt-4">
+                      <div><label className="block text-sm font-medium text-dark-200 mb-2">Years at Address</label>
+                        <select name="yearsAtAddress" value={form.yearsAtAddress} onChange={handleChange}
+                          className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all cursor-pointer">
+                          <option value="">Select...</option>
+                          <option value="Less than 1">Less than 1</option>
+                          <option value="1-2">1-2</option>
+                          <option value="2-5">2-5</option>
+                          <option value="5-10">5-10</option>
+                          <option value="10+">10+</option>
+                        </select></div>
+                      <div><label className="block text-sm font-medium text-dark-200 mb-2">Housing Status</label>
+                        <select name="housingStatus" value={form.housingStatus} onChange={handleChange}
+                          className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all cursor-pointer">
+                          <option value="">Select...</option>
+                          <option value="Own">Own</option>
+                          <option value="Rent">Rent</option>
+                          <option value="Live with parents">Live with parents</option>
+                          <option value="Other">Other</option>
+                        </select></div>
+                      <div><label className="block text-sm font-medium text-dark-200 mb-2">Monthly Payment ($)</label>
+                        <input type="number" name="monthlyHousing" value={form.monthlyHousing} onChange={handleChange}
+                          className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all" /></div>
+                    </div>
+                  </div>
+
+                  {/* Employment */}
+                  <div className="border-b border-neon-500/10 pb-6">
+                    <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                      <Building size={20} className="text-neon-500" /> Employment
+                    </h3>
+                    <div className="grid sm:grid-cols-2 gap-4">
+                      <div><label className="block text-sm font-medium text-dark-200 mb-2">Status</label>
+                        <select name="employStatus" value={form.employStatus} onChange={handleChange}
+                          className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all cursor-pointer">
                           <option value="">Select...</option>
                           <option value="Employed">Employed</option>
                           <option value="Self-Employed">Self-Employed</option>
                           <option value="Retired">Retired</option>
                           <option value="Military">Military</option>
                           <option value="Unemployed">Unemployed</option>
-                        </select>
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-dark-200 mb-2">Employer Name</label>
-                        <input
-                          type="text"
-                          name="employer"
-                          value={form.employer}
-                          onChange={handleChange}
-                          className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all"
-                        />
-                      </div>
+                        </select></div>
+                      <div><label className="block text-sm font-medium text-dark-200 mb-2">Employer</label>
+                        <input type="text" name="employer" value={form.employer} onChange={handleChange}
+                          className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all" /></div>
                     </div>
                     <div className="grid sm:grid-cols-2 gap-4 mt-4">
-                      <div>
-                        <label className="block text-sm font-medium text-dark-200 mb-2">Job Title / Position</label>
-                        <input
-                          type="text"
-                          name="jobTitle"
-                          value={form.jobTitle}
-                          onChange={handleChange}
-                          className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-dark-200 mb-2">How Long Employed</label>
-                        <select
-                          name="monthsEmployed"
-                          value={form.monthsEmployed}
-                          onChange={handleChange}
-                          className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all cursor-pointer"
-                        >
+                      <div><label className="block text-sm font-medium text-dark-200 mb-2">Job Title</label>
+                        <input type="text" name="jobTitle" value={form.jobTitle} onChange={handleChange}
+                          className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all" /></div>
+                      <div><label className="block text-sm font-medium text-dark-200 mb-2">Time Employed</label>
+                        <select name="monthsEmployed" value={form.monthsEmployed} onChange={handleChange}
+                          className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all cursor-pointer">
                           <option value="">Select...</option>
                           <option value="Less than 6 months">Less than 6 months</option>
                           <option value="6 months - 1 year">6 months - 1 year</option>
                           <option value="1 - 2 years">1 - 2 years</option>
                           <option value="2 - 5 years">2 - 5 years</option>
                           <option value="5+ years">5+ years</option>
-                        </select>
-                      </div>
+                        </select></div>
                     </div>
                     <div className="mt-4">
                       <label className="block text-sm font-medium text-dark-200 mb-2">Annual Gross Income ($)</label>
-                      <div className="relative">
-                        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-dark-200">$</span>
-                        <input
-                          type="number"
-                          name="annualIncome"
-                          value={form.annualIncome}
-                          onChange={handleChange}
-                          className="w-full pl-8 pr-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all"
-                        />
-                      </div>
+                      <input type="number" name="annualIncome" value={form.annualIncome} onChange={handleChange}
+                        className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all" />
                     </div>
                   </div>
 
-                  <div className="border-t border-neon-500/10 pt-6">
-                    <h3 className="text-xl font-bold text-white mb-6">Requested Loan</h3>
-                    <div className="grid sm:grid-cols-3 gap-4">
-                      <div>
-                        <label className="block text-sm font-medium text-dark-200 mb-2">Down Payment ($)</label>
-                        <input
-                          type="number"
-                          name="downPayment"
-                          value={form.downPayment}
-                          onChange={handleChange}
-                          className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-dark-200 mb-2">Desired Loan Term</label>
-                        <select
-                          name="loanTerm"
-                          value={form.loanTerm}
-                          onChange={handleChange}
-                          className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all cursor-pointer"
+                  {/* Trade-In */}
+                  <div className="border-b border-neon-500/10 pb-6">
+                    <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                      <Car size={20} className="text-neon-500" /> Trade-In
+                    </h3>
+                    <div className="flex gap-3 mb-4">
+                      {["no", "yes"].map((v) => (
+                        <label key={v}
+                          className={`flex items-center gap-2 px-5 py-3 rounded-xl border cursor-pointer transition-all ${
+                            form.tradeIn === v
+                              ? "bg-neon-500/20 border-neon-500 text-neon-500"
+                              : "bg-dark-700/80 border-neon-500/10 text-dark-200 hover:border-neon-500/30"
+                          }`}
                         >
-                          <option value="24">24 months</option>
-                          <option value="36">36 months</option>
-                          <option value="48">48 months</option>
-                          <option value="60">60 months</option>
-                          <option value="72">72 months</option>
-                          <option value="84">84 months</option>
-                        </select>
-                      </div>
+                          <input type="radio" name="tradeIn" value={v} checked={form.tradeIn === v} onChange={handleChange} className="hidden" />
+                          {v === "yes" ? "Yes" : "No"}
+                        </label>
+                      ))}
                     </div>
+                    {form.tradeIn === "yes" && (
+                      <>
+                        <div className="grid sm:grid-cols-2 gap-4">
+                          <div><label className="block text-sm font-medium text-dark-200 mb-2">Year</label>
+                            <input type="text" name="tradeYear" value={form.tradeYear} onChange={handleChange}
+                              className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all" /></div>
+                          <div><label className="block text-sm font-medium text-dark-200 mb-2">Make</label>
+                            <input type="text" name="tradeMake" value={form.tradeMake} onChange={handleChange}
+                              className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all" /></div>
+                        </div>
+                        <div className="grid sm:grid-cols-3 gap-4 mt-4">
+                          <div><label className="block text-sm font-medium text-dark-200 mb-2">Model</label>
+                            <input type="text" name="tradeModel" value={form.tradeModel} onChange={handleChange}
+                              className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all" /></div>
+                          <div><label className="block text-sm font-medium text-dark-200 mb-2">Mileage</label>
+                            <input type="text" name="tradeMileage" value={form.tradeMileage} onChange={handleChange}
+                              className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all" /></div>
+                          <div><label className="block text-sm font-medium text-dark-200 mb-2">VIN</label>
+                            <input type="text" name="tradeVin" value={form.tradeVin} onChange={handleChange}
+                              className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all" /></div>
+                        </div>
+                        <div className="mt-4">
+                          <label className="block text-sm font-medium text-dark-200 mb-2">Payoff Amount ($)</label>
+                          <input type="number" name="tradePayoff" value={form.tradePayoff} onChange={handleChange}
+                            className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all" />
+                        </div>
+                      </>
+                    )}
                   </div>
 
-                  <div className="border-t border-neon-500/10 pt-6">
-                    <h3 className="text-xl font-bold text-white mb-6">Trade-In Vehicle</h3>
-                    <p className="text-dark-200 text-sm mb-4">If you have a vehicle to trade in, please provide the details below.</p>
-                    <div className="grid sm:grid-cols-2 gap-4">
-                      <div>
-                        <label className="block text-sm font-medium text-dark-200 mb-2">Year</label>
-                        <input
-                          type="text"
-                          name="tradeYear"
-                          value={form.tradeYear}
-                          onChange={handleChange}
-                          placeholder="e.g. 2018"
-                          className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-dark-200 mb-2">Make</label>
-                        <input
-                          type="text"
-                          name="tradeMake"
-                          value={form.tradeMake}
-                          onChange={handleChange}
-                          placeholder="e.g. Ford"
-                          className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all"
-                        />
-                      </div>
-                    </div>
-                    <div className="grid sm:grid-cols-3 gap-4 mt-4">
-                      <div>
-                        <label className="block text-sm font-medium text-dark-200 mb-2">Model</label>
-                        <input
-                          type="text"
-                          name="tradeModel"
-                          value={form.tradeModel}
-                          onChange={handleChange}
-                          placeholder="e.g. F-150"
-                          className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-dark-200 mb-2">Mileage</label>
-                        <input
-                          type="text"
-                          name="tradeMileage"
-                          value={form.tradeMileage}
-                          onChange={handleChange}
-                          placeholder="e.g. 80,000"
-                          className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-dark-200 mb-2">Condition</label>
-                        <select
-                          name="tradeCondition"
-                          value={form.tradeCondition}
-                          onChange={handleChange}
-                          className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all cursor-pointer"
+                  {/* Contact Method */}
+                  <div className="border-b border-neon-500/10 pb-6">
+                    <h3 className="text-xl font-bold text-white mb-4">Contact Preference</h3>
+                    <div className="flex gap-3 flex-wrap">
+                      {["Call", "SMS", "Email"].map((m) => (
+                        <label key={m}
+                          className={`flex items-center gap-2 px-5 py-3 rounded-xl border cursor-pointer transition-all ${
+                            form.contactMethod === m
+                              ? "bg-neon-500/20 border-neon-500 text-neon-500"
+                              : "bg-dark-700/80 border-neon-500/10 text-dark-200 hover:border-neon-500/30"
+                          }`}
                         >
-                          <option value="Excellent">Excellent</option>
-                          <option value="Good">Good</option>
-                          <option value="Fair">Fair</option>
-                          <option value="Poor">Poor</option>
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="border-t border-neon-500/10 pt-6">
-                    <h3 className="text-xl font-bold text-white mb-6">Additional Information</h3>
-                    <div>
-                      <label className="block text-sm font-medium text-dark-200 mb-2">Preferred Contact Method</label>
-                      <div className="flex gap-3 flex-wrap">
-                        {["Call", "SMS", "Email"].map((method) => (
-                          <label
-                            key={method}
-                            className={`flex items-center gap-2 px-4 py-3 rounded-xl border cursor-pointer transition-all ${
-                              form.contactMethod === method
-                                ? "bg-neon-500/20 border-neon-500 text-neon-500"
-                                : "bg-dark-700/80 border-neon-500/10 text-dark-200 hover:border-neon-500/30"
-                            }`}
-                          >
-                            <input
-                              type="radio"
-                              name="contactMethod"
-                              value={method}
-                              checked={form.contactMethod === method}
-                              onChange={handleChange}
-                              className="hidden"
-                            />
-                            {method}
-                          </label>
-                        ))}
-                      </div>
+                          <input type="radio" name="contactMethod" value={m} checked={form.contactMethod === m} onChange={handleChange} className="hidden" />
+                          {m}
+                        </label>
+                      ))}
                     </div>
                     <div className="mt-4">
                       <label className="block text-sm font-medium text-dark-200 mb-2">Notes or Questions</label>
-                      <textarea
-                        name="message"
-                        value={form.message}
-                        onChange={handleChange}
-                        rows={3}
-                        className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all resize-none"
-                      />
+                      <textarea name="message" value={form.message} onChange={handleChange} rows={3}
+                        className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all resize-none" />
                     </div>
                   </div>
 
-                  <div className="border-t border-neon-500/10 pt-6">
+                  {/* Consent */}
+                  <div>
                     <label className="flex items-start gap-3 cursor-pointer">
-                      <input
-                        type="checkbox"
-                        name="consent"
-                        checked={form.consent}
-                        onChange={handleChange}
-                        className="mt-1 w-4 h-4 rounded border-neon-500/30 bg-dark-700 text-neon-500 focus:ring-neon-500"
-                      />
+                      <input type="checkbox" name="consent" checked={form.consent} onChange={handleChange}
+                        className="mt-1 w-4 h-4 rounded border-neon-500/30 bg-dark-700 text-neon-500 focus:ring-neon-500" />
                       <span className="text-dark-200 text-sm">
                         I consent to Power Drive Motor collecting my information to process this credit application 
                         and to contact me regarding my request. Message frequency may vary. 
@@ -478,16 +507,10 @@ Notes: ${form.message}
                     </label>
                   </div>
 
-                  <button
-                    type="submit"
-                    disabled={!isValid || loading}
+                  <button type="submit" disabled={!isValid || loading}
                     className="w-full flex items-center justify-center gap-2 px-8 py-4 bg-neon-500 text-dark-900 font-bold rounded-xl hover:bg-neon-400 transition-all duration-300 shadow-[0_0_20px_rgba(0,212,255,0.3)] disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    {loading ? (
-                      <Loader2 size={20} className="animate-spin" />
-                    ) : (
-                      <Send size={20} />
-                    )}
+                    {loading ? <Loader2 size={20} className="animate-spin" /> : <Send size={20} />}
                     {loading ? "Submitting..." : "Submit Application"}
                   </button>
                 </form>
@@ -495,12 +518,8 @@ Notes: ${form.message}
             </div>
           </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            className="space-y-6"
-          >
+          {/* Sidebar */}
+          <motion.div initial={{ opacity: 0, x: 30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="space-y-6">
             <div className="glass rounded-xl p-6">
               <h4 className="text-white font-bold text-lg mb-4">Why Apply With Us?</h4>
               <ul className="space-y-4">
@@ -516,18 +535,11 @@ Notes: ${form.message}
                 ))}
               </ul>
             </div>
-
             <div className="glass rounded-xl p-6">
               <h4 className="text-white font-bold text-lg mb-4">Dealer Information</h4>
               <div className="space-y-4">
-                <div className="flex items-center gap-3 text-dark-200 text-sm">
-                  <Phone size={16} className="text-neon-500 shrink-0" />
-                  (605) 501-2400
-                </div>
-                <div className="flex items-center gap-3 text-dark-200 text-sm">
-                  <MapPin size={16} className="text-neon-500 shrink-0" />
-                  4309 E 12th St, Sioux Falls, SD 57103
-                </div>
+                <div className="flex items-center gap-3 text-dark-200 text-sm"><Phone size={16} className="text-neon-500 shrink-0" />(605) 501-2400</div>
+                <div className="flex items-center gap-3 text-dark-200 text-sm"><MapPin size={16} className="text-neon-500 shrink-0" />4309 E 12th St, Sioux Falls, SD 57103</div>
               </div>
               <div className="mt-4 p-3 rounded-xl bg-dark-700/50">
                 <p className="text-neon-500 text-xs font-semibold mb-2">Business Hours</p>
@@ -538,14 +550,11 @@ Notes: ${form.message}
                 </div>
               </div>
             </div>
-
             <div className="glass rounded-xl p-6">
               <h4 className="text-white font-bold text-lg mb-4">Already Have a Calculator?</h4>
               <p className="text-dark-200 text-sm mb-4">Try our financing calculator to estimate your monthly payments before applying.</p>
-              <Link
-                to="/financing"
-                className="flex items-center justify-center gap-2 px-6 py-3 border border-neon-500/30 text-neon-500 font-semibold rounded-xl hover:bg-neon-500/10 transition-all duration-300"
-              >
+              <Link to="/financing"
+                className="flex items-center justify-center gap-2 px-6 py-3 border border-neon-500/30 text-neon-500 font-semibold rounded-xl hover:bg-neon-500/10 transition-all duration-300">
                 Payment Calculator <ArrowRight size={16} />
               </Link>
             </div>
