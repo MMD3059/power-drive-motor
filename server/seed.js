@@ -14,8 +14,7 @@ if (existing) {
 const carsExist = db.prepare("SELECT count(*) as count FROM cars").get()
 if (carsExist.count > 0) {
   console.log("Cars already seeded, skipping.")
-  process.exit(0)
-}
+} else {
 
 const cars = [
   { name: "2010 Chevy Cobalt LT", brand: "Chevrolet", model: "Cobalt LT", year: 2010, price: 3800, fuelType: "Petrol", transmission: "Automatic", engine: "2.2L I-4", horsepower: 155, mileage: 118453, seats: 5, color: "Red", image: "https://cdn-thumbor.autodealersdigital.com/unsafe/fit-in/1000x750/filters:upscale():max_bytes(500000):quality(100):fill(blur):sharpen(0.7,0.5,true):format(jpg)/105946/11669755/440691775937137.jpg", description: "Selling 2010 Chevy Cobalt 2LT with 2.2L engine. It runs and drives so good. Everything works. Cold AC, heat works, power windows. Good tires.", features: '["Cold AC","Power Windows","Good Tires","Clean Title","2.2L Engine"]' },
@@ -51,6 +50,7 @@ const insertMany = db.transaction((cars) => {
   }
 })
 
-insertMany(cars)
-console.log(`Seeded ${cars.length} cars successfully.`)
-console.log("Admin login: username=H.Hayyawi, password=hayderhayyawibusinesses7")
+  insertMany(cars)
+  console.log(`Seeded ${cars.length} cars successfully.`)
+  console.log("Admin login: username=H.Hayyawi, password=hayderhayyawibusinesses7")
+}
