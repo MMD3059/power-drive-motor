@@ -10,9 +10,6 @@ const db = new Database(dbPath)
 db.pragma("journal_mode = WAL")
 db.pragma("foreign_keys = ON")
 
-// Add images column if missing (migration)
-try { db.exec("ALTER TABLE cars ADD COLUMN images TEXT NOT NULL DEFAULT '[]'"); } catch {}
-
 db.exec(`
   CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -36,6 +33,7 @@ db.exec(`
     seats INTEGER NOT NULL DEFAULT 5,
     color TEXT NOT NULL DEFAULT '',
     image TEXT NOT NULL DEFAULT '',
+    images TEXT NOT NULL DEFAULT '[]',
     description TEXT NOT NULL DEFAULT '',
     features TEXT NOT NULL DEFAULT '[]',
     created_at TEXT DEFAULT (datetime('now'))
@@ -57,5 +55,10 @@ db.exec(`
     value TEXT NOT NULL
   );
 `)
+
+// Migration: add images column to existing tables
+try { db.exec("ALTER TABLE cars ADD COLUMN images TEXT NOT NULL DEFAULT '[]'"); } catch {}
+
+
 
 export default db
