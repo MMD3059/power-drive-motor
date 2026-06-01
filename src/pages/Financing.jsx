@@ -32,8 +32,8 @@ const plans = [
 ]
 
 export default function Financing() {
-  const [vehiclePrice, setVehiclePrice] = useState(200000)
-  const [downPayment, setDownPayment] = useState(40000)
+  const [vehiclePrice, setVehiclePrice] = useState(25000)
+  const [downPayment, setDownPayment] = useState(5000)
   const [selectedTerm, setSelectedTerm] = useState(plans[1])
 
   const calculatePayment = useMemo(() => {
@@ -84,16 +84,16 @@ export default function Financing() {
                   </label>
                   <input
                     type="range"
-                    min={50000}
-                    max={5000000}
-                    step={5000}
+                    min={1000}
+                    max={150000}
+                    step={1000}
                     value={vehiclePrice}
                     onChange={(e) => setVehiclePrice(Number(e.target.value))}
                     className="w-full h-2 bg-dark-700 rounded-full appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-5 [&::-webkit-slider-thumb]:h-5 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-neon-500 [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(0,212,255,0.5)]"
                   />
                   <div className="flex justify-between text-xs text-dark-300 mt-1">
-                    <span>$50k</span>
-                    <span>$5M</span>
+                    <span>$1k</span>
+                    <span>$150k</span>
                   </div>
                 </div>
 
@@ -106,7 +106,7 @@ export default function Financing() {
                     type="range"
                     min={0}
                     max={vehiclePrice * 0.5}
-                    step={5000}
+                    step={500}
                     value={downPayment}
                     onChange={(e) => setDownPayment(Number(e.target.value))}
                     className="w-full h-2 bg-dark-700 rounded-full appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-5 [&::-webkit-slider-thumb]:h-5 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-neon-500 [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(0,212,255,0.5)]"
