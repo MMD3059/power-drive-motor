@@ -10,7 +10,7 @@ import { thumbnail } from "../utils/images"
 const featuredServices = services.slice(0, 3)
 
 const stats = [
-  { icon: Award, value: "15+", label: "Years Excellence" },
+  { icon: Award, value: "10+", label: "Years Excellence" },
   { icon: Sparkles, value: "2,500+", label: "Vehicles Sold" },
   { icon: Shield, value: "99%", label: "Client Satisfaction" },
   { icon: Clock, value: "24/7", label: "Concierge Support" },

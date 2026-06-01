@@ -6,7 +6,7 @@ import { useCars } from "../contexts/CarContext"
 import { thumbnail } from "../utils/images"
 
 const stats = [
-  { icon: Award, value: "15+", label: "Years Excellence" },
+  { icon: Award, value: "10+", label: "Years Excellence" },
   { icon: Sparkles, value: "2,500+", label: "Vehicles Sold" },
   { icon: Shield, value: "99%", label: "Client Satisfaction" },
   { icon: Star, value: "4.9", label: "Customer Rating" },
@@ -42,7 +42,7 @@ export default function About() {
           <SectionTitle
             subtitle="About Us"
             title="Your Trusted Automotive Partner"
-            description="We are the dealership you can trust for integrity and value — serving Sioux Falls since 2010."
+            description="We are the dealership you can trust for integrity and value — serving Sioux Falls since 2014."
           />
         </div>
       </section>
