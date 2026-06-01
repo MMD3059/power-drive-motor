@@ -123,7 +123,7 @@ export default function About() {
                     </div>
                     <div>
                       <p className="text-white font-semibold text-sm">{t("about.email")}</p>
-                      <p className="text-dark-200">concierge@powerdrivemotor.com</p>
+                      <p className="text-dark-200">Powerdrivemotorllc@gmail.com</p>
                     </div>
                   </div>
                 </div>

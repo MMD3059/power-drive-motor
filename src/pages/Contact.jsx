@@ -33,7 +33,7 @@ export default function Contact() {
 
   const contactInfo = [
     { icon: Phone, label: t("contact.phoneLabel"), value: "+1 605-501-2400", desc: t("contact.phoneDesc") },
-    { icon: Mail, label: t("contact.emailLabel"), value: "concierge@powerdrivemotor.com", desc: t("contact.emailDesc") },
+    { icon: Mail, label: t("contact.emailLabel"), value: "Powerdrivemotorllc@gmail.com", desc: t("contact.emailDesc") },
     { icon: MapPin, label: t("contact.locationLabel"), value: "4309 E 12th St", desc: t("contact.locationDesc") },
     { icon: Clock, label: t("contact.hoursLabel"), value: "Mon-Fri: 9AM-6PM", desc: t("contact.hoursDesc") },
   ]

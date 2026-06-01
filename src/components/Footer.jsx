@@ -100,7 +100,7 @@ export default function Footer() {
               </li>
               <li className="flex items-center gap-3 text-dark-200 text-sm">
                 <Mail size={18} className="text-neon-500 shrink-0" />
-                concierge@powerdrivemotor.com
+                Powerdrivemotorllc@gmail.com
               </li>
             </ul>
             <div className="mt-6 p-4 rounded-xl glass-card">
