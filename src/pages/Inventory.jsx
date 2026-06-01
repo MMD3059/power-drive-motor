@@ -79,7 +79,7 @@ export default function Inventory() {
           <SectionTitle
             subtitle="Collection"
             title="Our Vehicle Collection"
-            description="Explore our curated selection of the world's finest automobiles. Each vehicle is hand-picked for quality, performance, and prestige."
+            description="Explore our curated selection of quality pre-owned vehicles. Each one is hand-picked for reliability and value."
           />
         </div>
       </div>

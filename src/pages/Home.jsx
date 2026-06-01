@@ -38,7 +38,7 @@ export default function Home() {
               transition={{ duration: 0.8 }}
             >
               <span className="inline-block px-4 py-1.5 text-xs font-semibold tracking-widest uppercase text-neon-500 bg-neon-500/10 border border-neon-500/20 rounded-full mb-6">
-                Premium Automotive Concierge
+                Quality Pre-Owned Vehicles
               </span>
               <h1 className="text-3xl sm:text-5xl lg:text-7xl font-bold text-white leading-[1.1] tracking-tight mb-4 md:mb-6">
                 Drive The{" "}
@@ -47,8 +47,8 @@ export default function Home() {
                 Live The Legend
               </h1>
               <p className="text-lg text-dark-200 leading-relaxed max-w-xl mb-10">
-                Curating the world's finest automobiles for discerning drivers. 
-                From hypercars to bespoke luxury SUVs, every vehicle tells a story of excellence.
+                Quality pre-owned vehicles backed by honest service. 
+                From reliable daily drivers to powerful SUVs, every vehicle tells a story of excellence.
               </p>
               <div className="flex flex-wrap gap-4">
                 <Link
@@ -76,7 +76,7 @@ export default function Home() {
               <div className="relative aspect-[4/3] rounded-2xl overflow-hidden">
                 <img
                   src={cars[1].image}
-                  alt="Featured Luxury Car"
+                  alt="Featured Vehicle"
                   loading="lazy"
                   className="w-full h-full object-cover rounded-2xl"
                 />
@@ -126,7 +126,7 @@ export default function Home() {
           <SectionTitle
             subtitle="Collection"
             title="Featured Vehicles"
-            description="Hand-picked excellence. Each vehicle in our collection meets the highest standards of performance, luxury, and prestige."
+            description="Hand-picked excellence. Each vehicle in our collection meets the highest standards of performance and reliability."
           />
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {featuredCars.map((car, i) => (
@@ -199,7 +199,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionTitle
             subtitle="Services"
-            title="Premium Services"
+            title="Our Services"
             description="From acquisition to ownership, we provide a complete ecosystem of automotive services tailored to your needs."
           />
           <div className="grid md:grid-cols-3 gap-6">

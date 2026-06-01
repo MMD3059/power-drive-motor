@@ -26,7 +26,7 @@ export const testimonials = [
   {
     id: 4,
     name: "Victoria Adams",
-    role: "CEO, Adams Luxury Group",
+    role: "CEO, Adams Automotive Group",
     avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&q=80",
     content: "When you deal with Power Drive Motor, you're not just buying a car — you're investing in a relationship. Their after-sales support is unmatched. My Rolls-Royce Cullinan is serviced like royalty.",
     rating: 5,

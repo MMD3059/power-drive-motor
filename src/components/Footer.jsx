@@ -42,8 +42,8 @@ export default function Footer() {
               </div>
             </div>
             <p className="text-dark-200 text-sm leading-relaxed mb-6">
-              Your premier destination for luxury and performance vehicles. 
-              We bring the world's finest automobiles to your doorstep.
+              Your premier destination for quality pre-owned vehicles. 
+              We bring quality pre-owned vehicles to your doorstep.
             </p>
             <div className="flex gap-3">
               {[Globe, Camera, MessageCircle, Play].map((Icon, i) => (

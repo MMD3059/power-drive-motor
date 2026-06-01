@@ -20,7 +20,7 @@ const values = [
   },
   {
     title: "Quality Selection",
-    description: "We hand-select only the finest pre-owned vehicles, ensuring each one meets our rigorous standards of quality and performance.",
+    description: "We hand-select only quality pre-owned vehicles, ensuring each one meets our rigorous standards of reliability and value.",
     icon: Award,
   },
   {
@@ -42,7 +42,7 @@ export default function About() {
           <SectionTitle
             subtitle="About Us"
             title="Your Trusted Automotive Partner"
-            description="We are the dealership you can trust for integrity and value — bringing the world's finest vehicles to Sioux Falls since 2010."
+            description="We are the dealership you can trust for integrity and value — serving Sioux Falls since 2010."
           />
         </div>
       </section>
@@ -68,7 +68,7 @@ export default function About() {
                   an exceptional car buying experience built on transparency, quality, 
                   and genuine customer care. Located in the heart of Sioux Falls, 
                   South Dakota, we have grown from a small lot into a premier 
-                  destination for luxury and performance vehicles.
+                  destination for quality pre-owned vehicles.
                 </p>
                 <p>
                   Every vehicle in our inventory undergoes a rigorous multi-point 
@@ -79,7 +79,7 @@ export default function About() {
                 </p>
                 <p>
                   Whether you're looking for a reliable daily driver, a family SUV, 
-                  or a high-performance machine, our experienced team is here to 
+                  or a powerful truck, our experienced team is here to 
                   help you find the perfect match. We also offer flexible financing 
                   options tailored to your budget, comprehensive maintenance 
                   services, and concierge-level support.
@@ -231,7 +231,7 @@ export default function About() {
             <SectionTitle
               subtitle="Our Inventory"
               title="Featured Vehicles"
-              description="Explore a selection of our finest pre-owned vehicles, each hand-picked and thoroughly inspected."
+              description="Explore a selection of our quality pre-owned vehicles, each hand-picked and thoroughly inspected."
             />
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {featuredCars.map((car, i) => (

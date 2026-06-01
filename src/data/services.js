@@ -2,7 +2,7 @@ export const services = [
   {
     id: 1,
     title: "New Vehicle Sales",
-    description: "Browse our curated collection of premium vehicles from the world's finest manufacturers. Each vehicle undergoes rigorous inspection.",
+    description: "Browse our curated collection of quality vehicles from trusted manufacturers. Each vehicle undergoes rigorous inspection.",
     icon: "Car",
     features: ["Worldwide Sourcing", "Factory Warranty", "Test Drive Arranged", "Delivery Anywhere"],
   },
@@ -37,7 +37,7 @@ export const services = [
   {
     id: 6,
     title: "Concierge Services",
-    description: "From personalized shopping to after-sales support, our concierge team ensures a seamless luxury experience.",
+    description: "From personalized shopping to after-sales support, our concierge team ensures a seamless experience.",
     icon: "Star",
     features: ["Personal Shopper", "Airport Delivery", "Insurance Assistance", "Vehicle Storage"],
   },

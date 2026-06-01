@@ -16,8 +16,8 @@ export default function Services() {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionTitle
             subtitle="Services"
-            title="Premium Automotive Services"
-            description="Beyond sales — a complete ecosystem of world-class services designed to enhance your ownership experience."
+            title="Our Services"
+            description="Beyond sales — a complete ecosystem of services designed to enhance your ownership experience."
           />
         </div>
       </div>
