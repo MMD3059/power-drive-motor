@@ -1,17 +1,20 @@
 import bcrypt from "bcryptjs"
 import db from "./db.js"
 
-const existing = db.prepare("SELECT count(*) as count FROM cars").get()
-if (existing.count > 0) {
-  console.log("Cars already seeded, skipping.")
-  process.exit(0)
+const hash = bcrypt.hashSync("hayderhayyawibusinesses7", 10)
+const existing = db.prepare("SELECT * FROM users LIMIT 1").get()
+if (existing) {
+  db.prepare("UPDATE users SET username = ?, password = ? WHERE id = ?").run("H.Hayyawi", hash, existing.id)
+  console.log("Admin updated (username: H.Hayyawi)")
+} else {
+  db.prepare("INSERT INTO users (username, password) VALUES (?, ?)").run("H.Hayyawi", hash)
+  console.log("Admin created (username: H.Hayyawi)")
 }
 
-const adminExists = db.prepare("SELECT count(*) as count FROM users").get()
-if (adminExists.count === 0) {
-  const hashed = bcrypt.hashSync("hayderhayyawibusinesses7", 10)
-  db.prepare("INSERT INTO users (username, password) VALUES (?, ?)").run("H.Hayyawi", hashed)
-  console.log("Admin user created (username: H.Hayyawi, password: hayderhayyawibusinesses7)")
+const carsExist = db.prepare("SELECT count(*) as count FROM cars").get()
+if (carsExist.count > 0) {
+  console.log("Cars already seeded, skipping.")
+  process.exit(0)
 }
 
 const cars = [
@@ -50,4 +53,4 @@ const insertMany = db.transaction((cars) => {
 
 insertMany(cars)
 console.log(`Seeded ${cars.length} cars successfully.`)
-console.log("Admin login: username=admin, password=admin123")
+console.log("Admin login: username=H.Hayyawi, password=hayderhayyawibusinesses7")
