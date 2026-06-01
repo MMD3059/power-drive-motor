@@ -10,12 +10,14 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const app = express()
 const PORT = process.env.PORT || 3001
 
-try {
-  await import("./seed.js")
-  console.log("Seed check complete")
-} catch (err) {
-  console.error("Seed error (non-fatal):", err.message)
-}
+// Auto-seed after server starts
+setTimeout(async () => {
+  try {
+    await import("./seed.js")
+  } catch (e) {
+    console.error("Seed failed:", e.stack || e.message)
+  }
+}, 1000)
 
 app.use(cors())
 app.use(express.json())
