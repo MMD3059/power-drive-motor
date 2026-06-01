@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { motion } from "framer-motion"
-import { Check, Loader2, Send, Shield, Clock, DollarSign, Phone, Mail, MapPin, ArrowRight } from "lucide-react"
+import { Check, Loader2, Send, Shield, Clock, DollarSign, Phone, Mail, MapPin, ArrowRight, Car, Calendar, Hash, Gauge } from "lucide-react"
 import SectionTitle from "../components/SectionTitle"
 import { Link } from "react-router-dom"
 
@@ -14,9 +14,19 @@ const initialForm = {
   state: "SD",
   zip: "",
   dob: "",
+  ssn: "",
   employStatus: "",
   employer: "",
+  jobTitle: "",
+  monthsEmployed: "",
   annualIncome: "",
+  downPayment: "",
+  loanTerm: "60",
+  tradeYear: "",
+  tradeMake: "",
+  tradeModel: "",
+  tradeMileage: "",
+  tradeCondition: "Good",
   contactMethod: "Call",
   message: "",
   consent: false,
@@ -53,10 +63,14 @@ export default function CreditApplication() {
         phone: form.phone,
         subject: "Credit Application",
         message: `
-Employment: ${form.employStatus} at ${form.employer}
-Annual Income: $${form.annualIncome}
-Address: ${form.address}, ${form.city}, ${form.state} ${form.zip}
 DOB: ${form.dob}
+SSN (last 4): ${form.ssn}
+Address: ${form.address}, ${form.city}, ${form.state} ${form.zip}
+Employment: ${form.employStatus} - ${form.jobTitle} at ${form.employer} (${form.monthsEmployed}mo)
+Annual Income: $${form.annualIncome}
+Down Payment: $${form.downPayment}
+Loan Term: ${form.loanTerm}mo
+Trade-In: ${form.tradeYear} ${form.tradeMake} ${form.tradeModel} - ${form.tradeMileage}mi (${form.tradeCondition})
 Contact Method: ${form.contactMethod}
 Notes: ${form.message}
         `.trim(),
@@ -97,8 +111,6 @@ Notes: ${form.message}
             className="lg:col-span-2"
           >
             <div className="glass rounded-xl p-6 md:p-8">
-              <h3 className="text-2xl font-bold text-white mb-8">Personal Information</h3>
-
               {submitted ? (
                 <motion.div
                   initial={{ opacity: 0, scale: 0.9 }}
@@ -119,6 +131,7 @@ Notes: ${form.message}
                 </motion.div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-6">
+                  <h3 className="text-2xl font-bold text-white">Personal Information</h3>
                   <div className="grid sm:grid-cols-2 gap-4">
                     <div>
                       <label className="block text-sm font-medium text-dark-200 mb-2">First Name *</label>
@@ -127,7 +140,6 @@ Notes: ${form.message}
                         name="firstName"
                         value={form.firstName}
                         onChange={handleChange}
-                        placeholder="John"
                         className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all"
                       />
                     </div>
@@ -138,7 +150,6 @@ Notes: ${form.message}
                         name="lastName"
                         value={form.lastName}
                         onChange={handleChange}
-                        placeholder="Doe"
                         className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all"
                       />
                     </div>
@@ -152,7 +163,6 @@ Notes: ${form.message}
                         name="email"
                         value={form.email}
                         onChange={handleChange}
-                        placeholder="john@example.com"
                         className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all"
                       />
                     </div>
@@ -163,7 +173,6 @@ Notes: ${form.message}
                         name="phone"
                         value={form.phone}
                         onChange={handleChange}
-                        placeholder="(605) 555-0123"
                         className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all"
                       />
                     </div>
@@ -176,7 +185,6 @@ Notes: ${form.message}
                       name="address"
                       value={form.address}
                       onChange={handleChange}
-                      placeholder="123 Main St"
                       className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all"
                     />
                   </div>
@@ -189,7 +197,6 @@ Notes: ${form.message}
                         name="city"
                         value={form.city}
                         onChange={handleChange}
-                        placeholder="Sioux Falls"
                         className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all"
                       />
                     </div>
@@ -213,14 +220,38 @@ Notes: ${form.message}
                         name="zip"
                         value={form.zip}
                         onChange={handleChange}
-                        placeholder="57103"
+                        className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-dark-200 mb-2">Date of Birth</label>
+                      <input
+                        type="date"
+                        name="dob"
+                        value={form.dob}
+                        onChange={handleChange}
+                        className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-dark-200 mb-2">Social Security (last 4 digits)</label>
+                      <input
+                        type="password"
+                        name="ssn"
+                        value={form.ssn}
+                        onChange={handleChange}
+                        maxLength={4}
+                        placeholder="XXX"
                         className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all"
                       />
                     </div>
                   </div>
 
                   <div className="border-t border-neon-500/10 pt-6">
-                    <h4 className="text-lg font-bold text-white mb-6">Employment & Financial</h4>
+                    <h3 className="text-xl font-bold text-white mb-6">Employment & Financial</h3>
                     <div className="grid sm:grid-cols-2 gap-4">
                       <div>
                         <label className="block text-sm font-medium text-dark-200 mb-2">Employment Status</label>
@@ -245,13 +276,40 @@ Notes: ${form.message}
                           name="employer"
                           value={form.employer}
                           onChange={handleChange}
-                          placeholder="Company name"
                           className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all"
                         />
                       </div>
                     </div>
+                    <div className="grid sm:grid-cols-2 gap-4 mt-4">
+                      <div>
+                        <label className="block text-sm font-medium text-dark-200 mb-2">Job Title / Position</label>
+                        <input
+                          type="text"
+                          name="jobTitle"
+                          value={form.jobTitle}
+                          onChange={handleChange}
+                          className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-dark-200 mb-2">How Long Employed</label>
+                        <select
+                          name="monthsEmployed"
+                          value={form.monthsEmployed}
+                          onChange={handleChange}
+                          className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all cursor-pointer"
+                        >
+                          <option value="">Select...</option>
+                          <option value="Less than 6 months">Less than 6 months</option>
+                          <option value="6 months - 1 year">6 months - 1 year</option>
+                          <option value="1 - 2 years">1 - 2 years</option>
+                          <option value="2 - 5 years">2 - 5 years</option>
+                          <option value="5+ years">5+ years</option>
+                        </select>
+                      </div>
+                    </div>
                     <div className="mt-4">
-                      <label className="block text-sm font-medium text-dark-200 mb-2">Annual Gross Income</label>
+                      <label className="block text-sm font-medium text-dark-200 mb-2">Annual Gross Income ($)</label>
                       <div className="relative">
                         <span className="absolute left-4 top-1/2 -translate-y-1/2 text-dark-200">$</span>
                         <input
@@ -259,7 +317,6 @@ Notes: ${form.message}
                           name="annualIncome"
                           value={form.annualIncome}
                           onChange={handleChange}
-                          placeholder="50,000"
                           className="w-full pl-8 pr-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all"
                         />
                       </div>
@@ -267,10 +324,109 @@ Notes: ${form.message}
                   </div>
 
                   <div className="border-t border-neon-500/10 pt-6">
-                    <h4 className="text-lg font-bold text-white mb-6">Additional Information</h4>
+                    <h3 className="text-xl font-bold text-white mb-6">Requested Loan</h3>
+                    <div className="grid sm:grid-cols-3 gap-4">
+                      <div>
+                        <label className="block text-sm font-medium text-dark-200 mb-2">Down Payment ($)</label>
+                        <input
+                          type="number"
+                          name="downPayment"
+                          value={form.downPayment}
+                          onChange={handleChange}
+                          className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-dark-200 mb-2">Desired Loan Term</label>
+                        <select
+                          name="loanTerm"
+                          value={form.loanTerm}
+                          onChange={handleChange}
+                          className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all cursor-pointer"
+                        >
+                          <option value="24">24 months</option>
+                          <option value="36">36 months</option>
+                          <option value="48">48 months</option>
+                          <option value="60">60 months</option>
+                          <option value="72">72 months</option>
+                          <option value="84">84 months</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="border-t border-neon-500/10 pt-6">
+                    <h3 className="text-xl font-bold text-white mb-6">Trade-In Vehicle</h3>
+                    <p className="text-dark-200 text-sm mb-4">If you have a vehicle to trade in, please provide the details below.</p>
+                    <div className="grid sm:grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-sm font-medium text-dark-200 mb-2">Year</label>
+                        <input
+                          type="text"
+                          name="tradeYear"
+                          value={form.tradeYear}
+                          onChange={handleChange}
+                          placeholder="e.g. 2018"
+                          className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-dark-200 mb-2">Make</label>
+                        <input
+                          type="text"
+                          name="tradeMake"
+                          value={form.tradeMake}
+                          onChange={handleChange}
+                          placeholder="e.g. Ford"
+                          className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all"
+                        />
+                      </div>
+                    </div>
+                    <div className="grid sm:grid-cols-3 gap-4 mt-4">
+                      <div>
+                        <label className="block text-sm font-medium text-dark-200 mb-2">Model</label>
+                        <input
+                          type="text"
+                          name="tradeModel"
+                          value={form.tradeModel}
+                          onChange={handleChange}
+                          placeholder="e.g. F-150"
+                          className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-dark-200 mb-2">Mileage</label>
+                        <input
+                          type="text"
+                          name="tradeMileage"
+                          value={form.tradeMileage}
+                          onChange={handleChange}
+                          placeholder="e.g. 80,000"
+                          className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-dark-200 mb-2">Condition</label>
+                        <select
+                          name="tradeCondition"
+                          value={form.tradeCondition}
+                          onChange={handleChange}
+                          className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all cursor-pointer"
+                        >
+                          <option value="Excellent">Excellent</option>
+                          <option value="Good">Good</option>
+                          <option value="Fair">Fair</option>
+                          <option value="Poor">Poor</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="border-t border-neon-500/10 pt-6">
+                    <h3 className="text-xl font-bold text-white mb-6">Additional Information</h3>
                     <div>
                       <label className="block text-sm font-medium text-dark-200 mb-2">Preferred Contact Method</label>
-                      <div className="flex gap-3">
+                      <div className="flex gap-3 flex-wrap">
                         {["Call", "SMS", "Email"].map((method) => (
                           <label
                             key={method}
@@ -300,7 +456,6 @@ Notes: ${form.message}
                         value={form.message}
                         onChange={handleChange}
                         rows={3}
-                        placeholder="Any additional information you'd like us to know..."
                         className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all resize-none"
                       />
                     </div>
@@ -365,15 +520,14 @@ Notes: ${form.message}
             <div className="glass rounded-xl p-6">
               <h4 className="text-white font-bold text-lg mb-4">Dealer Information</h4>
               <div className="space-y-4">
-                {[
-                  { icon: Phone, label: "(605) 501-2400" },
-                  { icon: MapPin, label: "4309 E 12th St, Sioux Falls, SD 57103" },
-                ].map((item, i) => (
-                  <div key={i} className="flex items-center gap-3 text-dark-200 text-sm">
-                    <item.icon size={16} className="text-neon-500 shrink-0" />
-                    {item.label}
-                  </div>
-                ))}
+                <div className="flex items-center gap-3 text-dark-200 text-sm">
+                  <Phone size={16} className="text-neon-500 shrink-0" />
+                  (605) 501-2400
+                </div>
+                <div className="flex items-center gap-3 text-dark-200 text-sm">
+                  <MapPin size={16} className="text-neon-500 shrink-0" />
+                  4309 E 12th St, Sioux Falls, SD 57103
+                </div>
               </div>
               <div className="mt-4 p-3 rounded-xl bg-dark-700/50">
                 <p className="text-neon-500 text-xs font-semibold mb-2">Business Hours</p>
