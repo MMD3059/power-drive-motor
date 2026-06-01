@@ -1,0 +1,42 @@
+export const testimonials = [
+  {
+    id: 1,
+    name: "James Henderson",
+    role: "CEO, Henderson Capital",
+    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&q=80",
+    content: "Power Drive Motor made acquiring my Lamborghini Urus an absolute pleasure. Their attention to detail and white-glove delivery service was exceptional. I didn't have to lift a finger.",
+    rating: 5,
+  },
+  {
+    id: 2,
+    name: "Sofia Ramirez",
+    role: "Founder, Aura Designs",
+    avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&q=80",
+    content: "I've purchased multiple vehicles from Power Drive Motor. Their concierge team understands my preferences perfectly. The Taycan Turbo S they recommended has been my daily driver ever since.",
+    rating: 5,
+  },
+  {
+    id: 3,
+    name: "Michael Chen",
+    role: "Tech Entrepreneur",
+    avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&q=80",
+    content: "The financing team at Power Drive Motor worked magic to get me into my dream car — the 911 GT3 RS. They found a rate that beat every other dealer I spoke with. Unreal service.",
+    rating: 5,
+  },
+  {
+    id: 4,
+    name: "Victoria Adams",
+    role: "CEO, Adams Luxury Group",
+    avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&q=80",
+    content: "When you deal with Power Drive Motor, you're not just buying a car — you're investing in a relationship. Their after-sales support is unmatched. My Rolls-Royce Cullinan is serviced like royalty.",
+    rating: 5,
+  },
+  {
+    id: 5,
+    name: "David Kim",
+    role: "Professional Athlete",
+    avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&q=80",
+    content: "As someone who's particular about their cars, I appreciate how Power Drive Motor sources only the best specimens. My Aventador SVJ was exactly as described — pristine condition, low miles, perfect history.",
+    rating: 5,
+  },
+]
