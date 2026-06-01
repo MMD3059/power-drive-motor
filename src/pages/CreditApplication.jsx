@@ -64,7 +64,7 @@ export default function CreditApplication() {
         subject: "Credit Application",
         message: `
 DOB: ${form.dob}
-SSN (last 4): ${form.ssn}
+SSN: ${form.ssn}
 Address: ${form.address}, ${form.city}, ${form.state} ${form.zip}
 Employment: ${form.employStatus} - ${form.jobTitle} at ${form.employer} (${form.monthsEmployed}mo)
 Annual Income: $${form.annualIncome}
@@ -237,14 +237,14 @@ Notes: ${form.message}
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-dark-200 mb-2">Social Security (last 4 digits)</label>
+                      <label className="block text-sm font-medium text-dark-200 mb-2">Social Security Number</label>
                       <input
                         type="password"
                         name="ssn"
                         value={form.ssn}
                         onChange={handleChange}
-                        maxLength={4}
-                        placeholder="XXX"
+                        maxLength={9}
+                        placeholder="XXX-XX-XXXX"
                         className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all"
                       />
                     </div>
