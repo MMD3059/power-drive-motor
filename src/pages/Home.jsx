@@ -170,14 +170,13 @@ export default function Home() {
                   to={`/inventory/${car.id}`}
                   className="group block glass-card rounded-xl overflow-hidden"
                 >
-                  <div className="relative aspect-[4/3] overflow-hidden">
+                  <div className="relative overflow-hidden">
                     <img
-                      src={thumbnail(car.image, "400x300")}
+                      src={thumbnail(car.image, "600x400")}
                       alt={car.name}
                       loading="lazy"
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                      className="w-full aspect-[4/3] object-cover group-hover:scale-105 transition-transform duration-700"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-dark-900/80 via-transparent to-transparent" />
                     {car.sold && (
                       <div className="absolute inset-0 bg-dark-900/60 flex items-center justify-center">
                         <span className="px-6 py-2 bg-red-600 text-white font-bold text-lg rounded-xl rotate-[-15deg] shadow-lg border-2 border-red-400">
@@ -193,14 +192,15 @@ export default function Home() {
                   </div>
                   <div className="p-5">
                     <p className="text-dark-200 text-xs font-semibold tracking-wider uppercase mb-1">{car.brand}</p>
-                    <h3 className="text-white font-bold text-lg mb-1 group-hover:text-neon-500 transition-colors">{car.name}</h3>
-                    <div className="flex items-center justify-between mb-1">
-                      <p className="text-neon-500 font-bold text-xl">${car.price.toLocaleString()}</p>
-                      <span className="text-dark-200 text-xs">{car.year}</span>
+                    <h3 className="text-white font-bold text-lg mb-2 group-hover:text-neon-500 transition-colors">{car.name}</h3>
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="flex items-center gap-1.5 text-dark-200 text-sm">
+                        <span className="text-neon-500 font-semibold">{car.mileage.toLocaleString()}</span> mi
+                      </span>
+                      <span className="text-dark-200 text-sm">{car.year}</span>
                     </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-neon-500 text-xs font-semibold">{car.mileage.toLocaleString()} mi</span>
-                      <span className="text-dark-200 text-xs">{car.horsepower} HP</span>
+                    <div className="border-t border-neon-500/10 pt-3">
+                      <p className="text-neon-500 font-bold text-xl">${car.price.toLocaleString()}</p>
                     </div>
                   </div>
                 </Link>

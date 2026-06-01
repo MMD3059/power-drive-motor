@@ -228,11 +228,11 @@ export default function About() {
                 >
                   <Link to={`/inventory/${car.id}`} className="group block">
                     <div className="glass-card rounded-xl overflow-hidden">
-                      <div className="relative aspect-[4/3] overflow-hidden">
+                      <div className="relative overflow-hidden">
                         <img
-                          src={thumbnail(car.image || car.images?.[0], "400x300")}
+                          src={thumbnail(car.image || car.images?.[0], "600x400")}
                           alt={car.name}
-                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                          className="w-full aspect-[4/3] object-cover group-hover:scale-105 transition-transform duration-500"
                         />
                         {car.sold && (
                           <div className="absolute inset-0 bg-dark-900/60 flex items-center justify-center">

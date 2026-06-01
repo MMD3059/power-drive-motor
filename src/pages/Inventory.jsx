@@ -2,7 +2,7 @@ import { useState, useMemo } from "react"
 import { useLang } from "../i18n/context"
 import { Link } from "react-router-dom"
 import { motion } from "framer-motion"
-import { Search, SlidersHorizontal, X, Fuel, Gauge, Car, ArrowRight } from "lucide-react"
+import { Search, SlidersHorizontal, X, Car } from "lucide-react"
 import SectionTitle from "../components/SectionTitle"
 import { useCars } from "../contexts/CarContext"
 import { brands, fuelTypes, priceRanges } from "../data/cars"
@@ -232,14 +232,13 @@ export default function Inventory() {
                   to={`/inventory/${car.id}`}
                   className="group block glass-card rounded-xl overflow-hidden"
                 >
-                  <div className="relative aspect-[4/3] overflow-hidden">
+                  <div className="relative overflow-hidden">
                     <img
-                      src={thumbnail(car.image, "400x300")}
+                      src={thumbnail(car.image, "600x400")}
                       alt={car.name}
                       loading="lazy"
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                      className="w-full aspect-[4/3] object-cover group-hover:scale-105 transition-transform duration-700"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-dark-900/80 via-transparent to-transparent" />
                     {car.sold && (
                       <div className="absolute inset-0 bg-dark-900/60 flex items-center justify-center">
                         <span className="px-6 py-2 bg-red-600 text-white font-bold text-lg rounded-xl rotate-[-15deg] shadow-lg border-2 border-red-400">
@@ -247,39 +246,23 @@ export default function Inventory() {
                         </span>
                       </div>
                     )}
-                    <div className="absolute top-3 left-3 flex gap-2">
+                    <div className="absolute top-3 left-3">
                       <span className="px-3 py-1 text-xs font-semibold bg-neon-500/20 text-neon-500 border border-neon-500/30 rounded-full backdrop-blur-sm">
                         {car.fuelType}
-                      </span>
-                      <span className="px-3 py-1 text-xs font-semibold bg-dark-700/80 text-dark-200 border border-white/10 rounded-full backdrop-blur-sm">
-                        {car.year}
-                      </span>
-                    </div>
-                    <div className="absolute bottom-3 right-3">
-                      <span className="text-white text-xs font-semibold bg-dark-900/60 px-2 py-1 rounded-lg backdrop-blur-sm">
-                        {car.horsepower} HP
                       </span>
                     </div>
                   </div>
                   <div className="p-5">
                     <p className="text-dark-200 text-xs font-semibold tracking-wider uppercase mb-1">{car.brand}</p>
-                    <h3 className="text-white font-bold text-lg mb-1 group-hover:text-neon-500 transition-colors">{car.name}</h3>
-                    <div className="flex items-center justify-between mb-4">
-                      <p className="text-neon-500 font-bold text-lg md:text-xl">${car.price.toLocaleString()}</p>
-                    </div>
-                    <div className="flex items-center gap-3 text-dark-200 text-xs border-t border-neon-500/10 pt-4">
-                      <span className="flex items-center gap-1">
-                        <Fuel size={14} /> {car.fuelType}
-                      </span>
-                      <span className="flex items-center gap-1">
-                        <Gauge size={14} /> {car.transmission}
-                      </span>
-                      <span className="flex items-center gap-1">
+                    <h3 className="text-white font-bold text-lg mb-2 group-hover:text-neon-500 transition-colors">{car.name}</h3>
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="flex items-center gap-1.5 text-dark-200 text-sm">
                         <span className="text-neon-500 font-semibold">{car.mileage.toLocaleString()}</span> mi
                       </span>
-                      <span className="flex items-center gap-1 ml-auto">
-                        <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
-                      </span>
+                      <span className="text-dark-200 text-sm">{car.year}</span>
+                    </div>
+                    <div className="border-t border-neon-500/10 pt-3">
+                      <p className="text-neon-500 font-bold text-xl">${car.price.toLocaleString()}</p>
                     </div>
                   </div>
                 </Link>
