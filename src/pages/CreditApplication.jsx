@@ -174,16 +174,16 @@ Notes: ${form.message}
                       <Users size={20} className="text-neon-500" /> {t("credit.appType")}
                     </h3>
                     <div className="flex gap-3 flex-wrap">
-                      {["individual", "joint"].map((t) => (
-                        <label key={t}
+                      {["individual", "joint"].map((type) => (
+                        <label key={type}
                           className={`flex items-center gap-2 px-5 py-3 rounded-xl border cursor-pointer transition-all capitalize ${
-                            form.appType === t
+                            form.appType === type
                               ? "bg-neon-500/20 border-neon-500 text-neon-500"
                               : "bg-dark-700/80 border-neon-500/10 text-dark-200 hover:border-neon-500/30"
                           }`}
                         >
-                          <input type="radio" name="appType" value={t} checked={form.appType === t} onChange={handleChange} className="hidden" />
-                          {t === "individual" ? t("credit.individual") : t("credit.joint")}
+                          <input type="radio" name="appType" value={type} checked={form.appType === type} onChange={handleChange} className="hidden" />
+                          {type === "individual" ? t("credit.individual") : t("credit.joint")}
                         </label>
                       ))}
                     </div>
