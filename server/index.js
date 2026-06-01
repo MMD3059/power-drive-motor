@@ -1,4 +1,3 @@
-import "./seed.js"
 import express from "express"
 import cors from "cors"
 import path from "path"
@@ -10,6 +9,13 @@ import messageRoutes from "./routes/messages.js"
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const app = express()
 const PORT = process.env.PORT || 3001
+
+try {
+  await import("./seed.js")
+  console.log("Seed check complete")
+} catch (err) {
+  console.error("Seed error (non-fatal):", err.message)
+}
 
 app.use(cors())
 app.use(express.json())
