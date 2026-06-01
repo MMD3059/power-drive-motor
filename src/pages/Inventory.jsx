@@ -234,9 +234,8 @@ export default function Inventory() {
                 >
                   <div className="relative overflow-hidden">
                     <img
-                      src={thumbnail(car.image, "600x400")}
+                      src={thumbnail(car.image, "400x300")}
                       alt={car.name}
-                      loading="lazy"
                       className="w-full aspect-[4/3] object-cover group-hover:scale-105 transition-transform duration-700"
                     />
                     {car.sold && (

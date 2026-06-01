@@ -83,7 +83,7 @@ export default function Home() {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 1, delay: 0.3 }}
-              className="hidden lg:block relative"
+              className="relative max-md:mt-6"
             >
               <div className="relative aspect-[4/3] rounded-2xl overflow-hidden">
                 <AnimatePresence mode="wait">
@@ -172,9 +172,8 @@ export default function Home() {
                 >
                   <div className="relative overflow-hidden">
                     <img
-                      src={thumbnail(car.image, "600x400")}
+                      src={thumbnail(car.image, "400x300")}
                       alt={car.name}
-                      loading="lazy"
                       className="w-full aspect-[4/3] object-cover group-hover:scale-105 transition-transform duration-700"
                     />
                     {car.sold && (

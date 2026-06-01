@@ -230,7 +230,7 @@ export default function About() {
                     <div className="glass-card rounded-xl overflow-hidden">
                       <div className="relative overflow-hidden">
                         <img
-                          src={thumbnail(car.image || car.images?.[0], "600x400")}
+                          src={thumbnail(car.image || car.images?.[0], "400x300")}
                           alt={car.name}
                           className="w-full aspect-[4/3] object-cover group-hover:scale-105 transition-transform duration-500"
                         />
