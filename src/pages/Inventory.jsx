@@ -238,6 +238,13 @@ export default function Inventory() {
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-dark-900/80 via-transparent to-transparent" />
+                    {car.sold && (
+                      <div className="absolute inset-0 bg-dark-900/60 flex items-center justify-center">
+                        <span className="px-6 py-2 bg-red-600 text-white font-bold text-lg rounded-xl rotate-[-15deg] shadow-lg border-2 border-red-400">
+                          SOLD
+                        </span>
+                      </div>
+                    )}
                     <div className="absolute top-3 left-3 flex gap-2">
                       <span className="px-3 py-1 text-xs font-semibold bg-neon-500/20 text-neon-500 border border-neon-500/30 rounded-full backdrop-blur-sm">
                         {car.fuelType}

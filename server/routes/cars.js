@@ -80,15 +80,17 @@ router.post("/", requireAuth, upload.array("images", 10), (req, res) => {
   const featuresStr = JSON.stringify(features ? (Array.isArray(features) ? features : JSON.parse(features)) : [])
 
   const stmt = db.prepare(`
-    INSERT INTO cars (name, brand, model, year, price, fuelType, transmission, engine, horsepower, mileage, seats, color, image, images, description, features)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    INSERT INTO cars (name, brand, model, year, price, fuelType, transmission, engine, horsepower, mileage, seats, color, image, images, description, features, sold)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   `)
+
+  const sold = req.body.sold ? (req.body.sold === "true" || req.body.sold === true ? 1 : 0) : 0
 
   const result = stmt.run(
     name, brand, model, parseInt(year), parseFloat(price),
     fuelType || "Petrol", transmission || "Automatic", engine || "",
     parseInt(horsepower) || 0, parseInt(mileage) || 0, parseInt(seats) || 5,
-    color || "", image, imagesStr, description || "", featuresStr
+    color || "", image, imagesStr, description || "", featuresStr, sold
   )
 
   const car = db.prepare("SELECT * FROM cars WHERE id = ?").get(result.lastInsertRowid)
@@ -123,8 +125,10 @@ router.put("/:id", requireAuth, upload.array("images", 10), (req, res) => {
   const imagesStr = JSON.stringify(images)
   const featuresStr = JSON.stringify(features ? (Array.isArray(features) ? features : JSON.parse(features)) : [])
 
+  const sold = req.body.sold !== undefined ? (req.body.sold === "true" || req.body.sold === true ? 1 : 0) : existing.sold
+
   db.prepare(`
-    UPDATE cars SET name=?, brand=?, model=?, year=?, price=?, fuelType=?, transmission=?, engine=?, horsepower=?, mileage=?, seats=?, color=?, image=?, images=?, description=?, features=?
+    UPDATE cars SET name=?, brand=?, model=?, year=?, price=?, fuelType=?, transmission=?, engine=?, horsepower=?, mileage=?, seats=?, color=?, image=?, images=?, description=?, features=?, sold=?
     WHERE id=?
   `).run(
     name || existing.name, brand || existing.brand, model || existing.model,
@@ -133,13 +137,22 @@ router.put("/:id", requireAuth, upload.array("images", 10), (req, res) => {
     engine || existing.engine, parseInt(horsepower) || existing.horsepower,
     parseInt(mileage) || existing.mileage, parseInt(seats) || existing.seats,
     color || existing.color, image, imagesStr, description || existing.description,
-    featuresStr, req.params.id
+    featuresStr, sold, req.params.id
   )
 
   const car = db.prepare("SELECT * FROM cars WHERE id = ?").get(req.params.id)
   car.features = JSON.parse(car.features)
   car.images = JSON.parse(car.images || "[]")
   res.json(car)
+})
+
+router.patch("/:id/sold", requireAuth, (req, res) => {
+  const existing = db.prepare("SELECT * FROM cars WHERE id = ?").get(req.params.id)
+  if (!existing) return res.status(404).json({ error: "Car not found" })
+
+  const newSold = existing.sold ? 0 : 1
+  db.prepare("UPDATE cars SET sold = ? WHERE id = ?").run(newSold, req.params.id)
+  res.json({ id: existing.id, sold: newSold })
 })
 
 function deleteImageFile(imgPath) {

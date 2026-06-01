@@ -89,6 +89,13 @@ export default function VehicleDetail() {
                 className="w-full aspect-[4/3] object-cover rounded-2xl"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-dark-900/60 via-transparent to-transparent rounded-2xl" />
+              {car.sold && (
+                <div className="absolute inset-0 bg-dark-900/60 flex items-center justify-center rounded-2xl">
+                  <span className="px-8 py-3 bg-red-600 text-white font-bold text-2xl rounded-xl rotate-[-15deg] shadow-lg border-2 border-red-400">
+                    SOLD
+                  </span>
+                </div>
+              )}
               <div className="absolute top-4 left-4 flex gap-2">
                 <span className="px-4 py-1.5 text-xs font-semibold bg-neon-500/20 text-neon-500 border border-neon-500/30 rounded-full backdrop-blur-md">
                   {car.fuelType}
@@ -151,8 +158,15 @@ export default function VehicleDetail() {
             <h1 className="text-3xl md:text-5xl font-bold text-white mb-2">{car.name}</h1>
             <p className="text-dark-200 text-lg mb-6">{car.model}</p>
 
-            <div className="text-4xl md:text-5xl font-bold gradient-text mb-8">
-              ${car.price.toLocaleString()}
+            <div className="flex items-center gap-4 mb-8">
+              <div className="text-4xl md:text-5xl font-bold gradient-text">
+                ${car.price.toLocaleString()}
+              </div>
+              {car.sold && (
+                <span className="px-4 py-1.5 bg-red-600/20 text-red-400 font-bold text-sm rounded-lg border border-red-500/40">
+                  SOLD
+                </span>
+              )}
             </div>
 
             <p className="text-dark-200 leading-relaxed mb-8">{car.description}</p>

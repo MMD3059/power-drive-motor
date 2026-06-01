@@ -56,8 +56,9 @@ db.exec(`
   );
 `)
 
-// Migration: add images column to existing tables
+// Migrations for existing tables
 try { db.exec("ALTER TABLE cars ADD COLUMN images TEXT NOT NULL DEFAULT '[]'"); } catch {}
+try { db.exec("ALTER TABLE cars ADD COLUMN sold INTEGER NOT NULL DEFAULT 0"); } catch {}
 
 
 

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
-import { Plus, Edit2, Trash2, X, Image } from "lucide-react"
+import { Plus, Edit2, Trash2, X, Image, CheckCircle, XCircle } from "lucide-react"
 
 const API = import.meta.env.DEV ? "http://localhost:3001/api" : "/api"
 
@@ -8,7 +8,7 @@ const defaultCar = {
   name: "", brand: "Chevrolet", model: "", year: new Date().getFullYear(),
   price: "", fuelType: "Petrol", transmission: "Automatic", engine: "",
   horsepower: "", mileage: "", seats: 5, color: "", description: "",
-  features: [], image: "", images: [],
+  features: [], image: "", images: [], sold: false,
 }
 
 const brands = ["Chevrolet", "Dodge", "Ford", "Honda", "GMC", "Kia", "Nissan", "Subaru"]
@@ -50,6 +50,7 @@ export default function AdminCars() {
     fd.append("color", form.color)
     fd.append("description", form.description)
     fd.append("features", JSON.stringify(form.features))
+    fd.append("sold", form.sold ? "true" : "false")
 
     if (editing && form.images.length > 0) {
       fd.append("existingImages", JSON.stringify(form.images))
@@ -93,6 +94,20 @@ export default function AdminCars() {
         headers: { Authorization: `Bearer ${token}` },
       })
       setCars(cars.filter((c) => c.id !== car.id))
+    } catch (err) {
+      alert(err.message)
+    }
+  }
+
+  const toggleSold = async (car) => {
+    try {
+      const res = await fetch(`${API}/cars/${car.id}/sold`, {
+        method: "PATCH",
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error || "Failed")
+      setCars(cars.map((c) => (c.id === data.id ? { ...c, sold: data.sold } : c)))
     } catch (err) {
       alert(err.message)
     }
@@ -236,6 +251,13 @@ export default function AdminCars() {
                 <input type="text" value={form.color} onChange={(e) => setForm({ ...form, color: e.target.value })}
                   className="w-full px-4 py-2.5 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white text-sm focus:outline-none focus:border-neon-500/40" />
               </div>
+              <div className="flex items-end">
+                <label className="flex items-center gap-3 cursor-pointer group">
+                  <input type="checkbox" checked={form.sold} onChange={(e) => setForm({ ...form, sold: e.target.checked })}
+                    className="w-5 h-5 rounded border-neon-500/30 bg-dark-700 text-neon-500 focus:ring-neon-500/40 cursor-pointer" />
+                  <span className="text-sm text-dark-200 group-hover:text-white transition-colors">Mark as Sold</span>
+                </label>
+              </div>
             </div>
 
             <div>
@@ -314,6 +336,7 @@ export default function AdminCars() {
                 <th className="text-left p-4 font-semibold">Brand</th>
                 <th className="text-left p-4 font-semibold">Year</th>
                 <th className="text-left p-4 font-semibold">Photos</th>
+                <th className="text-left p-4 font-semibold">Status</th>
                 <th className="text-right p-4 font-semibold">Price</th>
                 <th className="text-right p-4 font-semibold">Mileage</th>
                 <th className="text-right p-4 font-semibold">Actions</th>
@@ -340,6 +363,17 @@ export default function AdminCars() {
                     <span className="flex items-center gap-1 text-dark-200 text-xs">
                       <Image size={14} /> {car.images?.length || 1}
                     </span>
+                  </td>
+                  <td className="p-4">
+                    <button onClick={() => toggleSold(car)}
+                      className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold transition-all ${
+                        car.sold
+                          ? "bg-red-500/20 text-red-400 border border-red-500/30 hover:bg-red-500/30"
+                          : "bg-green-500/20 text-green-400 border border-green-500/30 hover:bg-green-500/30"
+                      }`}>
+                      {car.sold ? <XCircle size={14} /> : <CheckCircle size={14} />}
+                      {car.sold ? "Sold" : "Available"}
+                    </button>
                   </td>
                   <td className="p-4 text-neon-500 font-semibold text-right">${car.price.toLocaleString()}</td>
                   <td className="p-4 text-dark-200 text-right">{car.mileage?.toLocaleString()} mi</td>
