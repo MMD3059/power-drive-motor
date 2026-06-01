@@ -4,6 +4,7 @@ import { Check, Loader2, Send, Shield, Clock, DollarSign, Phone, Mail, MapPin, A
 import SectionTitle from "../components/SectionTitle"
 import { Link } from "react-router-dom"
 import { useCars } from "../contexts/CarContext"
+import { useLang } from "../i18n/context"
 
 const initialForm = {
   appType: "individual",
@@ -60,6 +61,7 @@ const states = [
 
 export default function CreditApplication() {
   const { cars } = useCars()
+  const { t } = useLang()
   const [form, setForm] = useState(initialForm)
   const [submitted, setSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -129,9 +131,9 @@ Notes: ${form.message}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(0,212,255,0.05),transparent_60%)]" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionTitle
-            subtitle="Credit Application"
-            title="Apply For Financing"
-            description="Complete the form below and our finance team will get back to you within 24 hours with a personalized offer."
+            subtitle={t("credit.subtitle")}
+            title={t("credit.title")}
+            description={t("credit.desc")}
           />
         </div>
       </div>
@@ -154,13 +156,13 @@ Notes: ${form.message}
                   <div className="w-16 h-16 rounded-full bg-neon-500/20 border border-neon-500/30 flex items-center justify-center mx-auto mb-6">
                     <Check size={32} className="text-neon-500" />
                   </div>
-                  <h4 className="text-white text-xl font-bold mb-2">Application Submitted!</h4>
-                  <p className="text-dark-200 mb-6">Our finance team will review your application and contact you within 24 hours.</p>
+                  <h4 className="text-white text-xl font-bold mb-2">{t("credit.submittedTitle")}</h4>
+                  <p className="text-dark-200 mb-6">{t("credit.submittedDesc")}</p>
                   <button
                     onClick={() => setSubmitted(false)}
                     className="px-6 py-3 bg-neon-500 text-dark-900 font-semibold rounded-xl hover:bg-neon-400 transition-all"
                   >
-                    Submit Another Application
+                    {t("credit.submitAnother")}
                   </button>
                 </motion.div>
               ) : (
@@ -169,7 +171,7 @@ Notes: ${form.message}
                   {/* Application Type */}
                   <div className="border-b border-neon-500/10 pb-6">
                     <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
-                      <Users size={20} className="text-neon-500" /> Application Type
+                      <Users size={20} className="text-neon-500" /> {t("credit.appType")}
                     </h3>
                     <div className="flex gap-3 flex-wrap">
                       {["individual", "joint"].map((t) => (
@@ -181,13 +183,13 @@ Notes: ${form.message}
                           }`}
                         >
                           <input type="radio" name="appType" value={t} checked={form.appType === t} onChange={handleChange} className="hidden" />
-                          {t === "individual" ? "Individual" : "Joint"}
+                          {t === "individual" ? t("credit.individual") : t("credit.joint")}
                         </label>
                       ))}
                     </div>
                     {form.appType === "joint" && (
                       <div className="mt-4">
-                        <label className="block text-sm font-medium text-dark-200 mb-2">Relationship to Co-Applicant</label>
+                        <label className="block text-sm font-medium text-dark-200 mb-2">{t("credit.relationship")}</label>
                         <select name="relationship" value={form.relationship} onChange={handleChange}
                           className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all cursor-pointer"
                         >
@@ -203,12 +205,12 @@ Notes: ${form.message}
                   {/* Vehicle Of Interest */}
                   <div className="border-b border-neon-500/10 pb-6">
                     <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
-                      <Car size={20} className="text-neon-500" /> Vehicle Of Interest
+                      <Car size={20} className="text-neon-500" /> {t("credit.vehicleInterest")}
                     </h3>
                     <select name="vehicleInterest" value={form.vehicleInterest} onChange={handleChange}
                       className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all cursor-pointer"
                     >
-                      <option value="">Select a vehicle...</option>
+                      <option value="">{t("credit.selectVehicle")}</option>
                       {cars.map((c) => (
                         <option key={c.id} value={`${c.year || ""} ${c.name} - $${c.price?.toLocaleString()}`}>
                           {c.year || ""} {c.name} - ${c.price?.toLocaleString()}
@@ -220,10 +222,10 @@ Notes: ${form.message}
                   {/* Purchase Information */}
                   <div className="border-b border-neon-500/10 pb-6">
                     <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
-                      <CreditCard size={20} className="text-neon-500" /> Purchase Information
+                      <CreditCard size={20} className="text-neon-500" /> {t("credit.purchaseInfo")}
                     </h3>
                     <div className="mb-4">
-                      <label className="block text-sm font-medium text-dark-200 mb-2">Finance or Lease?</label>
+                      <label className="block text-sm font-medium text-dark-200 mb-2">{t("credit.financeOrLease")}</label>
                       <div className="flex gap-3">
                         {["finance", "lease"].map((p) => (
                           <label key={p}
@@ -234,14 +236,14 @@ Notes: ${form.message}
                             }`}
                           >
                             <input type="radio" name="purchaseType" value={p} checked={form.purchaseType === p} onChange={handleChange} className="hidden" />
-                            {p === "finance" ? "Finance" : "Lease"}
+                            {p === "finance" ? t("credit.finance") : t("credit.lease")}
                           </label>
                         ))}
                       </div>
                     </div>
                     <div className="grid sm:grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-sm font-medium text-dark-200 mb-2">Desired Term (months)</label>
+                        <label className="block text-sm font-medium text-dark-200 mb-2">{t("credit.desiredTerm")}</label>
                         <select name="purchaseTerm" value={form.purchaseTerm} onChange={handleChange}
                           className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all cursor-pointer"
                         >
@@ -253,7 +255,7 @@ Notes: ${form.message}
                       </div>
                       {form.purchaseType === "lease" && (
                         <div>
-                          <label className="block text-sm font-medium text-dark-200 mb-2">Lease Miles / Year</label>
+                          <label className="block text-sm font-medium text-dark-200 mb-2">{t("credit.leaseMiles")}</label>
                           <input type="number" name="leaseMiles" value={form.leaseMiles} onChange={handleChange}
                             className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all" />
                         </div>
@@ -261,18 +263,18 @@ Notes: ${form.message}
                     </div>
                     <div className="grid sm:grid-cols-2 gap-4 mt-4">
                       <div>
-                        <label className="block text-sm font-medium text-dark-200 mb-2">Down Payment ($)</label>
+                        <label className="block text-sm font-medium text-dark-200 mb-2">{t("credit.downPayment")}</label>
                         <input type="number" name="downPayment" value={form.downPayment} onChange={handleChange}
                           className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all" />
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-dark-200 mb-2">Monthly Payment Desired ($)</label>
+                        <label className="block text-sm font-medium text-dark-200 mb-2">{t("credit.monthlyPayment")}</label>
                         <input type="number" name="monthlyPayment" value={form.monthlyPayment} onChange={handleChange}
                           className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all" />
                       </div>
                     </div>
                     <div className="mt-4">
-                      <label className="block text-sm font-medium text-dark-200 mb-2">Amount to Finance ($)</label>
+                      <label className="block text-sm font-medium text-dark-200 mb-2">{t("credit.amountToFinance")}</label>
                       <input type="number" name="amountToFinance" value={form.amountToFinance} onChange={handleChange}
                         className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all" />
                     </div>
@@ -280,36 +282,36 @@ Notes: ${form.message}
 
                   {/* Personal Information */}
                   <div className="border-b border-neon-500/10 pb-6">
-                    <h3 className="text-xl font-bold text-white mb-4">Personal Information</h3>
+                    <h3 className="text-xl font-bold text-white mb-4">{t("credit.personalInfo")}</h3>
                     <div className="grid sm:grid-cols-2 gap-4">
-                      <div><label className="block text-sm font-medium text-dark-200 mb-2">First Name *</label>
+                      <div><label className="block text-sm font-medium text-dark-200 mb-2">{t("credit.firstName")}</label>
                         <input type="text" name="firstName" value={form.firstName} onChange={handleChange}
                           className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all" /></div>
-                      <div><label className="block text-sm font-medium text-dark-200 mb-2">Last Name *</label>
+                      <div><label className="block text-sm font-medium text-dark-200 mb-2">{t("credit.lastName")}</label>
                         <input type="text" name="lastName" value={form.lastName} onChange={handleChange}
                           className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all" /></div>
                     </div>
                     <div className="grid sm:grid-cols-2 gap-4 mt-4">
-                      <div><label className="block text-sm font-medium text-dark-200 mb-2">Email *</label>
+                      <div><label className="block text-sm font-medium text-dark-200 mb-2">{t("credit.email")}</label>
                         <input type="email" name="email" value={form.email} onChange={handleChange}
                           className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all" /></div>
-                      <div><label className="block text-sm font-medium text-dark-200 mb-2">Home Phone</label>
+                      <div><label className="block text-sm font-medium text-dark-200 mb-2">{t("credit.homePhone")}</label>
                         <input type="tel" name="homePhone" value={form.homePhone} onChange={handleChange}
                           className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all" /></div>
                     </div>
                     <div className="grid sm:grid-cols-2 gap-4 mt-4">
-                      <div><label className="block text-sm font-medium text-dark-200 mb-2">Contact Phone</label>
+                      <div><label className="block text-sm font-medium text-dark-200 mb-2">{t("credit.contactPhone")}</label>
                         <input type="tel" name="contactPhone" value={form.contactPhone} onChange={handleChange}
                           className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all" /></div>
-                      <div><label className="block text-sm font-medium text-dark-200 mb-2">Date of Birth</label>
+                      <div><label className="block text-sm font-medium text-dark-200 mb-2">{t("credit.dob")}</label>
                         <input type="date" name="dob" value={form.dob} onChange={handleChange}
                           className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all" /></div>
                     </div>
                     <div className="grid sm:grid-cols-3 gap-4 mt-4">
-                      <div><label className="block text-sm font-medium text-dark-200 mb-2">SSN (9 digits)</label>
+                      <div><label className="block text-sm font-medium text-dark-200 mb-2">{t("credit.ssn")}</label>
                         <input type="password" name="ssn" value={form.ssn} onChange={handleChange} maxLength={9}
                           className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all" /></div>
-                      <div><label className="block text-sm font-medium text-dark-200 mb-2">Marital Status</label>
+                      <div><label className="block text-sm font-medium text-dark-200 mb-2">{t("credit.maritalStatus")}</label>
                         <select name="maritalStatus" value={form.maritalStatus} onChange={handleChange}
                           className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all cursor-pointer">
                           <option value="">Select...</option>
@@ -319,12 +321,12 @@ Notes: ${form.message}
                           <option value="Separated">Separated</option>
                           <option value="Widowed">Widowed</option>
                         </select></div>
-                      <div><label className="block text-sm font-medium text-dark-200 mb-2">Driver's License #</label>
+                      <div><label className="block text-sm font-medium text-dark-200 mb-2">{t("credit.driversLicense")}</label>
                         <input type="text" name="driversLicense" value={form.driversLicense} onChange={handleChange}
                           className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all" /></div>
                     </div>
                     <div className="mt-4">
-                      <label className="block text-sm font-medium text-dark-200 mb-2">Driver's License Expiration</label>
+                      <label className="block text-sm font-medium text-dark-200 mb-2">{t("credit.licenseExp")}</label>
                       <input type="date" name="licenseExp" value={form.licenseExp} onChange={handleChange}
                         className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all" />
                     </div>
@@ -333,28 +335,28 @@ Notes: ${form.message}
                   {/* Address & Housing */}
                   <div className="border-b border-neon-500/10 pb-6">
                     <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
-                      <Home size={20} className="text-neon-500" /> Current Address
+                      <Home size={20} className="text-neon-500" /> {t("credit.currentAddress")}
                     </h3>
                     <div>
-                      <label className="block text-sm font-medium text-dark-200 mb-2">Street Address</label>
+                      <label className="block text-sm font-medium text-dark-200 mb-2">{t("credit.streetAddress")}</label>
                       <input type="text" name="address" value={form.address} onChange={handleChange}
                         className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all" />
                     </div>
                     <div className="grid sm:grid-cols-3 gap-4 mt-4">
-                      <div><label className="block text-sm font-medium text-dark-200 mb-2">City</label>
+                      <div><label className="block text-sm font-medium text-dark-200 mb-2">{t("credit.city")}</label>
                         <input type="text" name="city" value={form.city} onChange={handleChange}
                           className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all" /></div>
-                      <div><label className="block text-sm font-medium text-dark-200 mb-2">State</label>
+                      <div><label className="block text-sm font-medium text-dark-200 mb-2">{t("credit.state")}</label>
                         <select name="state" value={form.state} onChange={handleChange}
                           className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all cursor-pointer">
                           {states.map((s) => (<option key={s} value={s}>{s}</option>))}
                         </select></div>
-                      <div><label className="block text-sm font-medium text-dark-200 mb-2">ZIP</label>
+                      <div><label className="block text-sm font-medium text-dark-200 mb-2">{t("credit.zip")}</label>
                         <input type="text" name="zip" value={form.zip} onChange={handleChange}
                           className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all" /></div>
                     </div>
                     <div className="grid sm:grid-cols-3 gap-4 mt-4">
-                      <div><label className="block text-sm font-medium text-dark-200 mb-2">Years at Address</label>
+                      <div><label className="block text-sm font-medium text-dark-200 mb-2">{t("credit.yearsAtAddress")}</label>
                         <select name="yearsAtAddress" value={form.yearsAtAddress} onChange={handleChange}
                           className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all cursor-pointer">
                           <option value="">Select...</option>
@@ -364,7 +366,7 @@ Notes: ${form.message}
                           <option value="5-10">5-10</option>
                           <option value="10+">10+</option>
                         </select></div>
-                      <div><label className="block text-sm font-medium text-dark-200 mb-2">Housing Status</label>
+                      <div><label className="block text-sm font-medium text-dark-200 mb-2">{t("credit.housingStatus")}</label>
                         <select name="housingStatus" value={form.housingStatus} onChange={handleChange}
                           className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all cursor-pointer">
                           <option value="">Select...</option>
@@ -373,7 +375,7 @@ Notes: ${form.message}
                           <option value="Live with parents">Live with parents</option>
                           <option value="Other">Other</option>
                         </select></div>
-                      <div><label className="block text-sm font-medium text-dark-200 mb-2">Monthly Payment ($)</label>
+                      <div><label className="block text-sm font-medium text-dark-200 mb-2">{t("credit.monthlyHousing")}</label>
                         <input type="number" name="monthlyHousing" value={form.monthlyHousing} onChange={handleChange}
                           className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all" /></div>
                     </div>
@@ -382,10 +384,10 @@ Notes: ${form.message}
                   {/* Employment */}
                   <div className="border-b border-neon-500/10 pb-6">
                     <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
-                      <Building size={20} className="text-neon-500" /> Employment
+                      <Building size={20} className="text-neon-500" /> {t("credit.employment")}
                     </h3>
                     <div className="grid sm:grid-cols-2 gap-4">
-                      <div><label className="block text-sm font-medium text-dark-200 mb-2">Status</label>
+                      <div><label className="block text-sm font-medium text-dark-200 mb-2">{t("credit.status")}</label>
                         <select name="employStatus" value={form.employStatus} onChange={handleChange}
                           className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all cursor-pointer">
                           <option value="">Select...</option>
@@ -395,15 +397,15 @@ Notes: ${form.message}
                           <option value="Military">Military</option>
                           <option value="Unemployed">Unemployed</option>
                         </select></div>
-                      <div><label className="block text-sm font-medium text-dark-200 mb-2">Employer</label>
+                      <div><label className="block text-sm font-medium text-dark-200 mb-2">{t("credit.employer")}</label>
                         <input type="text" name="employer" value={form.employer} onChange={handleChange}
                           className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all" /></div>
                     </div>
                     <div className="grid sm:grid-cols-2 gap-4 mt-4">
-                      <div><label className="block text-sm font-medium text-dark-200 mb-2">Job Title</label>
+                      <div><label className="block text-sm font-medium text-dark-200 mb-2">{t("credit.jobTitle")}</label>
                         <input type="text" name="jobTitle" value={form.jobTitle} onChange={handleChange}
                           className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all" /></div>
-                      <div><label className="block text-sm font-medium text-dark-200 mb-2">Time Employed</label>
+                      <div><label className="block text-sm font-medium text-dark-200 mb-2">{t("credit.timeEmployed")}</label>
                         <select name="monthsEmployed" value={form.monthsEmployed} onChange={handleChange}
                           className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all cursor-pointer">
                           <option value="">Select...</option>
@@ -415,7 +417,7 @@ Notes: ${form.message}
                         </select></div>
                     </div>
                     <div className="mt-4">
-                      <label className="block text-sm font-medium text-dark-200 mb-2">Annual Gross Income ($)</label>
+                      <label className="block text-sm font-medium text-dark-200 mb-2">{t("credit.annualIncome")}</label>
                       <input type="number" name="annualIncome" value={form.annualIncome} onChange={handleChange}
                         className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all" />
                     </div>
@@ -424,7 +426,7 @@ Notes: ${form.message}
                   {/* Trade-In */}
                   <div className="border-b border-neon-500/10 pb-6">
                     <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
-                      <Car size={20} className="text-neon-500" /> Trade-In
+                      <Car size={20} className="text-neon-500" /> {t("credit.tradeIn")}
                     </h3>
                     <div className="flex gap-3 mb-4">
                       {["no", "yes"].map((v) => (
@@ -436,33 +438,33 @@ Notes: ${form.message}
                           }`}
                         >
                           <input type="radio" name="tradeIn" value={v} checked={form.tradeIn === v} onChange={handleChange} className="hidden" />
-                          {v === "yes" ? "Yes" : "No"}
+                          {v === "yes" ? t("credit.yes") : t("credit.no")}
                         </label>
                       ))}
                     </div>
                     {form.tradeIn === "yes" && (
                       <>
                         <div className="grid sm:grid-cols-2 gap-4">
-                          <div><label className="block text-sm font-medium text-dark-200 mb-2">Year</label>
+                          <div><label className="block text-sm font-medium text-dark-200 mb-2">{t("credit.tradeYear")}</label>
                             <input type="text" name="tradeYear" value={form.tradeYear} onChange={handleChange}
                               className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all" /></div>
-                          <div><label className="block text-sm font-medium text-dark-200 mb-2">Make</label>
+                          <div><label className="block text-sm font-medium text-dark-200 mb-2">{t("credit.tradeMake")}</label>
                             <input type="text" name="tradeMake" value={form.tradeMake} onChange={handleChange}
                               className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all" /></div>
                         </div>
                         <div className="grid sm:grid-cols-3 gap-4 mt-4">
-                          <div><label className="block text-sm font-medium text-dark-200 mb-2">Model</label>
+                          <div><label className="block text-sm font-medium text-dark-200 mb-2">{t("credit.tradeModel")}</label>
                             <input type="text" name="tradeModel" value={form.tradeModel} onChange={handleChange}
                               className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all" /></div>
-                          <div><label className="block text-sm font-medium text-dark-200 mb-2">Mileage</label>
+                          <div><label className="block text-sm font-medium text-dark-200 mb-2">{t("credit.tradeMileage")}</label>
                             <input type="text" name="tradeMileage" value={form.tradeMileage} onChange={handleChange}
                               className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all" /></div>
-                          <div><label className="block text-sm font-medium text-dark-200 mb-2">VIN</label>
+                          <div><label className="block text-sm font-medium text-dark-200 mb-2">{t("credit.tradeVin")}</label>
                             <input type="text" name="tradeVin" value={form.tradeVin} onChange={handleChange}
                               className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all" /></div>
                         </div>
                         <div className="mt-4">
-                          <label className="block text-sm font-medium text-dark-200 mb-2">Payoff Amount ($)</label>
+                          <label className="block text-sm font-medium text-dark-200 mb-2">{t("credit.tradePayoff")}</label>
                           <input type="number" name="tradePayoff" value={form.tradePayoff} onChange={handleChange}
                             className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all" />
                         </div>
@@ -472,7 +474,7 @@ Notes: ${form.message}
 
                   {/* Contact Method */}
                   <div className="border-b border-neon-500/10 pb-6">
-                    <h3 className="text-xl font-bold text-white mb-4">Contact Preference</h3>
+                    <h3 className="text-xl font-bold text-white mb-4">{t("credit.contactPref")}</h3>
                     <div className="flex gap-3 flex-wrap">
                       {["Call", "SMS", "Email"].map((m) => (
                         <label key={m}
@@ -488,7 +490,7 @@ Notes: ${form.message}
                       ))}
                     </div>
                     <div className="mt-4">
-                      <label className="block text-sm font-medium text-dark-200 mb-2">Notes or Questions</label>
+                      <label className="block text-sm font-medium text-dark-200 mb-2">{t("credit.notes")}</label>
                       <textarea name="message" value={form.message} onChange={handleChange} rows={3}
                         className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 transition-all resize-none" />
                     </div>
@@ -500,9 +502,7 @@ Notes: ${form.message}
                       <input type="checkbox" name="consent" checked={form.consent} onChange={handleChange}
                         className="mt-1 w-4 h-4 rounded border-neon-500/30 bg-dark-700 text-neon-500 focus:ring-neon-500" />
                       <span className="text-dark-200 text-sm">
-                        I consent to Power Drive Motor collecting my information to process this credit application 
-                        and to contact me regarding my request. Message frequency may vary. 
-                        Message and data rates may apply. Text STOP to opt out at any time.
+                        {t("credit.consent")}
                       </span>
                     </label>
                   </div>
@@ -511,7 +511,7 @@ Notes: ${form.message}
                     className="w-full flex items-center justify-center gap-2 px-8 py-4 bg-neon-500 text-dark-900 font-bold rounded-xl hover:bg-neon-400 transition-all duration-300 shadow-[0_0_20px_rgba(0,212,255,0.3)] disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {loading ? <Loader2 size={20} className="animate-spin" /> : <Send size={20} />}
-                    {loading ? "Submitting..." : "Submit Application"}
+                    {loading ? t("credit.submitting") : t("credit.submit")}
                   </button>
                 </form>
               )}
@@ -521,12 +521,12 @@ Notes: ${form.message}
           {/* Sidebar */}
           <motion.div initial={{ opacity: 0, x: 30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="space-y-6">
             <div className="glass rounded-xl p-6">
-              <h4 className="text-white font-bold text-lg mb-4">Why Apply With Us?</h4>
+              <h4 className="text-white font-bold text-lg mb-4">{t("credit.sidebarTitle")}</h4>
               <ul className="space-y-4">
                 {[
-                  { icon: DollarSign, text: "Competitive rates starting as low as 3.9% APR" },
-                  { icon: Clock, text: "Quick approval — often within 24 hours" },
-                  { icon: Shield, text: "No hidden fees or prepayment penalties" },
+                  { icon: DollarSign, text: t("credit.sidebarRate") },
+                  { icon: Clock, text: t("credit.sidebarApproval") },
+                  { icon: Shield, text: t("credit.sidebarFees") },
                 ].map((item, i) => (
                   <li key={i} className="flex items-start gap-3 text-dark-200 text-sm">
                     <item.icon size={18} className="text-neon-500 shrink-0 mt-0.5" />
@@ -536,26 +536,26 @@ Notes: ${form.message}
               </ul>
             </div>
             <div className="glass rounded-xl p-6">
-              <h4 className="text-white font-bold text-lg mb-4">Dealer Information</h4>
+              <h4 className="text-white font-bold text-lg mb-4">{t("credit.dealerInfo")}</h4>
               <div className="space-y-4">
                 <div className="flex items-center gap-3 text-dark-200 text-sm"><Phone size={16} className="text-neon-500 shrink-0" />(605) 501-2400</div>
                 <div className="flex items-center gap-3 text-dark-200 text-sm"><MapPin size={16} className="text-neon-500 shrink-0" />4309 E 12th St, Sioux Falls, SD 57103</div>
               </div>
               <div className="mt-4 p-3 rounded-xl bg-dark-700/50">
-                <p className="text-neon-500 text-xs font-semibold mb-2">Business Hours</p>
+                <p className="text-neon-500 text-xs font-semibold mb-2">{t("credit.businessHours")}</p>
                 <div className="text-xs text-dark-200 space-y-1">
-                  <p>Mon - Fri: 9:00 AM - 6:00 PM</p>
-                  <p>Saturday: 10:00 AM - 6:00 PM</p>
-                  <p className="text-red-400">Sunday: Closed</p>
+                  <p>{t("credit.monFri")}: 9:00 AM - 6:00 PM</p>
+                  <p>{t("credit.sat")}: 10:00 AM - 6:00 PM</p>
+                  <p className="text-red-400">{t("credit.sun")}: {t("credit.closed")}</p>
                 </div>
               </div>
             </div>
             <div className="glass rounded-xl p-6">
-              <h4 className="text-white font-bold text-lg mb-4">Already Have a Calculator?</h4>
-              <p className="text-dark-200 text-sm mb-4">Try our financing calculator to estimate your monthly payments before applying.</p>
+              <h4 className="text-white font-bold text-lg mb-4">{t("credit.calculatorLink")}</h4>
+              <p className="text-dark-200 text-sm mb-4">{t("credit.calculatorDesc")}</p>
               <Link to="/financing"
                 className="flex items-center justify-center gap-2 px-6 py-3 border border-neon-500/30 text-neon-500 font-semibold rounded-xl hover:bg-neon-500/10 transition-all duration-300">
-                Payment Calculator <ArrowRight size={16} />
+                {t("credit.paymentCalc")} <ArrowRight size={16} />
               </Link>
             </div>
           </motion.div>

@@ -1,26 +1,21 @@
 import { Link } from "react-router-dom"
 import { Globe, Camera, MessageCircle, Play, Mail, Phone, MapPin, ChevronRight } from "lucide-react"
+import { useLang } from "../i18n/context"
 
 const quickLinks = [
-  { name: "Home", path: "/" },
-  { name: "Inventory", path: "/inventory" },
-  { name: "Services", path: "/services" },
-  { name: "About", path: "/about" },
-  { name: "Contact", path: "/contact" },
-  { name: "Financing", path: "/financing" },
-  { name: "Apply Now", path: "/credit-application" },
-]
-
-const services = [
-  "New Vehicle Sales",
-  "Financing & Leasing",
-  "Maintenance Service",
-  "Detailing & Protection",
-  "Trade-In Appraisal",
-  "Concierge Services",
+  { nameKey: "home", path: "/" },
+  { nameKey: "inventory", path: "/inventory" },
+  { nameKey: "services", path: "/services" },
+  { nameKey: "about", path: "/about" },
+  { nameKey: "contact", path: "/contact" },
+  { nameKey: "financing", path: "/financing" },
+  { nameKey: "applyNow", path: "/credit-application" },
 ]
 
 export default function Footer() {
+  const { t } = useLang()
+  const svcItems = t("footer.serviceItems")
+  const servicesList = Array.isArray(svcItems) ? svcItems : []
   return (
     <footer className="relative bg-dark-800 border-t border-neon-500/10">
       <div className="absolute inset-0 bg-gradient-to-b from-dark-700/20 to-transparent pointer-events-none" />
@@ -43,8 +38,7 @@ export default function Footer() {
               </div>
             </div>
             <p className="text-dark-200 text-sm leading-relaxed mb-6">
-              Your premier destination for quality pre-owned vehicles. 
-              We bring quality pre-owned vehicles to your doorstep.
+              {t("footer.desc")}
             </p>
             <div className="flex gap-3">
               {[Globe, Camera, MessageCircle, Play].map((Icon, i) => (
@@ -60,7 +54,7 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="text-white font-semibold text-lg mb-6">Quick Links</h4>
+            <h4 className="text-white font-semibold text-lg mb-6">{t("footer.quickLinks")}</h4>
             <ul className="space-y-3">
               {quickLinks.map((link) => (
                 <li key={link.path}>
@@ -69,7 +63,7 @@ export default function Footer() {
                     className="group flex items-center gap-2 text-dark-200 hover:text-neon-500 transition-colors text-sm"
                   >
                     <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform" />
-                    {link.name}
+                    {t(`nav.${link.nameKey}`)}
                   </Link>
                 </li>
               ))}
@@ -77,9 +71,9 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="text-white font-semibold text-lg mb-6">Our Services</h4>
+            <h4 className="text-white font-semibold text-lg mb-6">{t("footer.ourServices")}</h4>
             <ul className="space-y-3">
-              {services.map((s, i) => (
+              {servicesList.map((s, i) => (
                 <li key={i}>
                   <Link
                     to="/services"
@@ -94,7 +88,7 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="text-white font-semibold text-lg mb-6">Contact Info</h4>
+            <h4 className="text-white font-semibold text-lg mb-6">{t("footer.contactInfo")}</h4>
             <ul className="space-y-4">
               <li className="flex items-start gap-3 text-dark-200 text-sm">
                 <MapPin size={18} className="text-neon-500 mt-0.5 shrink-0" />
@@ -110,22 +104,22 @@ export default function Footer() {
               </li>
             </ul>
             <div className="mt-6 p-4 rounded-xl glass-card">
-              <p className="text-neon-500 text-sm font-semibold mb-1">Business Hours</p>
-              <p className="text-dark-200 text-xs">Mon - Fri: 9:00 AM - 6:00 PM</p>
-              <p className="text-dark-200 text-xs">Saturday: 10:00 AM - 6:00 PM</p>
-              <p className="text-dark-200 text-xs">Sunday: Closed</p>
+              <p className="text-neon-500 text-sm font-semibold mb-1">{t("footer.businessHours")}</p>
+              <p className="text-dark-200 text-xs">{t("footer.monFri")}</p>
+              <p className="text-dark-200 text-xs">{t("footer.sat")}</p>
+              <p className="text-dark-200 text-xs">{t("footer.sun")}</p>
             </div>
           </div>
         </div>
 
         <div className="border-t border-neon-500/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-dark-300 text-xs">
-            &copy; {new Date().getFullYear()} Power Drive Motor. All rights reserved.
+            &copy; {new Date().getFullYear()} Power Drive Motor. {t("footer.rights")}
           </p>
           <div className="flex gap-6 text-xs text-dark-300">
-            <a href="#" className="hover:text-neon-500 transition-colors">Privacy Policy</a>
-            <a href="#" className="hover:text-neon-500 transition-colors">Terms of Service</a>
-            <a href="#" className="hover:text-neon-500 transition-colors">Cookie Policy</a>
+            <a href="#" className="hover:text-neon-500 transition-colors">{t("footer.privacy")}</a>
+            <a href="#" className="hover:text-neon-500 transition-colors">{t("footer.terms")}</a>
+            <a href="#" className="hover:text-neon-500 transition-colors">{t("footer.cookie")}</a>
           </div>
         </div>
       </div>

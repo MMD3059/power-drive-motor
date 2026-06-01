@@ -5,6 +5,7 @@ import Footer from "./components/Footer"
 import ScrollToTop from "./components/ScrollToTop"
 import BackgroundEffects from "./components/BackgroundEffects"
 import { CarProvider } from "./contexts/CarContext"
+import { LanguageProvider } from "./i18n/context"
 import Home from "./pages/Home"
 import Inventory from "./pages/Inventory"
 import VehicleDetail from "./pages/VehicleDetail"
@@ -38,7 +39,8 @@ export default function App() {
 
 function PublicLayout() {
   return (
-    <CarProvider>
+    <LanguageProvider>
+      <CarProvider>
       <ScrollToTop />
       <BackgroundEffects />
       <Navbar />
@@ -58,6 +60,7 @@ function PublicLayout() {
         </AnimatePresence>
       </main>
       <Footer />
-    </CarProvider>
+      </CarProvider>
+    </LanguageProvider>
   )
 }

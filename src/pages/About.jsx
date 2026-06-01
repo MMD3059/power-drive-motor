@@ -4,35 +4,37 @@ import { Phone, Mail, MapPin, Clock, ArrowRight, Shield, Award, Sparkles, Star }
 import SectionTitle from "../components/SectionTitle"
 import { useCars } from "../contexts/CarContext"
 import { thumbnail } from "../utils/images"
-
-const stats = [
-  { icon: Award, value: "10+", label: "Years Excellence" },
-  { icon: Sparkles, value: "2,500+", label: "Vehicles Sold" },
-  { icon: Shield, value: "99%", label: "Client Satisfaction" },
-  { icon: Star, value: "4.9", label: "Customer Rating" },
-]
-
-const values = [
-  {
-    title: "Integrity First",
-    description: "Every vehicle we sell comes with a promise of transparency — honest pricing, detailed inspections, and no hidden fees.",
-    icon: Shield,
-  },
-  {
-    title: "Quality Selection",
-    description: "We hand-select only quality pre-owned vehicles, ensuring each one meets our rigorous standards of reliability and value.",
-    icon: Award,
-  },
-  {
-    title: "Client Commitment",
-    description: "From your first inquiry to long after you drive off, our dedicated team is here to support you every step of the way.",
-    icon: Sparkles,
-  },
-]
+import { useLang } from "../i18n/context"
 
 export default function About() {
   const { cars } = useCars()
+  const { t } = useLang()
   const featuredCars = cars.slice(0, 4)
+
+  const stats = [
+    { icon: Award, value: "10+", label: t("about.stats.years") },
+    { icon: Sparkles, value: "2,500+", label: t("about.stats.sold") },
+    { icon: Shield, value: "99%", label: t("about.stats.satisfaction") },
+    { icon: Star, value: "4.9", label: t("about.stats.rating") },
+  ]
+
+  const values = [
+    {
+      title: t("about.values.integrityTitle"),
+      description: t("about.values.integrityDesc"),
+      icon: Shield,
+    },
+    {
+      title: t("about.values.qualityTitle"),
+      description: t("about.values.qualityDesc"),
+      icon: Award,
+    },
+    {
+      title: t("about.values.clientTitle"),
+      description: t("about.values.clientDesc"),
+      icon: Sparkles,
+    },
+  ]
 
   return (
     <div className="pt-24 min-h-screen">
@@ -40,9 +42,9 @@ export default function About() {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(0,212,255,0.05),transparent_60%)]" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionTitle
-            subtitle="About Us"
-            title="Your Trusted Automotive Partner"
-            description="We are the dealership you can trust for integrity and value — serving Sioux Falls since 2014."
+            subtitle={t("about.subtitle")}
+            title={t("about.title")}
+            description={t("about.desc")}
           />
         </div>
       </section>
@@ -57,40 +59,22 @@ export default function About() {
               viewport={{ once: true }}
             >
               <span className="inline-block px-4 py-1.5 text-xs font-semibold tracking-widest uppercase text-neon-500 bg-neon-500/10 border border-neon-500/20 rounded-full mb-4">
-                Our Story
+                {t("about.storyBadge")}
               </span>
               <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
-                Driven by Passion, Built on Trust
+                {t("about.storyTitle")}
               </h2>
               <div className="space-y-4 text-dark-200 leading-relaxed">
-                <p>
-                  Power Drive Motor was founded with a simple mission: to provide 
-                  an exceptional car buying experience built on transparency, quality, 
-                  and genuine customer care. Located in the heart of Sioux Falls, 
-                  South Dakota, we have grown from a small lot into a premier 
-                  destination for quality pre-owned vehicles.
-                </p>
-                <p>
-                  Every vehicle in our inventory undergoes a rigorous multi-point 
-                  inspection to ensure it meets our exacting standards. We believe 
-                  that buying a car should be exciting, not stressful — which is 
-                  why we've eliminated the pressure tactics and hidden fees 
-                  commonly found in traditional dealerships.
-                </p>
-                <p>
-                  Whether you're looking for a reliable daily driver, a family SUV, 
-                  or a powerful truck, our experienced team is here to 
-                  help you find the perfect match. We also offer flexible financing 
-                  options tailored to your budget, comprehensive maintenance 
-                  services, and concierge-level support.
-                </p>
+                <p>{t("about.storyP1")}</p>
+                <p>{t("about.storyP2")}</p>
+                <p>{t("about.storyP3")}</p>
               </div>
               <div className="flex flex-wrap gap-4 mt-8">
                 <Link
                   to="/inventory"
                   className="flex items-center gap-2 px-6 py-3 bg-neon-500 text-dark-900 font-semibold rounded-xl hover:bg-neon-400 transition-all duration-300 shadow-[0_0_20px_rgba(0,212,255,0.3)]"
                 >
-                  Browse Inventory <ArrowRight size={18} />
+                  {t("about.browseInventory")} <ArrowRight size={18} />
                 </Link>
                 <a
                   href="https://maps.google.com/?q=4309+E+12th+St+Sioux+Falls+SD+57103"
@@ -98,7 +82,7 @@ export default function About() {
                   rel="noopener noreferrer"
                   className="flex items-center gap-2 px-6 py-3 border border-neon-500/30 text-neon-500 font-semibold rounded-xl hover:bg-neon-500/10 transition-all duration-300"
                 >
-                  <MapPin size={18} /> Get Directions
+                  <MapPin size={18} /> {t("about.getDirections")}
                 </a>
               </div>
             </motion.div>
@@ -111,7 +95,7 @@ export default function About() {
               <div className="glass rounded-2xl p-8">
                 <h3 className="text-white font-bold text-xl mb-6 flex items-center gap-3">
                   <MapPin size={22} className="text-neon-500" />
-                  Dealer Information
+                  {t("about.dealerInfo")}
                 </h3>
                 <div className="space-y-5">
                   <div className="flex items-start gap-4 text-dark-200">
@@ -119,7 +103,7 @@ export default function About() {
                       <Phone size={18} className="text-neon-500" />
                     </div>
                     <div>
-                      <p className="text-white font-semibold text-sm">Phone</p>
+                      <p className="text-white font-semibold text-sm">{t("about.phone")}</p>
                       <p className="text-dark-200">(605) 501-2400</p>
                     </div>
                   </div>
@@ -128,7 +112,7 @@ export default function About() {
                       <MapPin size={18} className="text-neon-500" />
                     </div>
                     <div>
-                      <p className="text-white font-semibold text-sm">Address</p>
+                      <p className="text-white font-semibold text-sm">{t("about.address")}</p>
                       <p className="text-dark-200">4309 E 12th St</p>
                       <p className="text-dark-300 text-xs">Sioux Falls, SD 57103</p>
                     </div>
@@ -138,27 +122,27 @@ export default function About() {
                       <Mail size={18} className="text-neon-500" />
                     </div>
                     <div>
-                      <p className="text-white font-semibold text-sm">Email</p>
+                      <p className="text-white font-semibold text-sm">{t("about.email")}</p>
                       <p className="text-dark-200">concierge@powerdrivemotor.com</p>
                     </div>
                   </div>
                 </div>
                 <div className="mt-6 p-4 rounded-xl glass-card">
                   <p className="text-neon-500 text-sm font-semibold mb-3 flex items-center gap-2">
-                    <Clock size={16} /> Business Hours
+                    <Clock size={16} /> {t("about.businessHours")}
                   </p>
                   <div className="space-y-1.5 text-sm">
                     <div className="flex justify-between text-dark-200">
-                      <span>Mon - Fri</span>
+                      <span>{t("about.monFri")}</span>
                       <span className="text-white">9:00 AM - 6:00 PM</span>
                     </div>
                     <div className="flex justify-between text-dark-200">
-                      <span>Saturday</span>
+                      <span>{t("about.sat")}</span>
                       <span className="text-white">10:00 AM - 6:00 PM</span>
                     </div>
                     <div className="flex justify-between text-dark-200">
-                      <span>Sunday</span>
-                      <span className="text-red-400">Closed</span>
+                      <span>{t("about.sun")}</span>
+                      <span className="text-red-400">{t("about.closed")}</span>
                     </div>
                   </div>
                 </div>
@@ -172,9 +156,9 @@ export default function About() {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,212,255,0.03),transparent_60%)]" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionTitle
-            subtitle="Our Values"
-            title="What Sets Us Apart"
-            description="We believe in a better way to buy cars — one built on trust, quality, and exceptional service."
+            subtitle={t("about.values.subtitle")}
+            title={t("about.values.title")}
+            description={t("about.values.desc")}
           />
           <div className="grid md:grid-cols-3 gap-6">
             {values.map((v, i) => {
@@ -229,9 +213,9 @@ export default function About() {
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(0,212,255,0.03),transparent_60%)]" />
           <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <SectionTitle
-              subtitle="Our Inventory"
-              title="Featured Vehicles"
-              description="Explore a selection of our quality pre-owned vehicles, each hand-picked and thoroughly inspected."
+              subtitle={t("about.inventory.subtitle")}
+              title={t("about.inventory.title")}
+              description={t("about.inventory.desc")}
             />
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {featuredCars.map((car, i) => (
@@ -273,7 +257,7 @@ export default function About() {
                 to="/inventory"
                 className="inline-flex items-center gap-2 px-8 py-3.5 bg-neon-500 text-dark-900 font-bold rounded-xl hover:bg-neon-400 transition-all duration-300 shadow-[0_0_20px_rgba(0,212,255,0.3)]"
               >
-                View All Vehicles <ArrowRight size={18} />
+                {t("about.inventory.viewAll")} <ArrowRight size={18} />
               </Link>
             </div>
           </div>
@@ -288,24 +272,21 @@ export default function About() {
             viewport={{ once: true }}
           >
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-6">
-              Ready to Find Your Perfect Drive?
+              {t("about.cta.title")}
             </h2>
-            <p className="text-dark-200 text-base md:text-lg mb-8 max-w-2xl mx-auto">
-              Visit our showroom or contact us today. Our team is standing by to help 
-              you find the vehicle that matches your lifestyle and budget.
-            </p>
+            <p className="text-dark-200 text-base md:text-lg mb-8 max-w-2xl mx-auto">{t("about.cta.desc")}</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 to="/inventory"
                 className="px-8 py-3.5 bg-neon-500 text-dark-900 font-bold rounded-xl hover:bg-neon-400 transition-all duration-300 shadow-[0_0_20px_rgba(0,212,255,0.3)]"
               >
-                Browse Inventory
+                {t("about.cta.browseInventory")}
               </Link>
               <Link
                 to="/contact"
                 className="px-8 py-3.5 border border-neon-500/30 text-neon-500 font-semibold rounded-xl hover:bg-neon-500/10 transition-all duration-300"
               >
-                Contact Us
+                {t("about.cta.contactUs")}
               </Link>
             </div>
           </motion.div>

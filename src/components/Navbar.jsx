@@ -2,18 +2,20 @@ import { useState, useEffect } from "react"
 import { Link, useLocation } from "react-router-dom"
 import { Menu, X, ChevronDown } from "lucide-react"
 import LanguageSwitcher from "./LanguageSwitcher"
+import { useLang } from "../i18n/context"
 
 const navLinks = [
-  { name: "Home", path: "/" },
-  { name: "Inventory", path: "/inventory" },
-  { name: "Services", path: "/services" },
-  { name: "About", path: "/about" },
-  { name: "Contact", path: "/contact" },
-  { name: "Financing", path: "/financing" },
-  { name: "Apply Now", path: "/credit-application" },
+  { nameKey: "home", path: "/" },
+  { nameKey: "inventory", path: "/inventory" },
+  { nameKey: "services", path: "/services" },
+  { nameKey: "about", path: "/about" },
+  { nameKey: "contact", path: "/contact" },
+  { nameKey: "financing", path: "/financing" },
+  { nameKey: "applyNow", path: "/credit-application" },
 ]
 
 export default function Navbar() {
+  const { t } = useLang()
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const location = useLocation()
@@ -65,7 +67,7 @@ export default function Navbar() {
                     : "text-dark-200 hover:text-white"
                 }`}
               >
-                {link.name}
+                {t(`nav.${link.nameKey}`)}
                 {location.pathname === link.path && (
                   <span className="absolute bottom-0 left-4 right-4 h-0.5 bg-neon-500 rounded-full shadow-[0_0_8px_rgba(0,212,255,0.5)]" />
                 )}
@@ -75,7 +77,7 @@ export default function Navbar() {
               to="/inventory"
               className="ml-4 px-6 py-2.5 bg-neon-500 text-dark-900 font-semibold text-sm rounded-lg hover:bg-neon-400 transition-all duration-300 shadow-[0_0_20px_rgba(0,212,255,0.3)] hover:shadow-[0_0_30px_rgba(0,212,255,0.5)]"
             >
-              Browse Cars
+              {t("nav.browseCars")}
             </Link>
             <LanguageSwitcher />
           </div>
@@ -108,14 +110,14 @@ export default function Navbar() {
               }`}
               style={{ transitionDelay: isOpen ? `${i * 80}ms` : "0ms" }}
             >
-              {link.name}
+              {t(`nav.${link.nameKey}`)}
             </Link>
           ))}
           <Link
             to="/inventory"
             className="mt-6 px-10 py-4 bg-neon-500 text-dark-900 font-bold text-lg rounded-xl shadow-[0_0_30px_rgba(0,212,255,0.4)]"
           >
-            Browse Cars
+            {t("nav.browseCars")}
           </Link>
           <LanguageSwitcher />
         </div>

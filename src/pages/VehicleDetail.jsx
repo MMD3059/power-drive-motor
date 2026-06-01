@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { useParams, Link } from "react-router-dom"
+import { useLang } from "../i18n/context"
 import { motion } from "framer-motion"
 import { ArrowLeft, Fuel, Gauge, Car, Zap, Users, ShieldCheck, Check, Phone, Mail, MapPin, ChevronLeft, ChevronRight, X } from "lucide-react"
 import { useCars } from "../contexts/CarContext"
@@ -10,13 +11,14 @@ export default function VehicleDetail() {
   const car = cars.find((c) => c.id === Number(id))
   const [currentImg, setCurrentImg] = useState(0)
   const [lightbox, setLightbox] = useState(false)
+  const { t } = useLang()
 
   if (!car) {
     return (
       <div className="pt-32 min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <h2 className="text-3xl font-bold text-white mb-4">Vehicle Not Found</h2>
-          <Link to="/inventory" className="text-neon-500 hover:underline">Back to Inventory</Link>
+          <h2 className="text-3xl font-bold text-white mb-4">{t("detail.notFound")}</h2>
+          <Link to="/inventory" className="text-neon-500 hover:underline">{t("detail.backLink")}</Link>
         </div>
       </div>
     )
@@ -25,13 +27,13 @@ export default function VehicleDetail() {
   const allImages = (car.images && car.images.length > 0) ? car.images : [car.image]
 
   const specs = [
-    { label: "Engine", value: car.engine, icon: Zap },
-    { label: "Horsepower", value: `${car.horsepower} HP`, icon: Gauge },
-    { label: "Transmission", value: car.transmission, icon: Car },
-    { label: "Fuel Type", value: car.fuelType, icon: Fuel },
-    { label: "Mileage", value: `${car.mileage.toLocaleString()} mi`, icon: MapPin },
-    { label: "Seats", value: `${car.seats} Seats`, icon: Users },
-    { label: "Year", value: car.year, icon: ShieldCheck },
+    { label: t("detail.engine"), value: car.engine, icon: Zap },
+    { label: t("detail.horsepower"), value: `${car.horsepower} HP`, icon: Gauge },
+    { label: t("detail.transmission"), value: car.transmission, icon: Car },
+    { label: t("detail.fuelType"), value: car.fuelType, icon: Fuel },
+    { label: t("detail.mileage"), value: `${car.mileage.toLocaleString()} mi`, icon: MapPin },
+    { label: t("detail.seats"), value: `${car.seats} Seats`, icon: Users },
+    { label: t("detail.year"), value: car.year, icon: ShieldCheck },
   ]
 
   const prevImg = () => setCurrentImg((p) => (p === 0 ? allImages.length - 1 : p - 1))
@@ -45,7 +47,7 @@ export default function VehicleDetail() {
           className="inline-flex items-center gap-2 text-dark-200 hover:text-neon-500 transition-colors mb-8 group"
         >
           <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
-          Back to Inventory
+          {t("detail.back")}
         </Link>
 
         <div className="grid lg:grid-cols-2 gap-12">
@@ -92,7 +94,7 @@ export default function VehicleDetail() {
               {car.sold && (
                 <div className="absolute inset-0 bg-dark-900/60 flex items-center justify-center rounded-2xl">
                   <span className="px-8 py-3 bg-red-600 text-white font-bold text-2xl rounded-xl rotate-[-15deg] shadow-lg border-2 border-red-400">
-                    SOLD
+                    {t("detail.sold")}
                   </span>
                 </div>
               )}
@@ -164,7 +166,7 @@ export default function VehicleDetail() {
               </div>
               {car.sold && (
                 <span className="px-4 py-1.5 bg-red-600/20 text-red-400 font-bold text-sm rounded-lg border border-red-500/40">
-                  SOLD
+                  {t("detail.sold")}
                 </span>
               )}
             </div>
@@ -193,7 +195,7 @@ export default function VehicleDetail() {
                   className="flex-1 flex items-center justify-center gap-2 px-6 py-3.5 bg-neon-500 text-dark-900 font-bold rounded-xl hover:bg-neon-400 transition-all duration-300 shadow-[0_0_20px_rgba(0,212,255,0.3)]"
                 >
                   <Phone size={18} />
-                  Inquire Now
+                  {t("detail.inquire")}
                 </Link>
                 <Link
                   to="/financing"

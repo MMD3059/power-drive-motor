@@ -6,20 +6,22 @@ import SectionTitle from "../components/SectionTitle"
 import { useCars } from "../contexts/CarContext"
 import { services } from "../data/services"
 import { thumbnail } from "../utils/images"
+import { useLang } from "../i18n/context"
 
 const featuredServices = services.slice(0, 3)
 
-const stats = [
-  { icon: Award, value: "10+", label: "Years Excellence" },
-  { icon: Sparkles, value: "2,500+", label: "Vehicles Sold" },
-  { icon: Shield, value: "99%", label: "Client Satisfaction" },
-  { icon: Clock, value: "24/7", label: "Concierge Support" },
-]
-
 export default function Home() {
+  const { t } = useLang()
   const { cars } = useCars()
   const featuredCars = cars.slice(0, 4)
   const [featuredIndex, setFeaturedIndex] = useState(0)
+
+  const stats = [
+    { icon: Award, value: "10+", label: t("home.stats.years") },
+    { icon: Sparkles, value: "2,500+", label: t("home.stats.sold") },
+    { icon: Shield, value: "99%", label: t("home.stats.satisfaction") },
+    { icon: Clock, value: "24/7", label: t("home.stats.support") },
+  ]
 
   useEffect(() => {
     if (cars.length === 0) return
@@ -49,31 +51,30 @@ export default function Home() {
               transition={{ duration: 0.8 }}
             >
               <span className="inline-block px-4 py-1.5 text-xs font-semibold tracking-widest uppercase text-neon-500 bg-neon-500/10 border border-neon-500/20 rounded-full mb-6">
-                Quality Pre-Owned Vehicles
+                {t("home.hero.badge")}
               </span>
               <h1 className="text-3xl sm:text-5xl lg:text-7xl font-bold text-white leading-[1.1] tracking-tight mb-4 md:mb-6">
-                Drive The{" "}
-                <span className="gradient-text">Extraordinary</span>
+                {t("home.hero.heading1")}{" "}
+                <span className="gradient-text">{t("home.hero.heading2")}</span>
                 <br />
-                Live The Legend
+                {t("home.hero.heading3")}
               </h1>
               <p className="text-lg text-dark-200 leading-relaxed max-w-xl mb-10">
-                Quality pre-owned vehicles backed by honest service. 
-                From reliable daily drivers to powerful SUVs, every vehicle tells a story of excellence.
+                {t("home.hero.desc")}
               </p>
               <div className="flex flex-wrap gap-4">
                 <Link
                   to="/inventory"
                   className="group px-8 py-4 bg-neon-500 text-dark-900 font-bold text-base rounded-xl hover:bg-neon-400 transition-all duration-300 shadow-[0_0_25px_rgba(0,212,255,0.3)] hover:shadow-[0_0_40px_rgba(0,212,255,0.5)] flex items-center gap-2"
                 >
-                  Explore Collection
+                  {t("home.hero.exploreCollection")}
                   <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
                 </Link>
                 <Link
                   to="/services"
                   className="px-8 py-4 border border-neon-500/30 text-neon-500 font-bold text-base rounded-xl hover:bg-neon-500/10 hover:border-neon-500/50 transition-all duration-300"
                 >
-                  Our Services
+                  {t("home.hero.ourServices")}
                 </Link>
               </div>
             </motion.div>
@@ -100,7 +101,7 @@ export default function Home() {
                 <div className="absolute inset-0 bg-gradient-to-t from-dark-900/80 via-transparent to-transparent" />
                 <div className="absolute bottom-6 left-6 right-6">
                   <div className="glass rounded-xl p-5">
-                    <p className="text-neon-500 text-xs font-semibold tracking-widest uppercase mb-1">Featured</p>
+                    <p className="text-neon-500 text-xs font-semibold tracking-widest uppercase mb-1">{t("home.hero.featured")}</p>
                     <h3 className="text-white text-xl font-bold">{featured?.name}</h3>
                     <p className="text-dark-200 text-sm">{featured?.brand} {featured?.model}</p>
                   </div>
@@ -108,7 +109,7 @@ export default function Home() {
               </div>
               <div className="absolute -bottom-4 -left-4 glass rounded-xl p-4">
                 <p className="text-neon-500 text-2xl font-bold">${featured?.price?.toLocaleString()}</p>
-                <p className="text-dark-200 text-xs">Starting From</p>
+                <p className="text-dark-200 text-xs">{t("home.hero.startingFrom")}</p>
               </div>
               <div className="absolute -top-2 -right-2 flex gap-1.5">
                 {cars.slice(0, 4).map((_, i) => (
@@ -152,9 +153,9 @@ export default function Home() {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(0,212,255,0.03),transparent_60%)]" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionTitle
-            subtitle="Collection"
-            title="Featured Vehicles"
-            description="Hand-picked excellence. Each vehicle in our collection meets the highest standards of performance and reliability."
+            subtitle={t("home.featured.subtitle")}
+            title={t("home.featured.title")}
+            description={t("home.featured.desc")}
           />
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {featuredCars.map((car, i) => (
@@ -216,7 +217,7 @@ export default function Home() {
               to="/inventory"
               className="inline-flex items-center gap-2 px-8 py-4 border border-neon-500/30 text-neon-500 font-semibold rounded-xl hover:bg-neon-500/10 transition-all duration-300 group"
             >
-              View Full Collection
+              {t("home.featured.viewAll")}
               <ChevronRight size={20} className="group-hover:translate-x-1 transition-transform" />
             </Link>
           </motion.div>
@@ -226,9 +227,9 @@ export default function Home() {
       <section className="py-12 md:py-20 relative bg-dark-800/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionTitle
-            subtitle="Services"
-            title="Our Services"
-            description="From acquisition to ownership, we provide a complete ecosystem of automotive services tailored to your needs."
+            subtitle={t("home.services.subtitle")}
+            title={t("home.services.title")}
+            description={t("home.services.desc")}
           />
           <div className="grid md:grid-cols-3 gap-6">
             {featuredServices.map((service, i) => (
@@ -266,7 +267,7 @@ export default function Home() {
               to="/services"
               className="inline-flex items-center gap-2 px-8 py-4 bg-neon-500 text-dark-900 font-semibold rounded-xl hover:bg-neon-400 transition-all duration-300 group"
             >
-              Explore All Services
+              {t("home.services.exploreAll")}
               <ChevronRight size={20} className="group-hover:translate-x-1 transition-transform" />
             </Link>
           </motion.div>
@@ -282,25 +283,24 @@ export default function Home() {
             viewport={{ once: true }}
           >
             <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">
-              Ready to Find Your{" "}
-              <span className="gradient-text">Dream Car</span>?
+              {t("home.cta.title")}{" "}
+              <span className="gradient-text">{t("home.cta.highlight")}</span>?
             </h2>
             <p className="text-dark-200 text-lg max-w-2xl mx-auto mb-10">
-              Schedule a private viewing or browse our collection online. 
-              Our team is ready to assist you every step of the way.
+              {t("home.cta.desc")}
             </p>
             <div className="flex flex-wrap justify-center gap-4">
               <Link
                 to="/inventory"
                 className="px-10 py-4 bg-neon-500 text-dark-900 font-bold rounded-xl hover:bg-neon-400 transition-all duration-300 shadow-[0_0_25px_rgba(0,212,255,0.3)]"
               >
-                Browse Inventory
+                {t("home.cta.browseInventory")}
               </Link>
               <Link
                 to="/contact"
                 className="px-10 py-4 border border-neon-500/30 text-neon-500 font-bold rounded-xl hover:bg-neon-500/10 transition-all duration-300"
               >
-                Contact Us
+                {t("home.cta.contactUs")}
               </Link>
             </div>
           </motion.div>

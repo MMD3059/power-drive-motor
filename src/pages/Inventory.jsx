@@ -1,4 +1,5 @@
 import { useState, useMemo } from "react"
+import { useLang } from "../i18n/context"
 import { Link } from "react-router-dom"
 import { motion } from "framer-motion"
 import { Search, SlidersHorizontal, X, Fuel, Gauge, Car, ArrowRight } from "lucide-react"
@@ -8,6 +9,7 @@ import { brands, fuelTypes, priceRanges } from "../data/cars"
 import { thumbnail } from "../utils/images"
 
 export default function Inventory() {
+  const { t } = useLang()
   const { cars } = useCars()
   const [search, setSearch] = useState("")
   const [selectedBrand, setSelectedBrand] = useState("All")
@@ -77,9 +79,9 @@ export default function Inventory() {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(0,212,255,0.05),transparent_60%)]" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionTitle
-            subtitle="Collection"
-            title="Our Vehicle Collection"
-            description="Explore our curated selection of quality pre-owned vehicles. Each one is hand-picked for reliability and value."
+            subtitle={t("inventory.subtitle")}
+            title={t("inventory.title")}
+            description={t("inventory.desc")}
           />
         </div>
       </div>
@@ -90,7 +92,7 @@ export default function Inventory() {
             <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-dark-200" />
             <input
               type="text"
-              placeholder="Search by name, brand, or model..."
+              placeholder={t("inventory.searchPlaceholder")}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="w-full pl-12 pr-4 py-3.5 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white placeholder-dark-300 focus:outline-none focus:border-neon-500/40 focus:ring-1 focus:ring-neon-500/20 transition-all"
@@ -102,11 +104,11 @@ export default function Inventory() {
               onChange={(e) => setSortBy(e.target.value)}
               className="px-4 py-3.5 bg-dark-700/80 border border-neon-500/10 rounded-xl text-dark-200 focus:outline-none focus:border-neon-500/40 text-sm cursor-pointer"
             >
-              <option value="default">Sort: Default</option>
-              <option value="price-asc">Price: Low to High</option>
-              <option value="price-desc">Price: High to Low</option>
-              <option value="name">Name: A-Z</option>
-              <option value="year">Year: Newest</option>
+              <option value="default">{t("inventory.sortDefault")}</option>
+              <option value="price-asc">{t("inventory.sortLowHigh")}</option>
+              <option value="price-desc">{t("inventory.sortHighLow")}</option>
+              <option value="name">{t("inventory.sortName")}</option>
+              <option value="year">{t("inventory.sortNewest")}</option>
             </select>
             <button
               onClick={() => setShowFilters(!showFilters)}
@@ -132,39 +134,39 @@ export default function Inventory() {
           <div className="glass rounded-xl p-6">
             <div className="grid sm:grid-cols-3 gap-6">
               <div>
-                <label className="block text-xs font-semibold text-dark-200 tracking-wider uppercase mb-2">Brand</label>
+                <label className="block text-xs font-semibold text-dark-200 tracking-wider uppercase mb-2">{t("inventory.brand")}</label>
                 <select
                   value={selectedBrand}
                   onChange={(e) => setSelectedBrand(e.target.value)}
                   className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 text-sm cursor-pointer"
                 >
-                  <option value="All">All Brands</option>
+                  <option value="All">{t("inventory.allBrands")}</option>
                   {brands.map((b) => (
                     <option key={b} value={b}>{b}</option>
                   ))}
                 </select>
               </div>
               <div>
-                <label className="block text-xs font-semibold text-dark-200 tracking-wider uppercase mb-2">Fuel Type</label>
+                <label className="block text-xs font-semibold text-dark-200 tracking-wider uppercase mb-2">{t("inventory.fuelType")}</label>
                 <select
                   value={selectedFuel}
                   onChange={(e) => setSelectedFuel(e.target.value)}
                   className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 text-sm cursor-pointer"
                 >
-                  <option value="All">All Fuel Types</option>
+                  <option value="All">{t("inventory.allFuels")}</option>
                   {fuelTypes.map((f) => (
                     <option key={f} value={f}>{f}</option>
                   ))}
                 </select>
               </div>
               <div>
-                <label className="block text-xs font-semibold text-dark-200 tracking-wider uppercase mb-2">Price Range</label>
+                <label className="block text-xs font-semibold text-dark-200 tracking-wider uppercase mb-2">{t("inventory.priceRange")}</label>
                 <select
                   value={selectedPrice}
                   onChange={(e) => setSelectedPrice(e.target.value)}
                   className="w-full px-4 py-3 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white focus:outline-none focus:border-neon-500/40 text-sm cursor-pointer"
                 >
-                  <option value="All">All Prices</option>
+                  <option value="All">{t("inventory.allPrices")}</option>
                   {priceRanges.map((p) => (
                     <option key={p.label} value={p.label}>{p.label}</option>
                   ))}
@@ -176,7 +178,7 @@ export default function Inventory() {
                 onClick={clearFilters}
                 className="mt-4 flex items-center gap-1 text-xs text-neon-500 hover:text-neon-400 transition-colors"
               >
-                <X size={14} /> Clear all filters
+                <X size={14} /> {t("inventory.clearAll")}
               </button>
             )}
           </div>
@@ -184,7 +186,7 @@ export default function Inventory() {
 
         <div className="flex items-center justify-between mb-6">
           <p className="text-dark-200 text-sm">
-            Showing <span className="text-white font-semibold">{filteredCars.length}</span> vehicles
+            {t("inventory.showing")} <span className="text-white font-semibold">{filteredCars.length}</span> {t("inventory.vehicles")}
           </p>
           <div className="flex gap-2 flex-wrap">
             {selectedBrand !== "All" && (
@@ -208,13 +210,13 @@ export default function Inventory() {
         {filteredCars.length === 0 ? (
           <div className="text-center py-20">
             <Car size={60} className="mx-auto text-dark-300 mb-4" />
-            <h3 className="text-white text-xl font-bold mb-2">No vehicles found</h3>
-            <p className="text-dark-200 mb-6">Try adjusting your filters or search terms.</p>
+            <h3 className="text-white text-xl font-bold mb-2">{t("inventory.noTitle")}</h3>
+            <p className="text-dark-200 mb-6">{t("inventory.noDesc")}</p>
             <button
               onClick={clearFilters}
               className="px-6 py-3 bg-neon-500 text-dark-900 font-semibold rounded-xl"
             >
-              Clear Filters
+              {t("inventory.clearFilters")}
             </button>
           </div>
         ) : (
@@ -241,7 +243,7 @@ export default function Inventory() {
                     {car.sold && (
                       <div className="absolute inset-0 bg-dark-900/60 flex items-center justify-center">
                         <span className="px-6 py-2 bg-red-600 text-white font-bold text-lg rounded-xl rotate-[-15deg] shadow-lg border-2 border-red-400">
-                          SOLD
+                          {t("inventory.sold")}
                         </span>
                       </div>
                     )}
