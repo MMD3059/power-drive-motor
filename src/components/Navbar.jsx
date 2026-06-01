@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react"
 import { Link, useLocation } from "react-router-dom"
 import { Menu, X, ChevronDown } from "lucide-react"
+import LanguageSwitcher from "./LanguageSwitcher"
 
 const navLinks = [
   { name: "Home", path: "/" },
@@ -76,6 +77,7 @@ export default function Navbar() {
             >
               Browse Cars
             </Link>
+            <LanguageSwitcher />
           </div>
 
           <button
@@ -115,6 +117,7 @@ export default function Navbar() {
           >
             Browse Cars
           </Link>
+          <LanguageSwitcher />
         </div>
       </div>
     </nav>
