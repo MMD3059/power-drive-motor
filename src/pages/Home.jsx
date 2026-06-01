@@ -1,5 +1,6 @@
+import { useState, useEffect } from "react"
 import { Link } from "react-router-dom"
-import { motion } from "framer-motion"
+import { motion, AnimatePresence } from "framer-motion"
 import { ArrowRight, ChevronRight, Sparkles, Shield, Clock, Award } from "lucide-react"
 import SectionTitle from "../components/SectionTitle"
 import { useCars } from "../contexts/CarContext"
@@ -18,6 +19,17 @@ const stats = [
 export default function Home() {
   const { cars } = useCars()
   const featuredCars = cars.slice(0, 4)
+  const [featuredIndex, setFeaturedIndex] = useState(0)
+
+  useEffect(() => {
+    if (cars.length === 0) return
+    const interval = setInterval(() => {
+      setFeaturedIndex((prev) => (prev + 1) % Math.min(cars.length, 4))
+    }, 5000)
+    return () => clearInterval(interval)
+  }, [cars])
+
+  const featured = cars[featuredIndex]
   return (
     <div>
       <section className="relative min-h-screen flex items-center overflow-hidden">
@@ -73,24 +85,41 @@ export default function Home() {
               className="hidden lg:block relative"
             >
               <div className="relative aspect-[4/3] rounded-2xl overflow-hidden">
-                <img
-                  src={cars[1].image}
-                  alt="Featured Vehicle"
-                  loading="lazy"
-                  className="w-full h-full object-cover rounded-2xl"
-                />
+                <AnimatePresence mode="wait">
+                  <motion.img
+                    key={featuredIndex}
+                    src={featured?.image || featured?.images?.[0]}
+                    alt="Featured Vehicle"
+                    initial={{ opacity: 0, x: 50 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -50 }}
+                    transition={{ duration: 0.5 }}
+                    className="w-full h-full object-cover rounded-2xl absolute inset-0"
+                  />
+                </AnimatePresence>
                 <div className="absolute inset-0 bg-gradient-to-t from-dark-900/80 via-transparent to-transparent" />
                 <div className="absolute bottom-6 left-6 right-6">
                   <div className="glass rounded-xl p-5">
                     <p className="text-neon-500 text-xs font-semibold tracking-widest uppercase mb-1">Featured</p>
-                    <h3 className="text-white text-xl font-bold">{cars[1].name}</h3>
-                    <p className="text-dark-200 text-sm">{cars[1].brand} {cars[1].model}</p>
+                    <h3 className="text-white text-xl font-bold">{featured?.name}</h3>
+                    <p className="text-dark-200 text-sm">{featured?.brand} {featured?.model}</p>
                   </div>
                 </div>
               </div>
               <div className="absolute -bottom-4 -left-4 glass rounded-xl p-4">
-                <p className="text-neon-500 text-2xl font-bold">${(cars[1].price / 1000).toFixed(0)}k</p>
+                <p className="text-neon-500 text-2xl font-bold">${featured?.price?.toLocaleString()}</p>
                 <p className="text-dark-200 text-xs">Starting From</p>
+              </div>
+              <div className="absolute -top-2 -right-2 flex gap-1.5">
+                {cars.slice(0, 4).map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => setFeaturedIndex(i)}
+                    className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                      i === featuredIndex ? "bg-neon-500 w-4" : "bg-dark-200/30 hover:bg-dark-200/50"
+                    }`}
+                  />
+                ))}
               </div>
             </motion.div>
           </div>

@@ -8,6 +8,7 @@ const quickLinks = [
   { name: "About", path: "/about" },
   { name: "Contact", path: "/contact" },
   { name: "Financing", path: "/financing" },
+  { name: "Apply Now", path: "/credit-application" },
 ]
 
 const services = [
