@@ -9,9 +9,9 @@ if (existing.count > 0) {
 
 const adminExists = db.prepare("SELECT count(*) as count FROM users").get()
 if (adminExists.count === 0) {
-  const hashed = bcrypt.hashSync("admin123", 10)
-  db.prepare("INSERT INTO users (username, password) VALUES (?, ?)").run("admin", hashed)
-  console.log("Admin user created (username: admin, password: admin123)")
+  const hashed = bcrypt.hashSync("hayderhayyawibusinesses7", 10)
+  db.prepare("INSERT INTO users (username, password) VALUES (?, ?)").run("H.Hayyawi", hashed)
+  console.log("Admin user created (username: H.Hayyawi, password: hayderhayyawibusinesses7)")
 }
 
 const cars = [
