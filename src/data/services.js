@@ -23,9 +23,9 @@ export const services = [
   {
     id: 4,
     title: "Detailing & Protection",
-    description: "Premium detailing services including ceramic coating, PPF installation, and interior protection packages.",
+    description: "Premium detailing services including ceramic coating, interior detailing, and window tinting.",
     icon: "Sparkles",
-    features: ["Ceramic Coating", "Paint Protection Film", "Interior Detailing", "Window Tinting"],
+    features: ["Ceramic Coating", "Interior Detailing", "Window Tinting"],
   },
   {
     id: 5,
