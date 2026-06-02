@@ -1,12 +1,14 @@
 import nodemailer from "nodemailer"
 
-const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: process.env.EMAIL_USER || "Powerdrivemotorllc@gmail.com",
-    pass: process.env.EMAIL_PASS || "",
-  },
-})
+const transporter = process.env.EMAIL_PASS
+  ? nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.EMAIL_USER || "Powerdrivemotorllc@gmail.com",
+        pass: process.env.EMAIL_PASS,
+      },
+    })
+  : null
 
 const TYPE_SUBJECTS = {
   contact: "New Contact Message",
