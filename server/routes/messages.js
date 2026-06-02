@@ -1,6 +1,7 @@
 import { Router } from "express"
 import db from "../db.js"
 import { requireAuth } from "../middleware/auth.js"
+import { sendEmailNotification } from "../email.js"
 
 const router = Router()
 
@@ -13,6 +14,8 @@ router.post("/", (req, res) => {
   db.prepare(
     "INSERT INTO messages (name, email, phone, subject, message, type) VALUES (?, ?, ?, ?, ?, ?)"
   ).run(name, email, phone || "", subject || "", message, type || "contact")
+
+  sendEmailNotification(type || "contact", { name, email, phone, subject, message })
 
   res.status(201).json({ message: "Message sent successfully" })
 })
