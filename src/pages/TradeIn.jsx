@@ -86,8 +86,8 @@ export default function TradeIn() {
                 <input type="text" name="lastName" value={form.lastName} onChange={handleChange} required placeholder={t("tradeIn.lastName")} className="w-full px-4 py-3.5 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white placeholder-dark-300 focus:outline-none focus:border-neon-500/40" />
               </div>
               <div className="grid sm:grid-cols-2 gap-5">
-                <input type="email" name="email" value={form.email} onChange={handleChange} required placeholder={t("tradeIn.email")} className="w-full px-4 py-3.5 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white placeholder-dark-300 focus:outline-none focus:border-neon-500/40" />
-                <input type="tel" name="phone" value={form.phone} onChange={handleChange} required placeholder={t("tradeIn.phone")} className="w-full px-4 py-3.5 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white placeholder-dark-300 focus:outline-none focus:border-neon-500/40" />
+                <input type="email" name="email" value={form.email} onChange={handleChange} required={form.contactMethod === "email"} placeholder={t("tradeIn.email")} className="w-full px-4 py-3.5 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white placeholder-dark-300 focus:outline-none focus:border-neon-500/40" />
+                <input type="tel" name="phone" value={form.phone} onChange={handleChange} required={form.contactMethod === "call" || form.contactMethod === "sms"} placeholder={t("tradeIn.phone")} className="w-full px-4 py-3.5 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white placeholder-dark-300 focus:outline-none focus:border-neon-500/40" />
               </div>
               <input type="text" name="zip" value={form.zip} onChange={handleChange} required placeholder={t("tradeIn.zip")} className="w-full px-4 py-3.5 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white placeholder-dark-300 focus:outline-none focus:border-neon-500/40" />
             </div>
