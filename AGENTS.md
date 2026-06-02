@@ -39,6 +39,7 @@ node server/index.js  # Run everything together (:3001)
 - Admin uploads stored at `/uploads/filename` (local filesystem)
 - Multiple images per car stored as JSON array in `images` column
 - Single `image` column keeps the primary/thumbnail image
+- Each car now has **all interior + exterior** images from its detail page (16–25 per car)
 
 ## Admin API Flow
 - Cars CRUD at `/api/cars` (requires Bearer JWT token)
@@ -49,8 +50,8 @@ node server/index.js  # Run everything together (:3001)
 
 ## Gotchas
 - Server must be running for admin, contact form, dynamic car data
-- No email backend — contact form is SQLite-only
-- No auth middleware on public routes
+- Email notifications via Nodemailer + Gmail (requires `EMAIL_PASS` env var = Gmail App Password)
+- DB path configurable via `DB_PATH` env var (set `/data/data.db` if using Render Persistent Disk at `/data`)
 - `.command` files start server with `nohup` (keeps running after terminal closes)
 - Domain parked at GoDaddy — not yet pointed to any hosting
 - Cloudflare tunnel URL changes every restart (random subdomain)

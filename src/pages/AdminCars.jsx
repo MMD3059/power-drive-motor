@@ -11,7 +11,39 @@ const defaultCar = {
   features: [], image: "", images: [], sold: false,
 }
 
-const brands = ["Chevrolet", "Dodge", "Ford", "Honda", "GMC", "Kia", "Nissan", "Subaru"]
+const brands = [
+  "AC Cars", "Acura", "Aiways", "Alfa Romeo", "Alpina", "Alpine", "Aro",
+  "Arrinera", "Aston Martin", "Audi", "Austin", "Autobianchi", "BAC",
+  "Bajaj", "Baojun", "Bentley", "Bertone", "BitAuto", "BMW", "Borgward",
+  "Brabus", "Brilliance", "Bristol", "Bugatti", "Buick", "BYD", "Cadillac",
+  "Caterham", "Changan", "Changhe", "Chery", "Chevrolet", "Chrysler",
+  "Citroën", "Cupra", "Dacia", "Daewoo", "Daihatsu", "Datsun", "De Tomaso",
+  "Delage", "Delorean", "Denza", "Dodge", "Dongfeng", "Donkervoort",
+  "DS Automobiles", "Eagle", "FAW", "Ferrari", "Fiat", "Fisker", "Force",
+  "Ford", "Foton", "FSO", "Geely", "Genesis", "Geo", "GMC", "Goggomobil",
+  "Great Wall", "Gumpert", "Haval", "Heinkel", "Hennessey", "Hispano-Suiza",
+  "Holden", "Honda", "Hongqi", "HUMMER", "Hyundai", "Infiniti", "Irizar",
+  "Isuzu", "Iveco", "JAC", "Jaguar", "Jeep", "Jensen", "Jetta", "Jiangling",
+  "Kaiser", "Kamaz", "Karma", "Keating", "Kenworth", "Kia", "Koenigsegg",
+  "Lada", "Lamborghini", "Lancia", "Land Rover", "Landwind", "LEVC",
+  "Lexus", "Lifan", "Lincoln", "Lotus", "Lucid", "Luxgen", "Mahindra",
+  "MAN", "Marlin", "Maserati", "Mastretta", "Maybach", "Mazda", "McLaren",
+  "Mercedes-AMG", "Mercedes-Benz", "Mercury", "MG", "Microcar", "MINI",
+  "Mitsubishi", "Mitsuoka", "Mobilize", "Morgan", "Morris", "NIO",
+  "Nissan", "Noble", "Oldsmobile", "Oltcit", "Opel", "Osca", "Pagani",
+  "Panhard", "Panoz", "Perodua", "Peugeot", "Plymouth", "Polestar",
+  "Pontiac", "Porsche", "Premier", "Proton", "Puch", "Qoros", "Ram",
+  "Rambler", "Ravon", "Reliant", "Renault", "Renault Samsung", "Rezvani",
+  "Rimac", "Rivian", "Roewe", "Rolls-Royce", "Rover", "Saab", "Saleen",
+  "Samsung", "San", "Saturn", "Scania", "Scion", "SEAT", "Shanghai Maple",
+  "Shelby", "Škoda", "Smart", "Soueast", "Spyker", "SsangYong", "Sterling",
+  "Studebaker", "Subaru", "Suzuki", "Talbot", "Tata", "Tatra", "Tavria",
+  "Techrules", "Tesla", "Toyota", "Trabant", "Tramontana", "Triumph",
+  "TVR", "UAZ", "Ultima", "Vanden Plas", "Vauxhall", "Vector", "Venturi",
+  "VinFast", "Volkswagen", "Volvo", "Voyah", "W Motors", "Wartburg",
+  "Westfield", "Wiesmann", "Willys", "XPeng", "Yugo", "Zastava", "ZAZ",
+  "Zedriv", "Zenvo", "Zotye", "ZX",
+]
 
 export default function AdminCars() {
   const [cars, setCars] = useState([])
