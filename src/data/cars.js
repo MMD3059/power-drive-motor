@@ -402,3 +402,12 @@ export const cars = [
 ]
 
 export const brands = [...new Set(cars.map((c) => c.brand))]
+
+export const fuelTypes = [...new Set(cars.map((c) => c.fuelType))]
+
+export const priceRanges = [
+  { label: "Under $5k", min: 0, max: 5000 },
+  { label: "$5k - $7k", min: 5000, max: 7000 },
+  { label: "$7k - $10k", min: 7000, max: 10000 },
+  { label: "$10k+", min: 10000, max: Infinity },
+]
