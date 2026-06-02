@@ -102,14 +102,17 @@ export default function Home() {
                 <div className="absolute bottom-6 left-6 right-6">
                   <div className="glass rounded-xl p-5">
                     <p className="text-neon-500 text-xs font-semibold tracking-widest uppercase mb-1">{t("home.hero.featured")}</p>
-                    <h3 className="text-white text-xl font-bold">{featured?.name}</h3>
-                    <p className="text-dark-200 text-sm">{featured?.brand} {featured?.model}</p>
+                    <div className="flex items-center justify-between gap-4">
+                      <div className="min-w-0">
+                        <h3 className="text-white text-xl font-bold truncate">{featured?.name}</h3>
+                        <p className="text-dark-200 text-sm">{featured?.brand} {featured?.model}</p>
+                      </div>
+                      <div className="shrink-0 text-right">
+                        <p className="text-neon-500 text-2xl font-bold whitespace-nowrap">${featured?.price?.toLocaleString()}</p>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div className="absolute -bottom-4 -left-4 glass rounded-xl p-4">
-                <p className="text-neon-500 text-2xl font-bold">${featured?.price?.toLocaleString()}</p>
-                <p className="text-dark-200 text-xs">{t("home.hero.startingFrom")}</p>
               </div>
               <div className="absolute -top-2 -right-2 flex gap-1.5">
                 {cars.slice(0, 4).map((_, i) => (
