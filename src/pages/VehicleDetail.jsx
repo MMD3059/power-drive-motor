@@ -91,7 +91,7 @@ export default function VehicleDetail() {
                 className="w-full aspect-[4/3] object-cover rounded-2xl"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-dark-900/60 via-transparent to-transparent rounded-2xl" />
-              {car.sold && (
+              {!!car.sold && (
                 <div className="absolute inset-0 bg-dark-900/60 flex items-center justify-center rounded-2xl">
                   <span className="px-8 py-3 bg-red-600 text-white font-bold text-2xl rounded-xl rotate-[-15deg] shadow-lg border-2 border-red-400">
                     {t("detail.sold")}
@@ -164,7 +164,7 @@ export default function VehicleDetail() {
               <div className="text-2xl sm:text-4xl md:text-5xl font-bold gradient-text">
                 ${car.price.toLocaleString()}
               </div>
-              {car.sold && (
+              {!!car.sold && (
                 <span className="px-4 py-1.5 bg-red-600/20 text-red-400 font-bold text-sm rounded-lg border border-red-500/40">
                   {t("detail.sold")}
                 </span>

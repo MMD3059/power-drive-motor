@@ -176,7 +176,7 @@ export default function Home() {
                       alt={car.name}
                       className="w-full aspect-[4/3] object-cover group-hover:scale-105 transition-transform duration-700"
                     />
-                    {car.sold && (
+                    {!!car.sold && (
                       <div className="absolute inset-0 bg-dark-900/60 flex items-center justify-center">
                         <span className="px-6 py-2 bg-red-600 text-white font-bold text-lg rounded-xl rotate-[-15deg] shadow-lg border-2 border-red-400">
                           SOLD
