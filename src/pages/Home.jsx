@@ -5,7 +5,6 @@ import { ArrowRight, ChevronRight, Sparkles, Shield, Clock, Award } from "lucide
 import SectionTitle from "../components/SectionTitle"
 import { useCars } from "../contexts/CarContext"
 import { services } from "../data/services"
-import { brands } from "../data/cars"
 import { thumbnail } from "../utils/images"
 import { useLang } from "../i18n/context"
 
@@ -15,6 +14,7 @@ export default function Home() {
   const { t } = useLang()
   const { cars } = useCars()
   const featuredCars = cars.slice(0, 4)
+  const uniqueBrands = [...new Set(cars.map((c) => c.brand))]
   const [featuredIndex, setFeaturedIndex] = useState(0)
 
   const stats = [
@@ -160,7 +160,7 @@ export default function Home() {
             <h3 className="text-xl font-bold text-white">{t("home.brands.title")}</h3>
           </div>
           <div className="flex flex-wrap justify-center gap-8 items-center">
-            {brands.map((brand) => (
+            {uniqueBrands.map((brand) => (
               <Link
                 key={brand}
                 to={`/inventory?brand=${brand}`}
