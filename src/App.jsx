@@ -15,6 +15,10 @@ import CreditApplication from "./pages/CreditApplication"
 import Services from "./pages/Services"
 import Contact from "./pages/Contact"
 import Financing from "./pages/Financing"
+import TradeIn from "./pages/TradeIn"
+import TestDrive from "./pages/TestDrive"
+import Privacy from "./pages/Privacy"
+import Terms from "./pages/Terms"
 import AdminLogin from "./pages/AdminLogin"
 import AdminDashboard from "./pages/AdminDashboard"
 import AdminIndex from "./pages/AdminIndex"
@@ -56,6 +60,10 @@ function PublicLayout() {
             <Route path="/services" element={<Services />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/financing" element={<Financing />} />
+            <Route path="/trade-in" element={<TradeIn />} />
+            <Route path="/test-drive" element={<TestDrive />} />
+            <Route path="/privacy" element={<Privacy />} />
+            <Route path="/terms" element={<Terms />} />
           </Routes>
         </AnimatePresence>
       </main>

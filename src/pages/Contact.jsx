@@ -6,18 +6,25 @@ import { useLang } from "../i18n/context"
 
 export default function Contact() {
   const { t } = useLang()
-  const [form, setForm] = useState({ name: "", email: "", phone: "", subject: "", message: "" })
+  const [form, setForm] = useState({ name: "", email: "", phone: "", subject: "", message: "", consent: false })
   const [submitted, setSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState("")
 
   const handleChange = (e) => {
-    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }))
+    const { name, value, type, checked } = e.target
+    setForm((prev) => ({ ...prev, [name]: type === "checkbox" ? checked : value }))
   }
 
   const API = import.meta.env.DEV ? "http://localhost:3001/api" : "/api"
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    if (!form.consent) {
+      setError(t("contact.consentRequired"))
+      return
+    }
+    setError("")
     setLoading(true)
     try {
       await fetch(`${API}/messages`, {
@@ -27,7 +34,7 @@ export default function Contact() {
       })
     } catch {}
     setSubmitted(true)
-    setForm({ name: "", email: "", phone: "", subject: "", message: "" })
+    setForm({ name: "", email: "", phone: "", subject: "", message: "", consent: false })
     setLoading(false)
   }
 
@@ -147,6 +154,11 @@ export default function Contact() {
                     className="w-full px-4 py-3.5 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white placeholder-dark-300 focus:outline-none focus:border-neon-500/40 focus:ring-1 focus:ring-neon-500/20 transition-all resize-none"
                   />
                 </div>
+                <label className="flex items-start gap-3 cursor-pointer">
+                  <input type="checkbox" name="consent" checked={form.consent} onChange={handleChange} className="mt-1 accent-neon-500" />
+                  <span className="text-dark-200 text-xs leading-relaxed">{t("contact.consent")}</span>
+                </label>
+                {error && <p className="text-red-400 text-sm">{error}</p>}
                 <button
                   type="submit"
                   disabled={loading}

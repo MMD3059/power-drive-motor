@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react"
 import { useLang } from "../i18n/context"
-import { Link } from "react-router-dom"
+import { Link, useSearchParams } from "react-router-dom"
 import { motion } from "framer-motion"
 import { Search, SlidersHorizontal, X, Car } from "lucide-react"
 import SectionTitle from "../components/SectionTitle"
@@ -11,8 +11,9 @@ import { thumbnail } from "../utils/images"
 export default function Inventory() {
   const { t } = useLang()
   const { cars } = useCars()
+  const [searchParams] = useSearchParams()
   const [search, setSearch] = useState("")
-  const [selectedBrand, setSelectedBrand] = useState("All")
+  const [selectedBrand, setSelectedBrand] = useState(searchParams.get("brand") || "All")
   const [selectedFuel, setSelectedFuel] = useState("All")
   const [selectedPrice, setSelectedPrice] = useState("All")
   const [sortBy, setSortBy] = useState("default")

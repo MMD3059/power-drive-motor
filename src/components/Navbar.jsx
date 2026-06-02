@@ -11,6 +11,8 @@ const navLinks = [
   { nameKey: "about", path: "/about" },
   { nameKey: "contact", path: "/contact" },
   { nameKey: "financing", path: "/financing" },
+  { nameKey: "tradeIn", path: "/trade-in" },
+  { nameKey: "testDrive", path: "/test-drive" },
   { nameKey: "applyNow", path: "/credit-application" },
 ]
 

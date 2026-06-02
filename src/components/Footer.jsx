@@ -9,6 +9,8 @@ const quickLinks = [
   { nameKey: "about", path: "/about" },
   { nameKey: "contact", path: "/contact" },
   { nameKey: "financing", path: "/financing" },
+  { nameKey: "tradeIn", path: "/trade-in" },
+  { nameKey: "testDrive", path: "/test-drive" },
   { nameKey: "applyNow", path: "/credit-application" },
 ]
 
@@ -117,8 +119,8 @@ export default function Footer() {
             &copy; {new Date().getFullYear()} Power Drive Motor. {t("footer.rights")}
           </p>
           <div className="flex gap-6 text-xs text-dark-300">
-            <a href="#" className="hover:text-neon-500 transition-colors">{t("footer.privacy")}</a>
-            <a href="#" className="hover:text-neon-500 transition-colors">{t("footer.terms")}</a>
+            <Link to="/privacy" className="hover:text-neon-500 transition-colors">{t("footer.privacy")}</Link>
+            <Link to="/terms" className="hover:text-neon-500 transition-colors">{t("footer.terms")}</Link>
             <a href="#" className="hover:text-neon-500 transition-colors">{t("footer.cookie")}</a>
           </div>
         </div>

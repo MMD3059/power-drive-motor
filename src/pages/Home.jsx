@@ -5,6 +5,7 @@ import { ArrowRight, ChevronRight, Sparkles, Shield, Clock, Award } from "lucide
 import SectionTitle from "../components/SectionTitle"
 import { useCars } from "../contexts/CarContext"
 import { services } from "../data/services"
+import { brands } from "../data/cars"
 import { thumbnail } from "../utils/images"
 import { useLang } from "../i18n/context"
 
@@ -147,6 +148,32 @@ export default function Home() {
                 <p className="text-3xl md:text-4xl font-bold gradient-text">{stat.value}</p>
                 <p className="text-dark-200 text-sm mt-1">{stat.label}</p>
               </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-12 md:py-16 relative">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-8">
+            <p className="text-xs font-semibold tracking-widest uppercase text-dark-200 mb-2">{t("home.brands.subtitle")}</p>
+            <h3 className="text-xl font-bold text-white">{t("home.brands.title")}</h3>
+          </div>
+          <div className="flex flex-wrap justify-center gap-8 items-center">
+            {brands.map((brand) => (
+              <Link
+                key={brand}
+                to={`/inventory?brand=${brand}`}
+                className="group flex flex-col items-center gap-2 px-6 py-4 rounded-xl hover:bg-neon-500/5 border border-transparent hover:border-neon-500/20 transition-all duration-300"
+              >
+                <img
+                  src={`https://d1rcedcg4i52v4.cloudfront.net/website/common/images/makes-logos/${brand.toLowerCase()}.webp`}
+                  alt={brand}
+                  className="h-10 w-auto opacity-60 group-hover:opacity-100 transition-opacity duration-300"
+                  onError={(e) => { e.target.style.display = "none" }}
+                />
+                <span className="text-xs text-dark-300 group-hover:text-neon-500 transition-colors">{brand}</span>
+              </Link>
             ))}
           </div>
         </div>
