@@ -189,7 +189,13 @@ export default function Contact() {
                   </div>
                   <div>
                     <p className="text-white font-semibold">{item.label}</p>
-                    <p className="text-dark-200 font-medium">{item.value}</p>
+                    {item.icon === Phone ? (
+                      <a href={`tel:+16055012400`} className="text-dark-200 font-medium hover:text-neon-500 transition-colors">{item.value}</a>
+                    ) : item.icon === Mail ? (
+                      <a href={`mailto:${item.value}`} className="text-dark-200 font-medium hover:text-neon-500 transition-colors">{item.value}</a>
+                    ) : (
+                      <p className="text-dark-200 font-medium">{item.value}</p>
+                    )}
                     <p className="text-dark-300 text-xs mt-0.5">{item.desc}</p>
                   </div>
                 </div>

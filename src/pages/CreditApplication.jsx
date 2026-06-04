@@ -538,7 +538,7 @@ Notes: ${form.message}
             <div className="glass rounded-xl p-6">
               <h4 className="text-white font-bold text-lg mb-4">{t("credit.dealerInfo")}</h4>
               <div className="space-y-4">
-                <div className="flex items-center gap-3 text-dark-200 text-sm"><Phone size={16} className="text-neon-500 shrink-0" />(605) 501-2400</div>
+                <div className="flex items-center gap-3 text-dark-200 text-sm"><Phone size={16} className="text-neon-500 shrink-0" /><a href="tel:+16055012400" className="hover:text-neon-500 transition-colors">(605) 501-2400</a></div>
                 <div className="flex items-center gap-3 text-dark-200 text-sm"><MapPin size={16} className="text-neon-500 shrink-0" />4309 E 12th St, Sioux Falls, SD 57103</div>
               </div>
               <div className="mt-4 p-3 rounded-xl bg-dark-700/50">

@@ -104,7 +104,7 @@ export default function About() {
                     </div>
                     <div>
                       <p className="text-white font-semibold text-sm">{t("about.phone")}</p>
-                      <p className="text-dark-200">(605) 501-2400</p>
+                      <a href="tel:+16055012400" className="text-dark-200 hover:text-neon-500 transition-colors">(605) 501-2400</a>
                     </div>
                   </div>
                   <div className="flex items-start gap-4 text-dark-200">

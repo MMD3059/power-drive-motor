@@ -96,10 +96,10 @@ export default function Footer() {
                 <MapPin size={18} className="text-neon-500 mt-0.5 shrink-0" />
                 4309 E 12th St, Sioux Falls, SD 57103
               </li>
-              <li className="flex items-center gap-3 text-dark-200 text-sm">
-                <Phone size={18} className="text-neon-500 shrink-0" />
-                +1 605-501-2400
-              </li>
+                <li className="flex items-center gap-3 text-dark-200 text-sm">
+                  <Phone size={18} className="text-neon-500 shrink-0" />
+                  <a href="tel:+16055012400" className="hover:text-neon-500 transition-colors">+1 605-501-2400</a>
+                </li>
               <li className="flex items-center gap-3 text-dark-200 text-sm">
                 <Mail size={18} className="text-neon-500 shrink-0" />
                 Powerdrivemotorllc@gmail.com
