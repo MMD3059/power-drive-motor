@@ -93,35 +93,45 @@ export default function Navbar() {
         </div>
       </div>
 
+      {/* Backdrop */}
       <div
-        className={`fixed inset-0 bg-dark-900/95 backdrop-blur-2xl transition-all duration-500 lg:hidden ${
-          isOpen
-            ? "opacity-100 pointer-events-auto"
-            : "opacity-0 pointer-events-none"
+        onClick={() => setIsOpen(false)}
+        className={`fixed inset-0 bg-black/70 transition-opacity duration-300 lg:hidden ${
+          isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+        }`}
+      />
+      {/* Side drawer */}
+      <div
+        className={`fixed top-0 right-0 bottom-0 w-72 bg-dark-800 border-l border-neon-500/10 shadow-2xl transition-transform duration-300 ease-out lg:hidden z-50 ${
+          isOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
-        <div className="flex flex-col items-center justify-start min-h-screen overflow-y-auto pt-24 pb-12 gap-5">
+        <div className="flex flex-col h-full overflow-y-auto pt-24 pb-8 px-6 gap-1">
           {navLinks.map((link, i) => (
             <Link
               key={link.path}
               to={link.path}
-              className={`text-xl sm:text-2xl font-bold tracking-wider transition-all duration-300 ${
+              className={`text-lg font-bold tracking-wider py-3 px-4 rounded-xl transition-all duration-300 ${
                 location.pathname === link.path
-                  ? "text-neon-500"
-                  : "text-white hover:text-neon-400"
+                  ? "text-neon-500 bg-neon-500/10"
+                  : "text-white hover:text-neon-400 hover:bg-white/5"
               }`}
-              style={{ transitionDelay: isOpen ? `${i * 80}ms` : "0ms" }}
+              style={{ transitionDelay: isOpen ? `${i * 50}ms` : "0ms" }}
             >
               {t(`nav.${link.nameKey}`)}
             </Link>
           ))}
-          <Link
-            to="/inventory"
-            className="mt-4 px-8 py-3.5 bg-neon-500 text-dark-900 font-bold text-sm sm:text-lg rounded-xl shadow-[0_0_30px_rgba(0,212,255,0.4)]"
-          >
-            {t("nav.browseCars")}
-          </Link>
-          <LanguageSwitcher />
+          <div className="mt-4 pt-4 border-t border-white/10 flex flex-col gap-3 px-4">
+            <Link
+              to="/inventory"
+              className="w-full text-center py-3 bg-neon-500 text-dark-900 font-bold text-sm rounded-xl shadow-[0_0_20px_rgba(0,212,255,0.3)]"
+            >
+              {t("nav.browseCars")}
+            </Link>
+            <div className="flex justify-center">
+              <LanguageSwitcher />
+            </div>
+          </div>
         </div>
       </div>
     </nav>
