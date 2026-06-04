@@ -32,6 +32,10 @@ body {
   color: #e2f8f0;
 }
 
+#root {
+  overflow-x: hidden;
+}
+
 ::-webkit-scrollbar {
   width: 8px;
 }

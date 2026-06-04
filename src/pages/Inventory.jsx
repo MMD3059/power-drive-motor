@@ -99,11 +99,11 @@ export default function Inventory() {
               className="w-full pl-12 pr-4 py-3.5 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white placeholder-dark-300 focus:outline-none focus:border-neon-500/40 focus:ring-1 focus:ring-neon-500/20 transition-all"
             />
           </div>
-          <div className="flex gap-3">
+          <div className="flex gap-3 w-full sm:w-auto">
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="px-4 py-3.5 bg-dark-700/80 border border-neon-500/10 rounded-xl text-dark-200 focus:outline-none focus:border-neon-500/40 text-sm cursor-pointer"
+              className="flex-1 sm:flex-none px-4 py-3.5 bg-dark-700/80 border border-neon-500/10 rounded-xl text-dark-200 focus:outline-none focus:border-neon-500/40 text-sm cursor-pointer min-w-0"
             >
               <option value="default">{t("inventory.sortDefault")}</option>
               <option value="price-asc">{t("inventory.sortLowHigh")}</option>
@@ -113,7 +113,7 @@ export default function Inventory() {
             </select>
             <button
               onClick={() => setShowFilters(!showFilters)}
-              className={`px-4 py-3.5 border rounded-xl transition-all ${
+              className={`shrink-0 px-4 py-3.5 border rounded-xl transition-all ${
                 showFilters
                   ? "bg-neon-500/10 border-neon-500/40 text-neon-500"
                   : "bg-dark-700/80 border-neon-500/10 text-dark-200 hover:border-neon-500/30"
