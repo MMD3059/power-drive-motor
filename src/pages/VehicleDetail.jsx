@@ -39,6 +39,18 @@ export default function VehicleDetail() {
   const prevImg = () => setCurrentImg((p) => (p === 0 ? allImages.length - 1 : p - 1))
   const nextImg = () => setCurrentImg((p) => (p === allImages.length - 1 ? 0 : p + 1))
 
+  const [touchX, setTouchX] = useState(null)
+  const handleTouchStart = (e) => setTouchX(e.touches[0].clientX)
+  const handleTouchEnd = (e) => {
+    if (touchX === null) return
+    const diff = touchX - e.changedTouches[0].clientX
+    if (Math.abs(diff) > 50) {
+      if (diff > 0) nextImg()
+      else prevImg()
+    }
+    setTouchX(null)
+  }
+
   return (
     <div className="pt-20 md:pt-24 min-h-screen overflow-x-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-8 w-full max-w-full">
@@ -52,7 +64,7 @@ export default function VehicleDetail() {
 
         <div className="grid lg:grid-cols-2 gap-4 lg:gap-12">
           {lightbox && (
-            <div className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center" onClick={() => setLightbox(false)}>
+            <div className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center" onClick={() => setLightbox(false)} onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
               <button onClick={() => setLightbox(false)} className="absolute top-6 right-6 text-white/60 hover:text-white transition-colors z-10">
                 <X size={32} />
               </button>
@@ -84,7 +96,7 @@ export default function VehicleDetail() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <div className="relative rounded-2xl overflow-hidden group cursor-pointer" onClick={() => setLightbox(true)}>
+            <div className="relative rounded-2xl overflow-hidden group cursor-pointer" onClick={() => setLightbox(true)} onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
               <img
                 src={allImages[currentImg]}
                 alt={car.name}
