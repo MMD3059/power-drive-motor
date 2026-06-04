@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useParams, Link } from "react-router-dom"
 import { useLang } from "../i18n/context"
 import { motion } from "framer-motion"
@@ -50,6 +50,15 @@ export default function VehicleDetail() {
     }
     setTouchX(null)
   }
+
+  useEffect(() => {
+    const handleKey = (e) => {
+      if (e.key === "ArrowLeft") { e.preventDefault(); prevImg() }
+      if (e.key === "ArrowRight") { e.preventDefault(); nextImg() }
+    }
+    window.addEventListener("keydown", handleKey)
+    return () => window.removeEventListener("keydown", handleKey)
+  }, [allImages.length])
 
   return (
     <div className="pt-20 md:pt-24 min-h-screen overflow-x-hidden">
