@@ -100,12 +100,12 @@ export default function Navbar() {
             : "opacity-0 pointer-events-none"
         }`}
       >
-        <div className="flex flex-col items-center justify-center h-full gap-6">
+        <div className="flex flex-col items-center justify-start min-h-screen overflow-y-auto pt-24 pb-12 gap-5">
           {navLinks.map((link, i) => (
             <Link
               key={link.path}
               to={link.path}
-              className={`text-2xl font-bold tracking-wider transition-all duration-300 ${
+              className={`text-xl sm:text-2xl font-bold tracking-wider transition-all duration-300 ${
                 location.pathname === link.path
                   ? "text-neon-500"
                   : "text-white hover:text-neon-400"
@@ -117,7 +117,7 @@ export default function Navbar() {
           ))}
           <Link
             to="/inventory"
-            className="mt-6 px-10 py-4 bg-neon-500 text-dark-900 font-bold text-lg rounded-xl shadow-[0_0_30px_rgba(0,212,255,0.4)]"
+            className="mt-4 px-8 py-3.5 bg-neon-500 text-dark-900 font-bold text-sm sm:text-lg rounded-xl shadow-[0_0_30px_rgba(0,212,255,0.4)]"
           >
             {t("nav.browseCars")}
           </Link>
