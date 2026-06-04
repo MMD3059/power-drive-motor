@@ -27,7 +27,7 @@ export default function Home() {
   useEffect(() => {
     if (cars.length === 0) return
     const interval = setInterval(() => {
-      setFeaturedIndex((prev) => (prev + 1) % Math.min(cars.length, 4))
+      setFeaturedIndex((prev) => (prev + 1) % cars.length)
     }, 5000)
     return () => clearInterval(interval)
   }, [cars])
@@ -115,12 +115,12 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-              <div className="absolute -top-2 -right-2 flex gap-1.5">
-                {cars.slice(0, 4).map((_, i) => (
+              <div className="absolute -top-2 -right-2 max-w-[50vw] overflow-x-auto pb-0.5 flex gap-1.5">
+                {cars.map((_, i) => (
                   <button
                     key={i}
                     onClick={() => setFeaturedIndex(i)}
-                    className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                    className={`shrink-0 w-2 h-2 rounded-full transition-all duration-300 ${
                       i === featuredIndex ? "bg-neon-500 w-4" : "bg-dark-200/30 hover:bg-dark-200/50"
                     }`}
                   />
