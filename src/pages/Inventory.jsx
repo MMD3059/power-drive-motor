@@ -237,7 +237,7 @@ export default function Inventory() {
                     <img
                       src={thumbnail(car.image, "400x300")}
                       alt={car.name}
-                      className="w-full aspect-[4/3] object-cover group-hover:scale-105 transition-transform duration-700"
+                      className="w-full aspect-[4/3] max-md:aspect-[4/2.5] object-cover group-hover:scale-105 transition-transform duration-700"
                     />
                     {!!car.sold && (
                       <div className="absolute inset-0 bg-dark-900/60 flex items-center justify-center">
@@ -252,17 +252,17 @@ export default function Inventory() {
                       </span>
                     </div>
                   </div>
-                  <div className="p-5">
+                  <div className="p-5 max-md:p-3">
                     <p className="text-dark-200 text-xs font-semibold tracking-wider uppercase mb-1">{car.brand}</p>
-                    <h3 className="text-white font-bold text-lg mb-2 group-hover:text-neon-500 transition-colors">{car.name}</h3>
-                    <div className="flex items-center justify-between mb-3">
-                      <span className="flex items-center gap-1.5 text-dark-200 text-sm">
+                    <h3 className="text-white font-bold text-lg max-md:text-sm mb-2 group-hover:text-neon-500 transition-colors">{car.name}</h3>
+                    <div className="flex items-center justify-between mb-3 max-md:mb-2">
+                      <span className="flex items-center gap-1.5 text-dark-200 text-sm max-md:text-xs">
                         <span className="text-neon-500 font-semibold">{car.mileage.toLocaleString()}</span> mi
                       </span>
-                      <span className="text-dark-200 text-sm">{car.year}</span>
+                      <span className="text-dark-200 text-sm max-md:text-xs">{car.year}</span>
                     </div>
-                    <div className="border-t border-neon-500/10 pt-3">
-                      <p className="text-neon-500 font-bold text-xl">${car.price.toLocaleString()}</p>
+                    <div className="border-t border-neon-500/10 pt-3 max-md:pt-2">
+                      <p className="text-neon-500 font-bold text-xl max-md:text-base">${car.price.toLocaleString()}</p>
                     </div>
                   </div>
                 </Link>
