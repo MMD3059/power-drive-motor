@@ -86,7 +86,7 @@ export default function Home() {
               transition={{ duration: 1, delay: 0.3 }}
               className="relative max-md:mt-6"
             >
-              <div className="relative aspect-[4/3] rounded-2xl overflow-hidden">
+              <Link to={`/inventory/${featured?.id}`} className="block relative aspect-[4/3] rounded-2xl overflow-hidden group">
                 <AnimatePresence mode="wait">
                   <motion.img
                     key={featuredIndex}
@@ -96,7 +96,7 @@ export default function Home() {
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: -50 }}
                     transition={{ duration: 0.5 }}
-                    className="w-full h-full object-cover rounded-2xl absolute inset-0"
+                    className="w-full h-full object-cover rounded-2xl absolute inset-0 group-hover:scale-105 transition-transform duration-700"
                   />
                 </AnimatePresence>
                 <div className="absolute inset-0 bg-gradient-to-t from-dark-900/80 via-transparent to-transparent" />
@@ -114,7 +114,7 @@ export default function Home() {
                     </div>
                   </div>
                 </div>
-              </div>
+              </Link>
               <div className="absolute -top-2 -right-2 max-w-[50vw] overflow-x-auto pb-0.5 flex gap-1.5">
                 {cars.map((_, i) => (
                   <button
