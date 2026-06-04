@@ -40,17 +40,17 @@ export default function VehicleDetail() {
   const nextImg = () => setCurrentImg((p) => (p === allImages.length - 1 ? 0 : p + 1))
 
   return (
-    <div className="pt-20 md:pt-24 min-h-screen">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-8">
+    <div className="pt-20 md:pt-24 min-h-screen overflow-x-hidden">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-8 w-full max-w-full">
         <Link
           to="/inventory"
-          className="inline-flex items-center gap-2 text-dark-200 hover:text-neon-500 transition-colors mb-8 group"
+          className="inline-flex items-center gap-2 text-dark-200 hover:text-neon-500 transition-colors mb-6 lg:mb-8 group"
         >
           <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
           {t("detail.back")}
         </Link>
 
-        <div className="grid lg:grid-cols-2 gap-12">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
           {lightbox && (
             <div className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center" onClick={() => setLightbox(false)}>
               <button onClick={() => setLightbox(false)} className="absolute top-6 right-6 text-white/60 hover:text-white transition-colors z-10">
@@ -138,13 +138,13 @@ export default function VehicleDetail() {
               </div>
             )}
 
-            <div className="mt-6 glass rounded-xl p-6">
-              <h3 className="text-white font-bold text-lg mb-4">Key Features</h3>
-              <div className="grid grid-cols-2 gap-3">
+            <div className="mt-6 glass rounded-xl p-4 md:p-6">
+              <h3 className="text-white font-bold text-base md:text-lg mb-3 md:mb-4">Key Features</h3>
+              <div className="grid grid-cols-2 gap-2 md:gap-3">
                 {car.features.map((f, i) => (
-                  <div key={i} className="flex items-center gap-2 text-dark-200 text-sm">
-                    <Check size={16} className="text-neon-500 shrink-0" />
-                    {f}
+                  <div key={i} className="flex items-center gap-2 text-dark-200 text-xs md:text-sm">
+                    <Check size={14} className="text-neon-500 shrink-0" />
+                    <span className="break-words">{f}</span>
                   </div>
                 ))}
               </div>
@@ -157,11 +157,11 @@ export default function VehicleDetail() {
             transition={{ duration: 0.6, delay: 0.2 }}
           >
             <p className="text-neon-500 text-sm font-semibold tracking-widest uppercase mb-2">{car.brand}</p>
-            <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold text-white mb-2">{car.name}</h1>
-            <p className="text-dark-200 text-lg mb-6">{car.model}</p>
+            <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold text-white mb-2 break-words">{car.name}</h1>
+            <p className="text-dark-200 text-sm md:text-lg mb-6">{car.model}</p>
 
             <div className="flex items-center gap-4 mb-8">
-              <div className="text-2xl sm:text-4xl md:text-5xl font-bold gradient-text">
+              <div className="text-xl sm:text-4xl md:text-5xl font-bold gradient-text break-words">
                 ${car.price.toLocaleString()}
               </div>
               {!!car.sold && (
@@ -171,21 +171,21 @@ export default function VehicleDetail() {
               )}
             </div>
 
-            <p className="text-dark-200 leading-relaxed mb-8">{car.description}</p>
+            <p className="text-dark-200 leading-relaxed mb-8 text-sm md:text-base">{car.description}</p>
 
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 md:gap-4 mb-8">
               {specs.map((spec, i) => (
-                <div key={i} className="glass-card rounded-xl p-4 text-center">
-                  <spec.icon size={22} className="text-neon-500 mx-auto mb-2" />
-                  <p className="text-dark-200 text-xs uppercase tracking-wider mb-1">{spec.label}</p>
-                  <p className="text-white font-semibold text-sm">{spec.value}</p>
+                <div key={i} className="glass-card rounded-xl p-3 md:p-4 text-center">
+                  <spec.icon size={20} className="text-neon-500 mx-auto mb-1.5 md:mb-2" />
+                  <p className="text-dark-200 text-[11px] md:text-xs uppercase tracking-wider mb-0.5 md:mb-1">{spec.label}</p>
+                  <p className="text-white font-semibold text-xs md:text-sm">{spec.value}</p>
                 </div>
               ))}
             </div>
 
-            <div className="glass rounded-xl p-6">
-              <h3 className="text-white font-bold text-lg mb-4">Interested in This Vehicle?</h3>
-              <p className="text-dark-200 text-sm mb-6">
+            <div className="glass rounded-xl p-4 md:p-6">
+              <h3 className="text-white font-bold text-base md:text-lg mb-3 md:mb-4">Interested in This Vehicle?</h3>
+              <p className="text-dark-200 text-sm mb-4 md:mb-6">
                 Our team is ready to assist you with a personalized consultation, 
                 financing options, and arranging a private viewing.
               </p>
