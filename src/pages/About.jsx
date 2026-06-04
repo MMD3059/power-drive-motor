@@ -113,8 +113,8 @@ export default function About() {
                     </div>
                     <div>
                       <p className="text-white font-semibold text-sm">{t("about.address")}</p>
-                      <p className="text-dark-200">4309 E 12th St</p>
-                      <p className="text-dark-300 text-xs">Sioux Falls, SD 57103</p>
+                      <a href="https://maps.google.com/?q=4309+E+12th+St+Sioux+Falls+SD+57103" target="_blank" rel="noopener noreferrer" className="text-dark-200 hover:text-neon-500 transition-colors">4309 E 12th St</a>
+                      <a href="https://maps.google.com/?q=4309+E+12th+St+Sioux+Falls+SD+57103" target="_blank" rel="noopener noreferrer" className="text-dark-300 text-xs hover:text-neon-500 transition-colors">Sioux Falls, SD 57103</a>
                     </div>
                   </div>
                   <div className="flex items-start gap-4 text-dark-200">

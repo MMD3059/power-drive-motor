@@ -193,6 +193,8 @@ export default function Contact() {
                       <a href={`tel:+16055012400`} className="text-dark-200 font-medium hover:text-neon-500 transition-colors">{item.value}</a>
                     ) : item.icon === Mail ? (
                       <a href={`mailto:${item.value}`} className="text-dark-200 font-medium hover:text-neon-500 transition-colors">{item.value}</a>
+                    ) : item.icon === MapPin ? (
+                      <a href="https://maps.google.com/?q=4309+E+12th+St+Sioux+Falls+SD+57103" target="_blank" rel="noopener noreferrer" className="text-dark-200 font-medium hover:text-neon-500 transition-colors">{item.value}</a>
                     ) : (
                       <p className="text-dark-200 font-medium">{item.value}</p>
                     )}
