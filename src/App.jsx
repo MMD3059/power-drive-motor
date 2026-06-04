@@ -48,7 +48,7 @@ function PublicLayout() {
       <ScrollToTop />
       <BackgroundEffects />
       <Navbar />
-      <main className="flex-1 relative z-10">
+      <main className="flex-1 relative z-10 overflow-x-hidden">
         <AnimatePresence mode="wait">
           <Routes>
             <Route path="/" element={<Home />} />
