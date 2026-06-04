@@ -252,17 +252,17 @@ export default function Inventory() {
                       </span>
                     </div>
                   </div>
-                  <div className="p-5 max-md:p-2.5">
-                    <p className="text-dark-200 text-xs font-semibold tracking-wider uppercase mb-1 max-md:mb-0 max-md:text-[10px]">{car.brand}</p>
-                    <h3 className="text-white font-bold text-lg max-md:text-xs mb-2 max-md:mb-1 group-hover:text-neon-500 transition-colors">{car.name}</h3>
-                    <div className="flex items-center justify-between mb-3 max-md:mb-1">
-                      <span className="flex items-center gap-1 text-dark-200 text-sm max-md:text-[11px]">
+                  <div className="p-5">
+                    <p className="text-dark-200 text-xs font-semibold tracking-wider uppercase mb-1">{car.brand}</p>
+                    <h3 className="text-white font-bold text-lg mb-2 group-hover:text-neon-500 transition-colors">{car.name}</h3>
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="flex items-center gap-1.5 text-dark-200 text-sm">
                         <span className="text-neon-500 font-semibold">{car.mileage.toLocaleString()}</span> mi
                       </span>
-                      <span className="text-dark-200 text-sm max-md:text-[11px]">{car.year}</span>
+                      <span className="text-dark-200 text-sm">{car.year}</span>
                     </div>
-                    <div className="border-t border-neon-500/10 pt-3 max-md:pt-1.5">
-                      <p className="text-neon-500 font-bold text-xl max-md:text-sm">${car.price.toLocaleString()}</p>
+                    <div className="border-t border-neon-500/10 pt-3">
+                      <p className="text-neon-500 font-bold text-xl">${car.price.toLocaleString()}</p>
                     </div>
                   </div>
                 </Link>
