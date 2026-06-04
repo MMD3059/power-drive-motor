@@ -13,8 +13,7 @@ if (existing) {
 
 const carsExist = db.prepare("SELECT count(*) as count FROM cars").get()
 if (carsExist.count > 0) {
-  db.prepare("DELETE FROM cars").run()
-  console.log(`Deleted ${carsExist.count} existing cars, re-seeding.`)
+  console.log(`${carsExist.count} cars already exist — skipping seed.`)
 }
 
 const cars = [
