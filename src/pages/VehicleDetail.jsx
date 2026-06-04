@@ -44,13 +44,13 @@ export default function VehicleDetail() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-8 w-full max-w-full">
         <Link
           to="/inventory"
-          className="inline-flex items-center gap-2 text-dark-200 hover:text-neon-500 transition-colors mb-6 lg:mb-8 group"
+          className="inline-flex items-center gap-2 text-dark-200 hover:text-neon-500 transition-colors mb-4 lg:mb-8 group"
         >
           <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
           {t("detail.back")}
         </Link>
 
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
+        <div className="grid lg:grid-cols-2 gap-4 lg:gap-12">
           {lightbox && (
             <div className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center" onClick={() => setLightbox(false)}>
               <button onClick={() => setLightbox(false)} className="absolute top-6 right-6 text-white/60 hover:text-white transition-colors z-10">
@@ -88,9 +88,9 @@ export default function VehicleDetail() {
               <img
                 src={allImages[currentImg]}
                 alt={car.name}
-                className="w-full aspect-[4/3] object-cover rounded-2xl"
+                className="w-full aspect-[16/9] md:aspect-[4/3] object-cover rounded-2xl"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-dark-900/60 via-transparent to-transparent rounded-2xl" />
+              <div className="absolute inset-0 bg-gradient-to-t from-dark-900/60 via-transparent to-transparent rounded-2xl max-md:hidden" />
               {!!car.sold && (
                 <div className="absolute inset-0 bg-dark-900/60 flex items-center justify-center rounded-2xl">
                   <span className="px-8 py-3 bg-red-600 text-white font-bold text-2xl rounded-xl rotate-[-15deg] shadow-lg border-2 border-red-400">
@@ -98,11 +98,11 @@ export default function VehicleDetail() {
                   </span>
                 </div>
               )}
-              <div className="absolute top-4 left-4 flex gap-2">
-                <span className="px-4 py-1.5 text-xs font-semibold bg-neon-500/20 text-neon-500 border border-neon-500/30 rounded-full backdrop-blur-md">
+              <div className="absolute top-2 md:top-4 left-2 md:left-4 flex gap-1.5 md:gap-2">
+                <span className="px-2 py-0.5 md:px-4 md:py-1.5 text-[10px] md:text-xs font-semibold bg-neon-500/20 text-neon-500 border border-neon-500/30 rounded-full backdrop-blur-md">
                   {car.fuelType}
                 </span>
-                <span className="px-4 py-1.5 text-xs font-semibold bg-dark-700/80 text-dark-200 border border-white/10 rounded-full backdrop-blur-md">
+                <span className="px-2 py-0.5 md:px-4 md:py-1.5 text-[10px] md:text-xs font-semibold bg-dark-700/80 text-dark-200 border border-white/10 rounded-full backdrop-blur-md">
                   {car.year}
                 </span>
               </div>
@@ -110,17 +110,17 @@ export default function VehicleDetail() {
               {allImages.length > 1 && (
                 <>
                   <button onClick={prevImg}
-                    className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-dark-900/60 backdrop-blur-sm text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-neon-500/30">
-                    <ChevronLeft size={20} />
+                    className="absolute left-2 md:left-3 top-1/2 -translate-y-1/2 w-8 h-8 md:w-10 md:h-10 rounded-full bg-dark-900/60 backdrop-blur-sm text-white flex items-center justify-center md:opacity-0 md:group-hover:opacity-100 transition-opacity hover:bg-neon-500/30">
+                    <ChevronLeft size={16} />
                   </button>
                   <button onClick={nextImg}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-dark-900/60 backdrop-blur-sm text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-neon-500/30">
-                    <ChevronRight size={20} />
+                    className="absolute right-2 md:right-3 top-1/2 -translate-y-1/2 w-8 h-8 md:w-10 md:h-10 rounded-full bg-dark-900/60 backdrop-blur-sm text-white flex items-center justify-center md:opacity-0 md:group-hover:opacity-100 transition-opacity hover:bg-neon-500/30">
+                    <ChevronRight size={16} />
                   </button>
-                  <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+                  <div className="absolute bottom-2 md:bottom-4 left-1/2 -translate-x-1/2 flex gap-1.5 md:gap-2">
                     {allImages.map((_, i) => (
                       <button key={i} onClick={() => setCurrentImg(i)}
-                        className={`w-2 h-2 rounded-full transition-all ${i === currentImg ? "bg-neon-500 w-4" : "bg-white/40 hover:bg-white/70"}`} />
+                        className={`w-1.5 h-1.5 md:w-2 md:h-2 rounded-full transition-all ${i === currentImg ? "bg-neon-500 w-3 md:w-4" : "bg-white/40 hover:bg-white/70"}`} />
                     ))}
                   </div>
                 </>
@@ -128,7 +128,7 @@ export default function VehicleDetail() {
             </div>
 
             {allImages.length > 1 && (
-              <div className="flex gap-2 mt-3 overflow-x-auto pb-1">
+              <div className="hidden md:flex gap-2 mt-3 overflow-x-auto pb-1">
                 {allImages.map((img, i) => (
                   <button key={i} onClick={() => setCurrentImg(i)}
                     className={`shrink-0 w-16 h-12 rounded-lg overflow-hidden border-2 transition-all ${i === currentImg ? "border-neon-500" : "border-transparent opacity-60 hover:opacity-100"}`}>
@@ -156,52 +156,52 @@ export default function VehicleDetail() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <p className="text-neon-500 text-sm font-semibold tracking-widest uppercase mb-2">{car.brand}</p>
-            <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold text-white mb-2 break-words">{car.name}</h1>
-            <p className="text-dark-200 text-sm md:text-lg mb-6">{car.model}</p>
+            <p className="text-neon-500 text-[11px] md:text-sm font-semibold tracking-widest uppercase mb-1 md:mb-2">{car.brand}</p>
+            <h1 className="text-base md:text-3xl lg:text-5xl font-bold text-white mb-0.5 md:mb-2 break-words">{car.name}</h1>
+            <p className="text-dark-200 text-xs md:text-lg mb-3 md:mb-6">{car.model}</p>
 
-            <div className="flex items-center gap-4 mb-8">
-              <div className="text-xl sm:text-4xl md:text-5xl font-bold gradient-text break-words">
+            <div className="flex items-center gap-2 md:gap-4 mb-4 md:mb-8">
+              <div className="text-lg md:text-4xl lg:text-5xl font-bold gradient-text break-words">
                 ${car.price.toLocaleString()}
               </div>
               {!!car.sold && (
-                <span className="px-4 py-1.5 bg-red-600/20 text-red-400 font-bold text-sm rounded-lg border border-red-500/40">
+                <span className="px-2 py-0.5 md:px-4 md:py-1.5 bg-red-600/20 text-red-400 font-bold text-[10px] md:text-sm rounded-lg border border-red-500/40">
                   {t("detail.sold")}
                 </span>
               )}
             </div>
 
-            <p className="text-dark-200 leading-relaxed mb-8 text-sm md:text-base">{car.description}</p>
+            <p className="text-dark-200 leading-relaxed mb-4 md:mb-8 text-xs md:text-base">{car.description}</p>
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 md:gap-4 mb-8">
+            <div className="grid grid-cols-3 gap-1.5 md:gap-4 mb-4 md:mb-8">
               {specs.map((spec, i) => (
-                <div key={i} className="glass-card rounded-xl p-3 md:p-4 text-center">
-                  <spec.icon size={20} className="text-neon-500 mx-auto mb-1.5 md:mb-2" />
-                  <p className="text-dark-200 text-[11px] md:text-xs uppercase tracking-wider mb-0.5 md:mb-1">{spec.label}</p>
-                  <p className="text-white font-semibold text-xs md:text-sm">{spec.value}</p>
+                <div key={i} className="glass-card rounded-lg md:rounded-xl p-1.5 md:p-4 text-center">
+                  <spec.icon size={14} className="text-neon-500 mx-auto mb-0.5 md:mb-2" />
+                  <p className="text-dark-200 text-[9px] md:text-xs uppercase tracking-wider truncate">{spec.label}</p>
+                  <p className="text-white font-semibold text-[10px] md:text-sm truncate">{spec.value}</p>
                 </div>
               ))}
             </div>
 
-            <div className="glass rounded-xl p-4 md:p-6">
-              <h3 className="text-white font-bold text-base md:text-lg mb-3 md:mb-4">Interested in This Vehicle?</h3>
-              <p className="text-dark-200 text-sm mb-4 md:mb-6">
+            <div className="glass rounded-lg md:rounded-xl p-2.5 md:p-6">
+              <h3 className="text-white font-bold text-xs md:text-lg mb-2 md:mb-4">Interested in This Vehicle?</h3>
+              <p className="text-dark-200 text-[10px] md:text-sm mb-2 md:mb-6">
                 Our team is ready to assist you with a personalized consultation, 
                 financing options, and arranging a private viewing.
               </p>
-              <div className="flex flex-col sm:flex-row gap-3">
+              <div className="flex flex-col sm:flex-row gap-2 md:gap-3">
                 <Link
                   to="/contact"
-                  className="flex-1 flex items-center justify-center gap-2 px-6 py-3.5 bg-neon-500 text-dark-900 font-bold rounded-xl hover:bg-neon-400 transition-all duration-300 shadow-[0_0_20px_rgba(0,212,255,0.3)]"
+                  className="flex-1 flex items-center justify-center gap-1.5 md:gap-2 px-3 md:px-6 py-2 md:py-3.5 bg-neon-500 text-dark-900 font-bold rounded-lg md:rounded-xl hover:bg-neon-400 transition-all duration-300 shadow-[0_0_20px_rgba(0,212,255,0.3)] text-xs md:text-base"
                 >
-                  <Phone size={18} />
+                  <Phone size={14} />
                   {t("detail.inquire")}
                 </Link>
                 <Link
                   to="/financing"
-                  className="flex-1 flex items-center justify-center gap-2 px-6 py-3.5 border border-neon-500/30 text-neon-500 font-semibold rounded-xl hover:bg-neon-500/10 transition-all duration-300"
+                  className="flex-1 flex items-center justify-center gap-1.5 md:gap-2 px-3 md:px-6 py-2 md:py-3.5 border border-neon-500/30 text-neon-500 font-semibold rounded-lg md:rounded-xl hover:bg-neon-500/10 transition-all duration-300 text-xs md:text-base"
                 >
-                  <Mail size={18} />
+                  <Mail size={14} />
                   Financing Options
                 </Link>
               </div>
