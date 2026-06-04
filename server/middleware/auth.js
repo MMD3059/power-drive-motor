@@ -1,6 +1,11 @@
 import jwt from "jsonwebtoken"
 
-const JWT_SECRET = process.env.JWT_SECRET || "power-drive-motor-secret-key-change-in-production"
+import crypto from "crypto"
+
+const JWT_SECRET = process.env.JWT_SECRET || crypto.randomBytes(32).toString("hex")
+if (!process.env.JWT_SECRET) {
+  console.warn("WARNING: JWT_SECRET not set — generated random secret (tokens invalidated on restart)")
+}
 
 export function generateToken(username) {
   return jwt.sign({ username }, JWT_SECRET, { expiresIn: "7d" })
