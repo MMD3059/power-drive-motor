@@ -38,70 +38,72 @@ export default function Navbar() {
   }, [isOpen])
 
   return (
-    <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled
-          ? "bg-dark-700/90 backdrop-blur-xl shadow-lg shadow-neon-500/5"
-          : "bg-transparent"
-      }`}
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20">
-          <Link to="/" className="flex items-center gap-3 group">
-            <img
-              src="/logo.jpg"
-              alt="Power Drive Motor"
-              className="h-10 w-auto rounded-full border border-neon-500/30 group-hover:border-neon-500 transition-all duration-300"
-            />
-            <div>
-              <h1 className="font-['Orbitron'] text-lg font-bold gradient-text tracking-wider">
-                POWER DRIVE
-              </h1>
-              <p className="text-[10px] text-dark-200 tracking-[0.3em] uppercase -mt-1">
-                Motor
-              </p>
-            </div>
-          </Link>
-
-          <div className="hidden lg:flex items-center gap-0.5 xl:gap-1 flex-nowrap">
-            {navLinks.map((link) => (
-              <Link
-                key={link.path}
-                to={link.path}
-                className={`relative px-2 xl:px-3 py-2 text-xs xl:text-sm font-medium whitespace-nowrap transition-all duration-300 rounded-lg ${
-                  location.pathname === link.path
-                    ? "text-neon-500"
-                    : "text-dark-200 hover:text-white"
-                }`}
-              >
-                {t(`nav.${link.nameKey}`)}
-                {location.pathname === link.path && (
-                  <span className="absolute bottom-0 left-2 xl:left-3 right-2 xl:right-3 h-0.5 bg-neon-500 rounded-full shadow-[0_0_8px_rgba(0,212,255,0.5)]" />
-                )}
-              </Link>
-            ))}
-            <Link
-              to="/inventory"
-              className="ml-2 xl:ml-4 px-3 xl:px-5 py-2 bg-neon-500 text-dark-900 font-semibold text-xs xl:text-sm whitespace-nowrap rounded-lg hover:bg-neon-400 transition-all duration-300 shadow-[0_0_20px_rgba(0,212,255,0.3)] hover:shadow-[0_0_30px_rgba(0,212,255,0.5)]"
-            >
-              {t("nav.browseCars")}
+    <>
+      <nav
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+          scrolled
+            ? "bg-dark-700/90 backdrop-blur-xl shadow-lg shadow-neon-500/5"
+            : "bg-transparent"
+        }`}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-20">
+            <Link to="/" className="flex items-center gap-3 group">
+              <img
+                src="/logo.jpg"
+                alt="Power Drive Motor"
+                className="h-10 w-auto rounded-full border border-neon-500/30 group-hover:border-neon-500 transition-all duration-300"
+              />
+              <div>
+                <h1 className="font-['Orbitron'] text-lg font-bold gradient-text tracking-wider">
+                  POWER DRIVE
+                </h1>
+                <p className="text-[10px] text-dark-200 tracking-[0.3em] uppercase -mt-1">
+                  Motor
+                </p>
+              </div>
             </Link>
-            <LanguageSwitcher />
+
+            <div className="hidden lg:flex items-center gap-0.5 xl:gap-1 flex-nowrap">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.path}
+                  to={link.path}
+                  className={`relative px-2 xl:px-3 py-2 text-xs xl:text-sm font-medium whitespace-nowrap transition-all duration-300 rounded-lg ${
+                    location.pathname === link.path
+                      ? "text-neon-500"
+                      : "text-dark-200 hover:text-white"
+                  }`}
+                >
+                  {t(`nav.${link.nameKey}`)}
+                  {location.pathname === link.path && (
+                    <span className="absolute bottom-0 left-2 xl:left-3 right-2 xl:right-3 h-0.5 bg-neon-500 rounded-full shadow-[0_0_8px_rgba(0,212,255,0.5)]" />
+                  )}
+                </Link>
+              ))}
+              <Link
+                to="/inventory"
+                className="ml-2 xl:ml-4 px-3 xl:px-5 py-2 bg-neon-500 text-dark-900 font-semibold text-xs xl:text-sm whitespace-nowrap rounded-lg hover:bg-neon-400 transition-all duration-300 shadow-[0_0_20px_rgba(0,212,255,0.3)] hover:shadow-[0_0_30px_rgba(0,212,255,0.5)]"
+              >
+                {t("nav.browseCars")}
+              </Link>
+              <LanguageSwitcher />
+            </div>
+
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="lg:hidden p-2 text-white hover:text-neon-500 transition-colors"
+            >
+              {isOpen ? <X size={28} /> : <Menu size={28} />}
+            </button>
           </div>
-
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="lg:hidden relative z-50 p-2 text-white hover:text-neon-500 transition-colors"
-          >
-            {isOpen ? <X size={28} /> : <Menu size={28} />}
-          </button>
         </div>
-      </div>
+      </nav>
 
-      {/* Backdrop */}
+      {/* Backdrop — outside nav so backdrop-filter doesn't break fixed positioning */}
       <div
         onClick={() => setIsOpen(false)}
-        className={`fixed inset-0 bg-black/70 transition-opacity duration-300 lg:hidden ${
+        className={`fixed inset-0 bg-black/70 transition-opacity duration-300 lg:hidden z-40 ${
           isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
         }`}
       />
@@ -139,6 +141,6 @@ export default function Navbar() {
           </div>
         </div>
       </div>
-    </nav>
+    </>
   )
 }
