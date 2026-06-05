@@ -1,7 +1,7 @@
 import { useOutletContext, Link } from "react-router-dom"
 import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
-import { Car, MessageSquare, TrendingUp, DollarSign } from "lucide-react"
+import { Car, MessageSquare, Download } from "lucide-react"
 
 const API = import.meta.env.DEV ? "http://localhost:3001/api" : "/api"
 
@@ -36,6 +36,23 @@ export default function AdminIndex() {
     },
   ]
 
+  const handleBackup = async () => {
+    const token = localStorage.getItem("admin-token")
+    try {
+      const res = await fetch(`${API}/PDM-admin/backup`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      if (!res.ok) { alert("Backup failed"); return }
+      const blob = await res.blob()
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement("a")
+      a.href = url
+      a.download = `power-drive-motor-backup-${new Date().toISOString().split("T")[0]}.db`
+      a.click()
+      URL.revokeObjectURL(url)
+    } catch { alert("Backup failed") }
+  }
+
   return (
     <div>
       <h1 className="text-2xl font-bold text-white mb-6">Dashboard</h1>
@@ -59,6 +76,21 @@ export default function AdminIndex() {
             </motion.div>
           </Link>
         ))}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="glass-card rounded-xl p-6 border border-purple-500/20 hover:border-purple-500/30 transition-all cursor-pointer"
+          onClick={handleBackup}
+        >
+          <div className="flex items-center justify-between mb-4">
+            <div className="w-12 h-12 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center">
+              <Download size={24} className="text-purple-500" />
+            </div>
+          </div>
+          <p className="text-3xl font-bold text-white mb-1">↴</p>
+          <p className="text-purple-400 text-sm font-medium">Download Database Backup</p>
+        </motion.div>
       </div>
 
       <div className="glass rounded-xl p-6">

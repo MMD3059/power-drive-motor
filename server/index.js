@@ -6,6 +6,8 @@ import { fileURLToPath } from "url"
 import authRoutes from "./routes/auth.js"
 import carRoutes from "./routes/cars.js"
 import messageRoutes from "./routes/messages.js"
+import { requireAuth } from "./middleware/auth.js"
+import fs from "fs"
 
 import db from "./db.js"
 
@@ -64,6 +66,19 @@ if (process.env.NODE_ENV !== "production") {
 app.use("/api/PDM-admin", authRoutes)
 app.use("/api/cars", carRoutes)
 app.use("/api/messages", messageRoutes)
+
+// Database backup (admin only)
+app.get("/api/PDM-admin/backup", requireAuth, (req, res) => {
+  const backupPath = path.join(__dirname, `backup-${Date.now()}.db`)
+  try {
+    db.exec(`VACUUM INTO '${backupPath}'`)
+    res.download(backupPath, `power-drive-motor-backup-${new Date().toISOString().split("T")[0]}.db`, () => {
+      try { fs.unlinkSync(backupPath) } catch {}
+    })
+  } catch (e) {
+    res.status(500).json({ error: "Backup failed" })
+  }
+})
 
 const distPath = path.join(__dirname, "..", "dist")
 app.use(express.static(distPath))
