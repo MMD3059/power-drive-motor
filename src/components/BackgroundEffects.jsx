@@ -26,8 +26,8 @@ export default function BackgroundEffects() {
           top: "50%",
           left: "50%",
           transform: "translate(-50%, -50%)",
-          width: "min(60vw, 400px)",
-          height: "min(60vw, 400px)",
+width: "min(80vw, 600px)",
+            height: "min(80vw, 600px)",
           borderRadius: "50%",
           overflow: "hidden",
         }}
