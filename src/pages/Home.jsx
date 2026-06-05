@@ -87,8 +87,6 @@ export default function Home() {
               className="relative max-md:mt-6"
             >
               <div className="relative h-[220px] sm:h-[300px] flex items-center justify-center">
-                <div className="absolute inset-y-0 left-0 w-16 sm:w-32 bg-gradient-to-r from-dark-900 to-transparent z-20 pointer-events-none" />
-                <div className="absolute inset-y-0 right-0 w-16 sm:w-32 bg-gradient-to-l from-dark-900 to-transparent z-20 pointer-events-none" />
                 {cars.map((car, i) => {
                   const diff = (i - featuredIndex + cars.length) % cars.length
                   const isPrev = diff === cars.length - 1
