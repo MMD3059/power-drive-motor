@@ -46,9 +46,9 @@ export default function Navbar() {
             : "bg-transparent"
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto pl-2 sm:pl-4 lg:pl-6 pr-4 sm:pr-6 lg:pr-8">
           <div className="flex items-center justify-between h-20">
-              <Link to="/" className="flex items-center gap-3 group -ml-2">
+              <Link to="/" className="flex items-center gap-3 group shrink-0">
               <img
                 src="/logo.png"
                 alt="Power Drive Motor"
@@ -64,7 +64,7 @@ export default function Navbar() {
               </div>
             </Link>
 
-            <div className="hidden lg:flex items-center gap-0.5 xl:gap-1 flex-nowrap">
+            <div className="hidden lg:flex items-center gap-0.5 xl:gap-1 overflow-x-auto" style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>
               {navLinks.map((link) => (
                 <Link
                   key={link.path}
