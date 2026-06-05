@@ -14,9 +14,8 @@ if (existing) {
 const carsExist = db.prepare("SELECT count(*) as count FROM cars").get()
 if (carsExist.count > 0) {
   console.log(`${carsExist.count} cars already exist — skipping seed.`)
-}
-
-const cars = [
+} else {
+  const cars = [
   {
     name: "2014 Chevy Cruze LT",
     brand: "Chevrolet",
@@ -307,17 +306,18 @@ const cars = [
   },
 ]
 
-const stmt = db.prepare(`
-  INSERT INTO cars (name, brand, model, year, price, fuelType, transmission, engine, horsepower, mileage, seats, color, image, images, description, features, sold)
-  VALUES (@name, @brand, @model, @year, @price, @fuelType, @transmission, @engine, @horsepower, @mileage, @seats, @color, @image, @images, @description, @features, @sold)
-`)
+  const stmt = db.prepare(`
+    INSERT INTO cars (name, brand, model, year, price, fuelType, transmission, engine, horsepower, mileage, seats, color, image, images, description, features, sold)
+    VALUES (@name, @brand, @model, @year, @price, @fuelType, @transmission, @engine, @horsepower, @mileage, @seats, @color, @image, @images, @description, @features, @sold)
+  `)
 
-const insertMany = db.transaction((cars) => {
-  for (const car of cars) {
-    stmt.run({ ...car, sold: 0 })
-  }
-})
+  const insertMany = db.transaction((cars) => {
+    for (const car of cars) {
+      stmt.run({ ...car, sold: 0 })
+    }
+  })
 
-insertMany(cars)
-console.log(`Seeded ${cars.length} cars successfully.`)
-console.log("Admin login: username=H.Hayyawi, password=hayderhayyawibusinesses7")
+  insertMany(cars)
+  console.log(`Seeded ${cars.length} cars successfully.`)
+  console.log("Admin login: username=H.Hayyawi, password=hayderhayyawibusinesses7")
+}
