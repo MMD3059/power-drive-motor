@@ -19,6 +19,7 @@ import TradeIn from "./pages/TradeIn"
 import TestDrive from "./pages/TestDrive"
 import Privacy from "./pages/Privacy"
 import Terms from "./pages/Terms"
+import CookiePolicy from "./pages/CookiePolicy"
 import AdminLogin from "./pages/AdminLogin"
 import AdminDashboard from "./pages/AdminDashboard"
 import AdminIndex from "./pages/AdminIndex"
@@ -64,6 +65,7 @@ function PublicLayout() {
             <Route path="/test-drive" element={<TestDrive />} />
             <Route path="/privacy" element={<Privacy />} />
             <Route path="/terms" element={<Terms />} />
+            <Route path="/cookies" element={<CookiePolicy />} />
           </Routes>
         </AnimatePresence>
       </main>

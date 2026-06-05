@@ -323,6 +323,25 @@
     "liabilityDesc": "Power Drive Motor no será responsable por daños indirectos o incidentales que surjan del uso de nuestro sitio web o servicios.",
     "contact": "Para preguntas sobre estos términos, contáctenos en Powerdrivemotorllc@gmail.com."
   },
+  "cookies": {
+    "subtitle": "Cookies",
+    "title": "Política de Cookies",
+    "desc": "Cómo usamos cookies y tecnologías similares en nuestro sitio web.",
+    "lastUpdated": "Última Actualización: 1 de Junio de 2026",
+    "intro": "Power Drive Motor utiliza cookies y tecnologías de seguimiento similares para mejorar su experiencia de navegación, analizar el tráfico del sitio y personalizar el contenido. Esta política explica qué son las cookies, cómo las usamos y sus opciones con respecto a su uso.",
+    "whatTitle": "¿Qué Son las Cookies?",
+    "whatDesc": "Las cookies son pequeños archivos de texto almacenados en su dispositivo cuando visita un sitio web. Ayudan al sitio a recordar sus preferencias, estado de inicio de sesión y comportamiento de navegación para mejorar su experiencia.",
+    "howTitle": "Cómo Usamos las Cookies",
+    "howDesc": "Usamos los siguientes tipos de cookies:",
+    "necessary": "Cookies necesarias — Esenciales para que el sitio web funcione correctamente. No se pueden desactivar.",
+    "performance": "Cookies de rendimiento — Recopilan datos anónimos sobre cómo los visitantes usan nuestro sitio para ayudarnos a mejorar.",
+    "functional": "Cookies funcionales — Recuerdan sus preferencias y elecciones de idioma para una experiencia personalizada.",
+    "thirdTitle": "Cookies de Terceros",
+    "thirdDesc": "Podemos utilizar servicios de terceros (como Google Analytics) que colocan sus propias cookies en su navegador. Estas se rigen por las políticas de privacidad de los respectivos terceros.",
+    "manageTitle": "Gestión de Cookies",
+    "manageDesc": "Puede controlar y gestionar las cookies a través de la configuración de su navegador. La mayoría de los navegadores le permiten bloquear o eliminar cookies. Tenga en cuenta que deshabilitar ciertas cookies puede afectar la funcionalidad del sitio web.",
+    "contact": "Si tiene preguntas sobre nuestra política de cookies, contáctenos en Powerdrivemotorllc@gmail.com."
+  },
   "financing": {
     "subtitle": "Financiamiento",
     "title": "Opciones de Financiamiento Flexibles",

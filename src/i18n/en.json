@@ -323,6 +323,25 @@
     "liabilityDesc": "Power Drive Motor shall not be liable for any indirect, incidental, or consequential damages arising from your use of our website or services.",
     "contact": "For questions about these terms, contact us at Powerdrivemotorllc@gmail.com."
   },
+  "cookies": {
+    "subtitle": "Cookies",
+    "title": "Cookie Policy",
+    "desc": "How we use cookies and similar technologies on our website.",
+    "lastUpdated": "Last Updated: June 1, 2026",
+    "intro": "Power Drive Motor uses cookies and similar tracking technologies to enhance your browsing experience, analyze site traffic, and personalize content. This policy explains what cookies are, how we use them, and your choices regarding their use.",
+    "whatTitle": "What Are Cookies",
+    "whatDesc": "Cookies are small text files stored on your device when you visit a website. They help the website remember your preferences, login status, and browsing behavior to improve your experience.",
+    "howTitle": "How We Use Cookies",
+    "howDesc": "We use the following types of cookies:",
+    "necessary": "Necessary cookies — Essential for the website to function properly. These cannot be disabled.",
+    "performance": "Performance cookies — Collect anonymous data about how visitors use our site to help us improve.",
+    "functional": "Functional cookies — Remember your preferences and language choices for a personalized experience.",
+    "thirdTitle": "Third-Party Cookies",
+    "thirdDesc": "We may use third-party services (such as Google Analytics) that place their own cookies on your browser. These are governed by the respective third-party privacy policies.",
+    "manageTitle": "Managing Cookies",
+    "manageDesc": "You can control and manage cookies through your browser settings. Most browsers allow you to block or delete cookies. Note that disabling certain cookies may affect website functionality.",
+    "contact": "For questions about our cookie policy, contact us at Powerdrivemotorllc@gmail.com."
+  },
   "financing": {
     "subtitle": "Financing",
     "title": "Flexible Financing Options",
