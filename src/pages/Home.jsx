@@ -92,10 +92,10 @@ export default function Home() {
                     key={featuredIndex}
                     src={featured?.image || featured?.images?.[0]}
                     alt="Featured Vehicle"
-                    initial={{ opacity: 0, x: 50 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -50 }}
-                    transition={{ duration: 0.5 }}
+                    initial={{ opacity: 0, scale: 1.1 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
                     className="w-full h-full object-cover rounded-2xl absolute inset-0 group-hover:scale-105 transition-transform duration-700"
                   />
                 </AnimatePresence>
@@ -115,17 +115,7 @@ export default function Home() {
                   </div>
                 </div>
               </Link>
-              <div className="absolute -top-2 -right-2 max-w-[50vw] overflow-x-auto pb-0.5 flex gap-1.5">
-                {cars.map((_, i) => (
-                  <button
-                    key={i}
-                    onClick={() => setFeaturedIndex(i)}
-                    className={`shrink-0 w-2 h-2 rounded-full transition-all duration-300 ${
-                      i === featuredIndex ? "bg-neon-500 w-4" : "bg-dark-200/30 hover:bg-dark-200/50"
-                    }`}
-                  />
-                ))}
-              </div>
+
             </motion.div>
           </div>
         </div>
