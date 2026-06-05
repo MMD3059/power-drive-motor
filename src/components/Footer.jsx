@@ -121,7 +121,6 @@ export default function Footer() {
           <div className="flex gap-6 text-xs text-dark-300">
             <Link to="/privacy" className="hover:text-neon-500 transition-colors">{t("footer.privacy")}</Link>
             <Link to="/terms" className="hover:text-neon-500 transition-colors">{t("footer.terms")}</Link>
-            <Link to="/cookies" className="hover:text-neon-500 transition-colors">{t("footer.cookie")}</Link>
           </div>
         </div>
       </div>
