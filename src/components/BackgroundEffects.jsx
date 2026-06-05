@@ -33,7 +33,7 @@ export default function BackgroundEffects() {
         }}
       >
         <img
-          src="/logo.jpg"
+          src="/logo.png"
           alt=""
           className="w-full h-full object-contain"
           style={{ filter: "blur(2px)" }}

@@ -50,7 +50,7 @@ export default function Navbar() {
           <div className="flex items-center justify-between h-20">
             <Link to="/" className="flex items-center gap-3 group">
               <img
-                src="/logo.jpg"
+                src="/logo.png"
                 alt="Power Drive Motor"
                 className="h-10 w-auto rounded-full border border-neon-500/30 group-hover:border-neon-500 transition-all duration-300"
               />
