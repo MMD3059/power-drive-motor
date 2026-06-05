@@ -17,7 +17,7 @@ export default function Inventory() {
   const [selectedFuel, setSelectedFuel] = useState("All")
   const [selectedPrice, setSelectedPrice] = useState("All")
   const [sortBy, setSortBy] = useState("default")
-  const [showFilters, setShowFilters] = useState(false)
+  const [showFilters, setShowFilters] = useState(!!searchParams.get("brand"))
 
   useEffect(() => {
     if (searchParams.get("brand")) {
