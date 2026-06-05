@@ -86,7 +86,7 @@ export default function Home() {
               transition={{ duration: 1, delay: 0.3 }}
               className="relative max-md:mt-6"
             >
-              <div className="relative h-[220px] sm:h-[300px] flex items-center justify-center">
+              <div className="relative h-[260px] sm:h-[350px] flex items-center justify-center">
                 {cars.map((car, i) => {
                   const diff = (i - featuredIndex + cars.length) % cars.length
                   const isPrev = diff === cars.length - 1
@@ -105,7 +105,7 @@ export default function Home() {
                         zIndex: isCurrent ? 10 : 5,
                       }}
                       transition={{ duration: 0.8, ease: [0.65, 0, 0.35, 1] }}
-                      className="absolute w-full max-w-xs"
+                      className="absolute w-full max-w-sm"
                     >
                       <Link
                         to={isCurrent ? `/inventory/${car.id}` : "#"}
