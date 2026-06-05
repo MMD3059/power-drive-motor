@@ -86,61 +86,36 @@ export default function Home() {
               transition={{ duration: 1, delay: 0.3 }}
               className="relative max-md:mt-6"
             >
-              <div className="relative h-[300px] sm:h-[400px] flex items-center justify-center">
-                <div className="absolute inset-y-0 left-0 w-1/4 bg-gradient-to-r from-dark-900 to-transparent z-20 pointer-events-none" />
-                <div className="absolute inset-y-0 right-0 w-1/4 bg-gradient-to-l from-dark-900 to-transparent z-20 pointer-events-none" />
-                {cars.map((car, i) => {
-                  const diff = (i - featuredIndex + cars.length) % cars.length
-                  const isPrev = diff === cars.length - 1
-                  const isNext = diff === 1
-                  const isCurrent = i === featuredIndex
-                  if (!isPrev && !isCurrent && !isNext) return null
-                  const pos = isPrev ? -1 : isNext ? 1 : 0
-                  return (
-                    <motion.div
-                      key={car.id}
-                      initial={false}
-                      animate={{
-                        x: pos * 60 + "%",
-                        scale: isCurrent ? 1 : 0.75,
-                        opacity: isCurrent ? 1 : 0.35,
-                        zIndex: isCurrent ? 10 : 5,
-                      }}
-                      transition={{ duration: 0.8, ease: [0.65, 0, 0.35, 1] }}
-                      className="absolute w-full max-w-md"
-                    >
-                      <Link
-                        to={isCurrent ? `/inventory/${car.id}` : "#"}
-                        onClick={(e) => { if (!isCurrent) { e.preventDefault(); setFeaturedIndex(i) } }}
-                        className="block relative aspect-[4/3] rounded-2xl overflow-hidden group cursor-pointer"
-                      >
-                        <img
-                          src={car.image || car.images?.[0]}
-                          alt={car.name}
-                          className="w-full h-full object-cover rounded-2xl"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-dark-900/80 via-transparent to-transparent" />
-                        {isCurrent && (
-                          <div className="absolute bottom-4 left-4 right-4">
-                            <div className="glass rounded-xl p-4">
-                              <p className="text-neon-500 text-xs font-semibold tracking-widest uppercase mb-1">{t("home.hero.featured")}</p>
-                              <div className="flex items-center justify-between gap-4">
-                                <div className="min-w-0">
-                                  <h3 className="text-white text-lg font-bold truncate">{car.name}</h3>
-                                  <p className="text-dark-200 text-xs">{car.brand} {car.model}</p>
-                                </div>
-                                <div className="shrink-0 text-right">
-                                  <p className="text-neon-500 text-xl font-bold whitespace-nowrap">${car.price?.toLocaleString()}</p>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        )}
-                      </Link>
-                    </motion.div>
-                  )
-                })}
-              </div>
+              <Link to={`/inventory/${featured?.id}`} className="block relative aspect-[4/3] rounded-2xl overflow-hidden group">
+                <AnimatePresence mode="wait">
+                  <motion.img
+                    key={featuredIndex}
+                    src={featured?.image || featured?.images?.[0]}
+                    alt="Featured Vehicle"
+                    initial={{ opacity: 0, x: 80 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -80 }}
+                    transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
+                    className="w-full h-full object-cover rounded-2xl absolute inset-0 group-hover:scale-105 transition-transform duration-700"
+                  />
+                </AnimatePresence>
+                <div className="absolute inset-0 bg-gradient-to-t from-dark-900/80 via-transparent to-transparent" />
+                <div className="absolute bottom-6 left-6 right-6">
+                  <div className="glass rounded-xl p-5">
+                    <p className="text-neon-500 text-xs font-semibold tracking-widest uppercase mb-1">{t("home.hero.featured")}</p>
+                    <div className="flex items-center justify-between gap-4">
+                      <div className="min-w-0">
+                        <h3 className="text-white text-xl font-bold truncate">{featured?.name}</h3>
+                        <p className="text-dark-200 text-sm">{featured?.brand} {featured?.model}</p>
+                      </div>
+                      <div className="shrink-0 text-right">
+                        <p className="text-neon-500 text-2xl font-bold whitespace-nowrap">${featured?.price?.toLocaleString()}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </Link>
+
             </motion.div>
           </div>
         </div>
