@@ -64,7 +64,7 @@ export default function Navbar() {
               </div>
             </Link>
 
-            <div className="hidden lg:flex items-center gap-0.5 xl:gap-1 overflow-x-auto" style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>
+            <div className="hidden lg:flex items-center gap-0.5 xl:gap-1 flex-nowrap">
               {navLinks.map((link) => (
                 <Link
                   key={link.path}
