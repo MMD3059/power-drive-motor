@@ -86,7 +86,9 @@ export default function Home() {
               transition={{ duration: 1, delay: 0.3 }}
               className="relative max-md:mt-6"
             >
-              <div className="relative h-[300px] sm:h-[400px] flex items-center justify-center overflow-hidden">
+              <div className="relative h-[300px] sm:h-[400px] flex items-center justify-center">
+                <div className="absolute inset-y-0 left-0 w-1/4 bg-gradient-to-r from-dark-900 to-transparent z-20 pointer-events-none" />
+                <div className="absolute inset-y-0 right-0 w-1/4 bg-gradient-to-l from-dark-900 to-transparent z-20 pointer-events-none" />
                 {cars.map((car, i) => {
                   const diff = (i - featuredIndex + cars.length) % cars.length
                   const isPrev = diff === cars.length - 1
@@ -104,7 +106,7 @@ export default function Home() {
                         opacity: isCurrent ? 1 : 0.35,
                         zIndex: isCurrent ? 10 : 5,
                       }}
-                      transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
+                      transition={{ duration: 0.8, ease: [0.65, 0, 0.35, 1] }}
                       className="absolute w-full max-w-md"
                     >
                       <Link
