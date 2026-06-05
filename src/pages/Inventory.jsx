@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react"
+import { useState, useMemo, useEffect } from "react"
 import { useLang } from "../i18n/context"
 import { Link, useSearchParams } from "react-router-dom"
 import { motion } from "framer-motion"
@@ -18,6 +18,14 @@ export default function Inventory() {
   const [selectedPrice, setSelectedPrice] = useState("All")
   const [sortBy, setSortBy] = useState("default")
   const [showFilters, setShowFilters] = useState(false)
+
+  useEffect(() => {
+    if (searchParams.get("brand")) {
+      setTimeout(() => {
+        document.getElementById("inventory-cars")?.scrollIntoView({ behavior: "smooth", block: "start" })
+      }, 100)
+    }
+  }, [searchParams])
 
   const filteredCars = useMemo(() => {
     let result = [...cars]
@@ -209,7 +217,7 @@ export default function Inventory() {
         </div>
 
         {filteredCars.length === 0 ? (
-          <div className="text-center py-20">
+          <div id="inventory-cars" className="text-center py-20">
             <Car size={60} className="mx-auto text-dark-300 mb-4" />
             <h3 className="text-white text-xl font-bold mb-2">{t("inventory.noTitle")}</h3>
             <p className="text-dark-200 mb-6">{t("inventory.noDesc")}</p>
@@ -221,7 +229,7 @@ export default function Inventory() {
             </button>
           </div>
         ) : (
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+          <div id="inventory-cars" className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
             {filteredCars.map((car, i) => (
               <motion.div
                 key={car.id}
