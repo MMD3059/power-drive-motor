@@ -103,7 +103,7 @@ export default function Home() {
                       animate={{
                         x: pos * 60 + "%",
                         scale: isCurrent ? 1 : 0.75,
-                        opacity: isCurrent ? 1 : 0.3,
+                        opacity: isCurrent ? 1 : 0.35,
                         zIndex: isCurrent ? 10 : 5,
                       }}
                       transition={{ duration: 0.8, ease: [0.65, 0, 0.35, 1] }}
