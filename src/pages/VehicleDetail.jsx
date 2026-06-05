@@ -32,7 +32,7 @@ export default function VehicleDetail() {
     { label: t("detail.transmission"), value: car.transmission, icon: Car },
     { label: t("detail.fuelType"), value: car.fuelType, icon: Fuel },
     { label: t("detail.mileage"), value: `${car.mileage.toLocaleString()} mi`, icon: MapPin },
-    { label: t("detail.seats"), value: `${car.seats} Seats`, icon: Users },
+    { label: t("detail.seats"), value: `${car.seats}`, icon: Users },
     { label: t("detail.year"), value: car.year, icon: ShieldCheck },
   ]
 
