@@ -56,7 +56,7 @@ export default function AdminMessages() {
   }
 
   const renderMessage = (msg) => {
-    if ((msg.type === "trade-in" || msg.type === "test-drive") && msg.message.startsWith("{")) {
+    if ((msg.type === "trade-in" || msg.type === "test-drive") && msg.message && msg.message.startsWith("{")) {
       try {
         const data = JSON.parse(msg.message)
         return (
@@ -125,7 +125,7 @@ export default function AdminMessages() {
                     <span className={`px-2 py-0.5 text-[10px] font-semibold rounded-full border ${TYPE_COLORS[msg.type] || "bg-dark-600/50 text-dark-200 border-dark-500/30"}`}>
                       {TYPE_LABELS[msg.type] || msg.type}
                     </span>
-                    <p className="text-dark-200 text-xs line-clamp-1 flex-1">{msg.message?.replace(/[{}"\[\]]/g, "").substring(0, 60)}</p>
+                    <p className="text-dark-200 text-xs line-clamp-1 flex-1">{msg.message ? msg.message.replace(/[{}"\[\]]/g, "").substring(0, 60) : ""}</p>
                   </div>
                 </motion.div>
               ))}
