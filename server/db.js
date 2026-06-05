@@ -61,4 +61,27 @@ try { db.exec("ALTER TABLE cars ADD COLUMN images TEXT NOT NULL DEFAULT '[]'"); 
 try { db.exec("ALTER TABLE cars ADD COLUMN sold INTEGER NOT NULL DEFAULT 0"); } catch {}
 try { db.exec("ALTER TABLE cars ADD COLUMN description_es TEXT NOT NULL DEFAULT ''"); } catch {}
 
+// Login attempt tracking
+db.exec(`CREATE TABLE IF NOT EXISTS login_attempts (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  username TEXT NOT NULL,
+  ip TEXT NOT NULL DEFAULT '',
+  success INTEGER NOT NULL DEFAULT 0,
+  created_at TEXT DEFAULT (datetime('now'))
+)`)
+
+// Lockout check: more than 5 failed attempts in last 15 minutes
+export function isLockedOut(username, ip) {
+  const row = db.prepare(`
+    SELECT count(*) as count FROM login_attempts
+    WHERE username = ? AND ip = ? AND success = 0
+    AND datetime(created_at) > datetime('now', '-15 minutes')
+  `).get(username, ip || "")
+  return row.count >= 5
+}
+
+export function recordLoginAttempt(username, ip, success) {
+  db.prepare("INSERT INTO login_attempts (username, ip, success) VALUES (?, ?, ?)").run(username, ip || "", success ? 1 : 0)
+}
+
 export default db

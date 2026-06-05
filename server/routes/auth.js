@@ -1,27 +1,37 @@
 import { Router } from "express"
 import bcrypt from "bcryptjs"
-import db from "../db.js"
+import db, { isLockedOut, recordLoginAttempt } from "../db.js"
 import { generateToken } from "../middleware/auth.js"
+import { loginRateLimit } from "../middleware/rateLimit.js"
 
 const router = Router()
 
-router.post("/login", (req, res) => {
+router.post("/login", loginRateLimit, (req, res) => {
   const { username, password } = req.body
+  const ip = req.ip || req.connection?.remoteAddress || ""
 
   if (!username || !password) {
     return res.status(400).json({ error: "Username and password are required" })
   }
 
+  if (isLockedOut(username, ip)) {
+    return res.status(429).json({ error: "Account locked. Try again in 15 minutes." })
+  }
+
   const user = db.prepare("SELECT * FROM users WHERE username = ?").get(username)
 
   if (!user) {
+    recordLoginAttempt(username, ip, false)
     return res.status(401).json({ error: "Invalid credentials" })
   }
 
   const valid = bcrypt.compareSync(password, user.password)
   if (!valid) {
+    recordLoginAttempt(username, ip, false)
     return res.status(401).json({ error: "Invalid credentials" })
   }
+
+  recordLoginAttempt(username, ip, true)
 
   const token = generateToken(username)
 

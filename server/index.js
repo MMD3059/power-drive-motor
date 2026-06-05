@@ -37,6 +37,16 @@ app.use(cors({
 }))
 
 app.use(express.json())
+
+// Block common exploit paths
+const BLOCKED_PATHS = ["/admin", "/wp-admin", "/login", "/setup", "/api/admin"]
+app.use((req, res, next) => {
+  if (BLOCKED_PATHS.includes(req.path.toLowerCase())) {
+    return res.status(404).send("Not found")
+  }
+  next()
+})
+
 app.use("/uploads", express.static(path.join(__dirname, "uploads")))
 
 if (process.env.NODE_ENV !== "production") {
