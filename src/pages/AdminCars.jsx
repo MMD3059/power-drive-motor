@@ -7,7 +7,7 @@ const API = import.meta.env.DEV ? "http://localhost:3001/api" : "/api"
 const defaultCar = {
   name: "", brand: "Chevrolet", model: "", year: new Date().getFullYear(),
   price: "", fuelType: "Petrol", transmission: "Automatic", engine: "",
-  horsepower: "", mileage: "", seats: 5, color: "", description: "",
+  horsepower: "", mileage: "", seats: 5, color: "", description: "", description_es: "",
   features: [], image: "", images: [], sold: false,
 }
 
@@ -81,6 +81,7 @@ export default function AdminCars() {
     fd.append("seats", form.seats)
     fd.append("color", form.color)
     fd.append("description", form.description)
+    fd.append("description_es", form.description_es)
     fd.append("features", JSON.stringify(form.features))
     fd.append("sold", form.sold ? "true" : "false")
 
@@ -295,6 +296,12 @@ export default function AdminCars() {
             <div>
               <label className="block text-xs text-dark-200 mb-1">Description</label>
               <textarea value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })}
+                className="w-full px-4 py-2.5 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white text-sm focus:outline-none focus:border-neon-500/40 min-h-[80px]" />
+            </div>
+
+            <div>
+              <label className="block text-xs text-dark-200 mb-1">Description (Español)</label>
+              <textarea value={form.description_es} onChange={(e) => setForm({ ...form, description_es: e.target.value })}
                 className="w-full px-4 py-2.5 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white text-sm focus:outline-none focus:border-neon-500/40 min-h-[80px]" />
             </div>
 

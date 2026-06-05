@@ -59,7 +59,6 @@ db.exec(`
 // Migrations for existing tables
 try { db.exec("ALTER TABLE cars ADD COLUMN images TEXT NOT NULL DEFAULT '[]'"); } catch {}
 try { db.exec("ALTER TABLE cars ADD COLUMN sold INTEGER NOT NULL DEFAULT 0"); } catch {}
-
-
+try { db.exec("ALTER TABLE cars ADD COLUMN description_es TEXT NOT NULL DEFAULT ''"); } catch {}
 
 export default db

@@ -11,7 +11,7 @@ export default function VehicleDetail() {
   const car = cars.find((c) => c.id === Number(id))
   const [currentImg, setCurrentImg] = useState(0)
   const [lightbox, setLightbox] = useState(false)
-  const { t } = useLang()
+  const { t, lang } = useLang()
 
   if (!car) {
     return (
@@ -192,7 +192,7 @@ export default function VehicleDetail() {
               )}
             </div>
 
-            <p className="text-dark-200 leading-relaxed mb-4 md:mb-8 text-xs md:text-base">{car.description}</p>
+            <p className="text-dark-200 leading-relaxed mb-4 md:mb-8 text-xs md:text-base">{lang === "es" && car.description_es ? car.description_es : car.description}</p>
 
             <div className="grid grid-cols-3 gap-1.5 md:gap-4 mb-4 md:mb-8">
               {specs.map((spec, i) => (

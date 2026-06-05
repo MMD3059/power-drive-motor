@@ -8,7 +8,7 @@ import { useLang } from "../i18n/context"
 
 export default function About() {
   const { cars } = useCars()
-  const { t } = useLang()
+  const { t, lang } = useLang()
   const featuredCars = cars.slice(0, 4)
 
   const stats = [
