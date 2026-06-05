@@ -86,7 +86,7 @@ export default function Home() {
               transition={{ duration: 1, delay: 0.3 }}
               className="relative max-md:mt-6"
             >
-              <div className="relative h-[300px] sm:h-[400px] flex items-center justify-center">
+              <div className="relative h-[220px] sm:h-[300px] flex items-center justify-center">
                 <div className="absolute inset-y-0 left-0 w-16 sm:w-32 bg-gradient-to-r from-dark-900 to-transparent z-20 pointer-events-none" />
                 <div className="absolute inset-y-0 right-0 w-16 sm:w-32 bg-gradient-to-l from-dark-900 to-transparent z-20 pointer-events-none" />
                 {cars.map((car, i) => {
@@ -107,7 +107,7 @@ export default function Home() {
                         zIndex: isCurrent ? 10 : 5,
                       }}
                       transition={{ duration: 0.8, ease: [0.65, 0, 0.35, 1] }}
-                      className="absolute w-full max-w-md"
+                      className="absolute w-full max-w-xs"
                     >
                       <Link
                         to={isCurrent ? `/inventory/${car.id}` : "#"}
@@ -121,7 +121,6 @@ export default function Home() {
                             className="w-full h-full object-cover"
                           />
                         </div>
-                        <div className="absolute inset-0 bg-gradient-to-t from-dark-900/80 via-transparent to-transparent pointer-events-none rounded-2xl" />
                         {isCurrent && (
                           <div className="absolute bottom-4 left-4 right-4">
                             <div className="glass rounded-xl p-4">
