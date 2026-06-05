@@ -92,10 +92,10 @@ export default function Home() {
                     key={featuredIndex}
                     src={featured?.image || featured?.images?.[0]}
                     alt="Featured Vehicle"
-                    initial={{ opacity: 0, scale: 1.1 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.9 }}
-                    transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
+                    initial={{ opacity: 0, x: 80 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -80 }}
+                    transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
                     className="w-full h-full object-cover rounded-2xl absolute inset-0 group-hover:scale-105 transition-transform duration-700"
                   />
                 </AnimatePresence>
