@@ -1,20 +1,23 @@
 import { useState, useEffect } from "react"
 import { Link, useLocation } from "react-router-dom"
-import { Menu, X } from "lucide-react"
+import { Menu, X, ChevronDown } from "lucide-react"
+import LanguageSwitcher from "./LanguageSwitcher"
+import { useLang } from "../i18n/context"
 
 const navLinks = [
-  { label: "Inicio", path: "/" },
-  { label: "Inventario", path: "/inventory" },
-  { label: "Servicios", path: "/services" },
-  { label: "Nosotros", path: "/about" },
-  { label: "Contacto", path: "/contact" },
-  { label: "Financiamiento", path: "/financing" },
-  { label: "Intercambio", path: "/trade-in" },
-  { label: "Prueba de Manejo", path: "/test-drive" },
-  { label: "Solicitar", path: "/credit-application" },
+  { nameKey: "home", path: "/" },
+  { nameKey: "inventory", path: "/inventory" },
+  { nameKey: "services", path: "/services" },
+  { nameKey: "about", path: "/about" },
+  { nameKey: "contact", path: "/contact" },
+  { nameKey: "financing", path: "/financing" },
+  { nameKey: "tradeIn", path: "/trade-in" },
+  { nameKey: "testDrive", path: "/test-drive" },
+  { nameKey: "applyNow", path: "/credit-application" },
 ]
 
 export default function Navbar() {
+  const { t } = useLang()
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const location = useLocation()
@@ -72,7 +75,7 @@ export default function Navbar() {
                       : "text-dark-200 hover:text-white"
                   }`}
                 >
-                  {link.label}
+                  {t(`nav.${link.nameKey}`)}
                   {location.pathname === link.path && (
                     <span className="absolute bottom-0 left-2 xl:left-3 right-2 xl:right-3 h-0.5 bg-neon-500 rounded-full shadow-[0_0_8px_rgba(0,212,255,0.5)]" />
                   )}
@@ -82,8 +85,9 @@ export default function Navbar() {
                 to="/inventory"
                 className="ml-2 xl:ml-4 px-3 xl:px-5 py-2 bg-neon-500 text-dark-900 font-semibold text-xs xl:text-sm whitespace-nowrap rounded-lg hover:bg-neon-400 transition-all duration-300 shadow-[0_0_20px_rgba(0,212,255,0.3)] hover:shadow-[0_0_30px_rgba(0,212,255,0.5)]"
               >
-                Ver Autos
+                {t("nav.browseCars")}
               </Link>
+              <LanguageSwitcher />
             </div>
 
             <button
@@ -121,7 +125,7 @@ export default function Navbar() {
               }`}
               style={{ transitionDelay: isOpen ? `${i * 50}ms` : "0ms" }}
             >
-              {link.label}
+              {t(`nav.${link.nameKey}`)}
             </Link>
           ))}
           <div className="mt-4 pt-4 border-t border-white/10 flex flex-col gap-3 px-4">
@@ -129,8 +133,11 @@ export default function Navbar() {
               to="/inventory"
               className="w-full text-center py-3 bg-neon-500 text-dark-900 font-bold text-sm rounded-xl shadow-[0_0_20px_rgba(0,212,255,0.3)]"
             >
-              Ver Autos
+              {t("nav.browseCars")}
             </Link>
+            <div className="flex justify-center">
+              <LanguageSwitcher />
+            </div>
           </div>
         </div>
       </div>
