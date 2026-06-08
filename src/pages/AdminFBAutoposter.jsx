@@ -1,17 +1,16 @@
 import { useState, useEffect } from "react"
 import { Link } from "react-router-dom"
 import { motion } from "framer-motion"
-import { ArrowLeft, Search, Share2, Check } from "lucide-react"
+import { ArrowLeft, Copy, ExternalLink, Check, Search, Share2 } from "lucide-react"
 
 const API = import.meta.env.DEV ? "http://localhost:3001/api" : "/api"
-const SITE = "https://www.powerdrivemotor.com"
 
 export default function AdminFBAutoposter() {
   const [cars, setCars] = useState([])
   const [search, setSearch] = useState("")
-  const [shared, setShared] = useState(JSON.parse(localStorage.getItem("fb-shared") || "[]"))
-  const [posting, setPosting] = useState(null)
-  const [done, setDone] = useState(null)
+  const [selected, setSelected] = useState(null)
+  const [copied, setCopied] = useState(false)
+  const [posted, setPosted] = useState(JSON.parse(localStorage.getItem("fb-marketplace") || "[]"))
 
   useEffect(() => {
     fetch(`${API}/cars`).then(r => r.json()).then(setCars)
@@ -22,20 +21,28 @@ export default function AdminFBAutoposter() {
     c.brand?.toLowerCase().includes(search.toLowerCase())
   )
 
-  const shareToFB = (car) => {
-    setPosting(car.id)
-    const text = `🚗 ${car.name}\n💰 $${car.price?.toLocaleString()}\n📍 Year: ${car.year} | Mileage: ${car.mileage?.toLocaleString()} mi\n\n${car.description ? car.description.substring(0, 200) : ""}`
-    const url = `${SITE}/inventory/${car.id}`
-    const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}&quote=${encodeURIComponent(text)}`
+  const buildText = (car) => {
+    return `${car.name}
+💰 Price: $${car.price?.toLocaleString()}
+📍 Year: ${car.year} | Mileage: ${car.mileage?.toLocaleString()} mi
+⛽ Fuel: ${car.fuelType} | Transmission: ${car.transmission}
+🔧 ${car.engine} | ${car.horsepower} HP
+🪑 ${car.seats} Seats | Color: ${car.color}
+${car.vin ? `🔑 VIN: ${car.vin}` : ""}
+\n${car.description || ""}\n\nFor more info call or visit Power Drive Motor`
+  }
 
-    setPosting(null)
-    const updated = shared.includes(car.id) ? shared : [...shared, car.id]
-    setShared(updated)
-    localStorage.setItem("fb-shared", JSON.stringify(updated))
-    setDone(car.id)
-    setTimeout(() => setDone(null), 2000)
+  const copyText = (car) => {
+    navigator.clipboard.writeText(buildText(car))
+    setCopied(true)
+    setTimeout(() => setCopied(false), 1500)
+  }
 
-    window.open(shareUrl, "_blank", "width=600,height=500,noopener")
+  const openMarketplace = (car) => {
+    const updated = posted.includes(car.id) ? posted : [...posted, car.id]
+    setPosted(updated)
+    localStorage.setItem("fb-marketplace", JSON.stringify(updated))
+    window.open("https://www.facebook.com/marketplace/create", "_blank", "noopener")
   }
 
   return (
@@ -45,16 +52,9 @@ export default function AdminFBAutoposter() {
           <ArrowLeft size={20} />
         </Link>
         <div>
-          <h1 className="text-2xl font-bold text-white mb-1">Share to Facebook</h1>
-          <p className="text-dark-300 text-sm">Post cars to your Facebook timeline in one click</p>
+          <h1 className="text-2xl font-bold text-white mb-1">FB Marketplace Autoposter</h1>
+          <p className="text-dark-300 text-sm">Copy car details → Paste on Facebook Marketplace</p>
         </div>
-      </div>
-
-      <div className="glass rounded-xl p-5 mb-6 border border-blue-500/10">
-        <p className="text-dark-200 text-xs">
-          Click <strong className="text-white">Share to Facebook</strong> → Facebook window byftah b car details + photos → <strong className="text-white">deghos "Post"</strong> w khalas.
-          Ma fi setup, ma fi token, ma fi app.
-        </p>
       </div>
 
       <div className="relative mb-6">
@@ -75,20 +75,54 @@ export default function AdminFBAutoposter() {
                   <p className="text-dark-300 text-xs">{car.year} · ${car.price?.toLocaleString()} · {car.mileage?.toLocaleString()}mi</p>
                 </div>
                 <div className="flex items-center gap-2 shrink-0">
-                  {shared.includes(car.id) && (
-                    <span className="text-[10px] text-green-500 font-semibold bg-green-500/10 px-2 py-1 rounded-full">Shared</span>
+                  {posted.includes(car.id) && (
+                    <span className="text-[10px] text-green-500 font-semibold bg-green-500/10 px-2 py-1 rounded-full">Done</span>
                   )}
-                  <button onClick={() => shareToFB(car)}
-                    className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white text-xs font-semibold hover:brightness-110 transition-all"
-                  >
-                    {done === car.id ? <Check size={14} /> : <Share2 size={14} />}
-                    {done === car.id ? "Done!" : "Share to Facebook"}
+                  <button onClick={() => { setSelected(car); setCopied(false) }} className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white text-xs font-semibold hover:brightness-110 transition-all">
+                    <Share2 size={14} />
+                    Post to Marketplace
                   </button>
                 </div>
               </div>
             </motion.div>
           ))}
         </div>
+      )}
+
+      {selected && (
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4" onClick={() => setSelected(null)}>
+          <motion.div initial={{ scale: 0.95, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="glass rounded-2xl p-6 max-w-lg w-full" onClick={e => e.stopPropagation()}>
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-white font-bold text-lg">Post to Marketplace</h3>
+              <button onClick={() => setSelected(null)} className="text-dark-300 hover:text-white text-xl">&times;</button>
+            </div>
+
+            <img src={selected.image} alt="" className="w-full h-48 object-cover rounded-xl mb-4" />
+
+            <div className="bg-dark-800/50 rounded-xl p-4 border border-white/5 mb-6">
+              <pre className="text-dark-200 text-xs whitespace-pre-wrap font-sans">{buildText(selected)}</pre>
+            </div>
+
+            <div className="flex flex-col gap-3">
+              <button onClick={() => copyText(selected)} className="flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-neon-500/10 border border-neon-500/20 text-neon-500 text-sm font-semibold hover:bg-neon-500/20 transition-all">
+                {copied ? <Check size={16} /> : <Copy size={16} />}
+                {copied ? "Copied!" : "1. Copy Details"}
+              </button>
+              {copied && (
+                <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
+                  <button onClick={() => openMarketplace(selected)} className="flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white text-sm font-semibold hover:brightness-110 transition-all">
+                    <ExternalLink size={16} />
+                    2. Open Marketplace & Paste (Ctrl+V)
+                  </button>
+                </motion.div>
+              )}
+            </div>
+
+            <p className="text-dark-400 text-[10px] text-center mt-4">
+              1. Copy → 2. Open Marketplace → 3. Ctrl+V paste → 4. Add photos → 5. Publish
+            </p>
+          </motion.div>
+        </motion.div>
       )}
     </div>
   )
