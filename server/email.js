@@ -1,5 +1,8 @@
 import nodemailer from "nodemailer"
 
+console.log("EMAIL_USER:", process.env.EMAIL_USER)
+console.log("EMAIL_PASS set:", !!process.env.EMAIL_PASS)
+
 const transporter = process.env.EMAIL_PASS
   ? nodemailer.createTransport({
       service: "gmail",
@@ -9,6 +12,13 @@ const transporter = process.env.EMAIL_PASS
       },
     })
   : null
+
+if (transporter) {
+  transporter.verify((err) => {
+    if (err) console.error("EMAIL TRANSPORT VERIFY FAILED:", err.message)
+    else console.log("EMAIL TRANSPORT READY")
+  })
+}
 
 const TYPE_SUBJECTS = {
   contact: "New Contact Message",
