@@ -13,7 +13,7 @@ const services = [
   { name: "Google Shop / Network", desc: "Shop and display network ads", icon: ShoppingCart, color: "from-red-600 to-pink-400", status: true, to: "/PDM-admin/services/google-shop" },
   { name: "FB Marketplace as Business", desc: "List as a business account", icon: TrendingUp, color: "from-purple-600 to-violet-400", status: true, to: "/PDM-admin/services/fb-business" },
   { name: "Local Dominance", desc: "Dominate local search results", icon: Target, color: "from-teal-600 to-emerald-400", status: true, to: "/PDM-admin/services/local-dominance" },
-  { name: "Smart CRM", desc: "Manage customers and leads", icon: Users, color: "from-rose-600 to-pink-400", status: true, to: "/PDM-admin/messages" },
+  { name: "Smart CRM", desc: "Manage customers and leads", icon: Users, color: "from-rose-600 to-pink-400", status: true, to: "/PDM-admin/customers" },
   { name: "Instant Messaging", desc: "Real-time customer chat", icon: MessageCircle, color: "from-sky-600 to-cyan-400", status: true, to: "/PDM-admin/messages" },
 ]
 

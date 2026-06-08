@@ -27,6 +27,10 @@ import AdminCars from "./pages/AdminCars"
 import AdminMessages from "./pages/AdminMessages"
 import AdminFBAutoposter from "./pages/AdminFBAutoposter"
 import AdminServiceDetail from "./pages/AdminServiceDetail"
+import AdminCustomers from "./pages/AdminCustomers"
+import AdminSales from "./pages/AdminSales"
+import AdminReports from "./pages/AdminReports"
+import AdminCSVImport from "./pages/AdminCSVImport"
 
 export default function App() {
   return (
@@ -39,6 +43,10 @@ export default function App() {
           <Route path="messages" element={<AdminMessages />} />
           <Route path="services/fb-autoposter" element={<AdminFBAutoposter />} />
           <Route path="services/:service" element={<AdminServiceDetail />} />
+          <Route path="customers" element={<AdminCustomers />} />
+          <Route path="sales" element={<AdminSales />} />
+          <Route path="reports" element={<AdminReports />} />
+          <Route path="csv-import" element={<AdminCSVImport />} />
         </Route>
         <Route path="*" element={<PublicLayout />} />
       </Routes>

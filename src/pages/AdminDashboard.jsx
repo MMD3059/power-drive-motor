@@ -1,7 +1,7 @@
 import { Outlet, useNavigate, Link } from "react-router-dom"
 import { useEffect, useState } from "react"
 import { motion } from "framer-motion"
-import { Car, MessageSquare, LayoutDashboard, LogOut, Menu, X } from "lucide-react"
+import { Car, MessageSquare, LayoutDashboard, LogOut, Menu, X, Users, DollarSign, BarChart3, Upload, Globe } from "lucide-react"
 
 const API = import.meta.env.DEV ? "http://localhost:3001/api" : "/api"
 
@@ -36,8 +36,13 @@ export default function AdminDashboard() {
 
   const navItems = [
     { to: "/PDM-admin", icon: LayoutDashboard, label: "Dashboard", end: true },
-    { to: "/PDM-admin/cars", icon: Car, label: "Cars" },
+    { to: "/PDM-admin/cars", icon: Car, label: "Inventory" },
+    { to: "/PDM-admin/customers", icon: Users, label: "CRM — Customers" },
+    { to: "/PDM-admin/sales", icon: DollarSign, label: "Sales Desk" },
     { to: "/PDM-admin/messages", icon: MessageSquare, label: "Messages" },
+    { to: "/PDM-admin/services/fb-autoposter", icon: Globe, label: "Facebook" },
+    { to: "/PDM-admin/reports", icon: BarChart3, label: "Reports" },
+    { to: "/PDM-admin/csv-import", icon: Upload, label: "CSV Import" },
   ]
 
   const isActive = (path, end) => {

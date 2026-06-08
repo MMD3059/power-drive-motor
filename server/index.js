@@ -7,6 +7,7 @@ import authRoutes from "./routes/auth.js"
 import carRoutes from "./routes/cars.js"
 import messageRoutes from "./routes/messages.js"
 import fbCommerceRoutes from "./routes/fb-commerce.js"
+import dmsRoutes from "./routes/dms.js"
 import { requireAuth } from "./middleware/auth.js"
 import fs from "fs"
 
@@ -66,6 +67,7 @@ if (process.env.NODE_ENV !== "production") {
 
 app.use("/api/PDM-admin", authRoutes)
 app.use("/api", fbCommerceRoutes)
+app.use("/api", dmsRoutes)
 app.use("/api/cars", carRoutes)
 app.use("/api/messages", messageRoutes)
 

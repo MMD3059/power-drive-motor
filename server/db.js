@@ -64,6 +64,48 @@ try { db.exec("ALTER TABLE cars ADD COLUMN vin TEXT NOT NULL DEFAULT ''"); } cat
 try { db.exec("ALTER TABLE cars ADD COLUMN fb_commerce_id TEXT NOT NULL DEFAULT ''"); } catch {}
 try { db.exec("ALTER TABLE cars ADD COLUMN fb_commerce_status TEXT NOT NULL DEFAULT ''"); } catch {}
 
+// DMS tables
+db.exec(`
+  CREATE TABLE IF NOT EXISTS customers (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    email TEXT NOT NULL DEFAULT '',
+    phone TEXT NOT NULL DEFAULT '',
+    source TEXT NOT NULL DEFAULT 'manual',
+    notes TEXT NOT NULL DEFAULT '',
+    status TEXT NOT NULL DEFAULT 'lead',
+    interest TEXT NOT NULL DEFAULT '',
+    created_at TEXT DEFAULT (datetime('now')),
+    updated_at TEXT DEFAULT (datetime('now'))
+  );
+
+  CREATE TABLE IF NOT EXISTS deals (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    customer_id INTEGER NOT NULL,
+    car_id INTEGER,
+    status TEXT NOT NULL DEFAULT 'negotiation',
+    price REAL,
+    notes TEXT NOT NULL DEFAULT '',
+    created_at TEXT DEFAULT (datetime('now')),
+    updated_at TEXT DEFAULT (datetime('now')),
+    FOREIGN KEY (customer_id) REFERENCES customers(id),
+    FOREIGN KEY (car_id) REFERENCES cars(id)
+  );
+
+  CREATE TABLE IF NOT EXISTS activities (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    customer_id INTEGER NOT NULL,
+    type TEXT NOT NULL DEFAULT 'note',
+    description TEXT NOT NULL DEFAULT '',
+    created_at TEXT DEFAULT (datetime('now')),
+    FOREIGN KEY (customer_id) REFERENCES customers(id)
+  );
+`)
+
+// DMS migrations
+try { db.exec("ALTER TABLE messages ADD COLUMN source TEXT NOT NULL DEFAULT 'contact'"); } catch {}
+try { db.exec("ALTER TABLE messages ADD COLUMN customer_id INTEGER DEFAULT 0"); } catch {}
+
 // Login attempt tracking
 db.exec(`CREATE TABLE IF NOT EXISTS login_attempts (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
