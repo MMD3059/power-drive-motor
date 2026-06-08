@@ -4,7 +4,6 @@ import {
   DisconnectReason,
   fetchLatestBaileysVersion,
 } from "@whiskeysockets/baileys"
-import QRCode from "qrcode"
 import path from "path"
 import { fileURLToPath } from "url"
 import pino from "pino"
@@ -46,18 +45,21 @@ function notify() {
 async function start() {
   if (isInitializing) return
   isInitializing = true
+
   try {
     const { version } = await fetchLatestBaileysVersion()
+    console.log("Baileys version:", version)
 
     const { state, saveCreds } = await useMultiFileAuthState(AUTH_DIR)
 
     sock = makeWASocket({
       version,
       auth: state,
-      printQRInTerminal: false,
-      logger: pino({ level: "silent" }),
+      printQRInTerminal: true,
+      logger: pino({ level: "error" }),
       markOnlineOnConnect: false,
-      generateHighQualityLink: false,
+      syncFullHistory: false,
+      browser: ["Power Drive Motor", "Chrome", "120.0.0.0"],
     })
 
     sock.ev.on("connection.update", (update) => {
@@ -72,16 +74,19 @@ async function start() {
       if (connection === "open") {
         connectionStatus = "connected"
         currentQR = null
-        connectedPhone = sock?.user?.id?.split(":")?.[0] || sock?.user?.id || null
+        try {
+          connectedPhone = sock?.user?.id?.replace(/:.*/, "") || sock?.user?.name || null
+        } catch {
+          connectedPhone = null
+        }
         notify()
         console.log("WhatsApp connected:", connectedPhone)
       }
 
       if (connection === "close") {
         const statusCode = lastDisconnect?.error?.output?.statusCode
-        const shouldReconnect =
-          statusCode !== DisconnectReason.loggedOut &&
-          statusCode !== DisconnectReason.restartRequired
+        const statusMessage = lastDisconnect?.error?.output?.payload?.message || lastDisconnect?.error?.message
+        console.log("WhatsApp closed, code:", statusCode, "msg:", statusMessage)
 
         currentQR = null
         connectedPhone = null
@@ -89,20 +94,23 @@ async function start() {
         if (statusCode === DisconnectReason.loggedOut) {
           connectionStatus = "logged_out"
           notify()
+          setTimeout(start, 1000)
         } else {
           connectionStatus = "disconnected"
           notify()
-        }
-
-        if (shouldReconnect) {
-          reconnectTimeout = setTimeout(start, 3000)
+          if (statusCode !== DisconnectReason.restartRequired) {
+            reconnectTimeout = setTimeout(start, 3000)
+          }
         }
       }
     })
 
     sock.ev.on("creds.update", saveCreds)
+
+    sock.ev.on("messages.upsert", () => {})
+
   } catch (e) {
-    console.error("WhatsApp init error:", e.message)
+    console.error("WhatsApp init error:", e.stack || e.message)
     connectionStatus = "error"
     notify()
     reconnectTimeout = setTimeout(start, 10000)
@@ -112,8 +120,11 @@ async function start() {
 }
 
 export async function sendMessage(to, text) {
-  if (!sock || (connectionStatus !== "connected")) {
+  if (!sock || connectionStatus !== "connected") {
     throw new Error("WhatsApp not connected")
+  }
+  if (!to || to.replace(/[^0-9]/g, "").length < 7) {
+    throw new Error("Invalid phone number")
   }
   const jid = `${to.replace(/[^0-9]/g, "")}@s.whatsapp.net`
   await sock.sendMessage(jid, { text })
@@ -121,9 +132,14 @@ export async function sendMessage(to, text) {
 
 export async function logout() {
   if (sock) {
-    sock.ev.removeAllListeners("connection.update")
-    sock.ev.removeAllListeners("creds.update")
-    sock.logout()
+    try {
+      sock.ev.removeAllListeners("connection.update")
+      sock.ev.removeAllListeners("creds.update")
+      if (sock.ws?.close) sock.ws.close()
+      if (sock.end) sock.end()
+    } catch (e) {
+      console.error("Logout error:", e.message)
+    }
     sock = null
   }
   currentQR = null
