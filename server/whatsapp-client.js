@@ -164,6 +164,30 @@ export async function logout() {
   notify()
 }
 
+export async function forceRefresh() {
+  if (reconnectTimeout) {
+    clearTimeout(reconnectTimeout)
+    reconnectTimeout = null
+  }
+  if (sock) {
+    try {
+      sock.ev.removeAllListeners("connection.update")
+      sock.ev.removeAllListeners("creds.update")
+      if (sock.ws?.close) sock.ws.close()
+      if (sock.end) sock.end()
+    } catch (e) {
+      console.error("Force refresh error:", e.message)
+    }
+    sock = null
+  }
+  currentQR = null
+  connectionStatus = "disconnected"
+  connectedPhone = null
+  isInitializing = false
+  notify()
+  start()
+}
+
 start()
 
 export { start }

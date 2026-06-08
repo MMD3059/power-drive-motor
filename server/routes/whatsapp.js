@@ -1,7 +1,7 @@
 import { Router } from "express"
 import { requireAuth } from "../middleware/auth.js"
 import QRCode from "qrcode"
-import { getStatus, getQR, logout } from "../whatsapp-client.js"
+import { getStatus, getQR, logout, forceRefresh } from "../whatsapp-client.js"
 
 const router = Router()
 
@@ -28,6 +28,15 @@ router.post("/whatsapp/logout", requireAuth, async (req, res) => {
   try {
     await logout()
     res.json({ message: "Logged out" })
+  } catch (e) {
+    res.status(500).json({ error: e.message })
+  }
+})
+
+router.post("/whatsapp/refresh", requireAuth, async (req, res) => {
+  try {
+    await forceRefresh()
+    res.json({ message: "Refreshing..." })
   } catch (e) {
     res.status(500).json({ error: e.message })
   }

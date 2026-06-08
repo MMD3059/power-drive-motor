@@ -40,6 +40,18 @@ export default function AdminWhatsApp() {
     return () => clearInterval(intervalRef.current)
   }, [])
 
+  const handleRefresh = async () => {
+    setLoading(true)
+    if (status.status === "waiting_for_scan" || status.status === "logged_out") {
+      await fetch(`${API}/whatsapp/refresh`, {
+        method: "POST",
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      await new Promise((r) => setTimeout(r, 500))
+    }
+    await fetchStatus()
+  }
+
   const handleLogout = async () => {
     if (!confirm("Log out WhatsApp? You'll need to scan QR again.")) return
     await fetch(`${API}/whatsapp/logout`, {
@@ -79,7 +91,7 @@ export default function AdminWhatsApp() {
         <div className="glass rounded-xl p-6">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-white font-semibold">Status</h2>
-            <button onClick={fetchStatus} className="p-2 rounded-lg text-dark-200 hover:text-white hover:bg-dark-700/50 transition-all">
+            <button onClick={handleRefresh} className="p-2 rounded-lg text-dark-200 hover:text-white hover:bg-dark-700/50 transition-all">
               <RefreshCw size={16} className={loading ? "animate-spin" : ""} />
             </button>
           </div>
