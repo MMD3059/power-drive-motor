@@ -31,6 +31,7 @@ import AdminCustomers from "./pages/AdminCustomers"
 import AdminSales from "./pages/AdminSales"
 import AdminReports from "./pages/AdminReports"
 import AdminCSVImport from "./pages/AdminCSVImport"
+import AdminWhatsApp from "./pages/AdminWhatsApp"
 
 export default function App() {
   return (
@@ -47,6 +48,7 @@ export default function App() {
           <Route path="sales" element={<AdminSales />} />
           <Route path="reports" element={<AdminReports />} />
           <Route path="csv-import" element={<AdminCSVImport />} />
+          <Route path="whatsapp" element={<AdminWhatsApp />} />
         </Route>
         <Route path="*" element={<PublicLayout />} />
       </Routes>
