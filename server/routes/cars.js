@@ -58,7 +58,7 @@ router.get("/:id", (req, res) => {
 router.post("/", requireAuth, upload.array("images", 10), (req, res) => {
   const {
     name, brand, model, year, price, fuelType, transmission,
-    engine, horsepower, mileage, seats, color, description, description_es, features,
+    engine, horsepower, mileage, seats, color, description, description_es, features, vin,
   } = req.body
 
   let images = []
@@ -80,8 +80,8 @@ router.post("/", requireAuth, upload.array("images", 10), (req, res) => {
   const featuresStr = JSON.stringify(features ? (Array.isArray(features) ? features : JSON.parse(features)) : [])
 
   const stmt = db.prepare(`
-    INSERT INTO cars (name, brand, model, year, price, fuelType, transmission, engine, horsepower, mileage, seats, color, image, images, description, description_es, features, sold)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    INSERT INTO cars (name, brand, model, year, price, fuelType, transmission, engine, horsepower, mileage, seats, color, image, images, description, description_es, features, sold, vin)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   `)
 
   const sold = req.body.sold ? (req.body.sold === "true" || req.body.sold === true ? 1 : 0) : 0
@@ -90,7 +90,7 @@ router.post("/", requireAuth, upload.array("images", 10), (req, res) => {
     name, brand, model, parseInt(year), parseFloat(price),
     fuelType || "Petrol", transmission || "Automatic", engine || "",
     parseInt(horsepower) || 0, parseInt(mileage) || 0, parseInt(seats) || 5,
-    color || "", image, imagesStr, description || "", description_es || "", featuresStr, sold
+    color || "", image, imagesStr, description || "", description_es || "", featuresStr, sold, vin || ""
   )
 
   const car = db.prepare("SELECT * FROM cars WHERE id = ?").get(result.lastInsertRowid)
@@ -105,7 +105,7 @@ router.put("/:id", requireAuth, upload.array("images", 10), (req, res) => {
 
   const {
     name, brand, model, year, price, fuelType, transmission,
-    engine, horsepower, mileage, seats, color, description, description_es, features,
+    engine, horsepower, mileage, seats, color, description, description_es, features, vin,
   } = req.body
 
   let images = []
@@ -128,7 +128,7 @@ router.put("/:id", requireAuth, upload.array("images", 10), (req, res) => {
   const sold = req.body.sold !== undefined ? (req.body.sold === "true" || req.body.sold === true ? 1 : 0) : existing.sold
 
   db.prepare(`
-    UPDATE cars SET name=?, brand=?, model=?, year=?, price=?, fuelType=?, transmission=?, engine=?, horsepower=?, mileage=?, seats=?, color=?, image=?, images=?, description=?, description_es=?, features=?, sold=?
+    UPDATE cars SET name=?, brand=?, model=?, year=?, price=?, fuelType=?, transmission=?, engine=?, horsepower=?, mileage=?, seats=?, color=?, image=?, images=?, description=?, description_es=?, features=?, sold=?, vin=?
     WHERE id=?
   `).run(
     name || existing.name, brand || existing.brand, model || existing.model,
@@ -137,7 +137,8 @@ router.put("/:id", requireAuth, upload.array("images", 10), (req, res) => {
     engine || existing.engine, parseInt(horsepower) || existing.horsepower,
     parseInt(mileage) || existing.mileage, parseInt(seats) || existing.seats,
     color || existing.color, image, imagesStr, description || existing.description,
-    description_es || existing.description_es || "", featuresStr, sold, req.params.id
+    description_es || existing.description_es || "", featuresStr, sold,
+    vin || existing.vin || "", req.params.id
   )
 
   const car = db.prepare("SELECT * FROM cars WHERE id = ?").get(req.params.id)

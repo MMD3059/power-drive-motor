@@ -323,13 +323,13 @@ if (carsExist.count > 0) {
 ]
 
   const stmt = db.prepare(`
-    INSERT INTO cars (name, brand, model, year, price, fuelType, transmission, engine, horsepower, mileage, seats, color, image, images, description, description_es, features, sold)
-    VALUES (@name, @brand, @model, @year, @price, @fuelType, @transmission, @engine, @horsepower, @mileage, @seats, @color, @image, @images, @description, @description_es, @features, @sold)
+    INSERT INTO cars (name, brand, model, year, price, fuelType, transmission, engine, horsepower, mileage, seats, color, image, images, description, description_es, features, sold, vin)
+    VALUES (@name, @brand, @model, @year, @price, @fuelType, @transmission, @engine, @horsepower, @mileage, @seats, @color, @image, @images, @description, @description_es, @features, @sold, @vin)
   `)
 
   const insertMany = db.transaction((cars) => {
     for (const car of cars) {
-      stmt.run({ ...car, sold: 0 })
+      stmt.run({ ...car, sold: 0, vin: car.vin || "" })
     }
   })
 

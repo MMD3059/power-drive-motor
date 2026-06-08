@@ -34,6 +34,7 @@ export default function VehicleDetail() {
     { label: t("detail.mileage"), value: `${car.mileage.toLocaleString()} mi`, icon: MapPin },
     { label: t("detail.seats"), value: `${car.seats}`, icon: Users },
     { label: t("detail.year"), value: car.year, icon: ShieldCheck },
+    { label: "VIN", value: car.vin || "—", icon: ShieldCheck },
   ]
 
   const prevImg = () => setCurrentImg((p) => (p === 0 ? allImages.length - 1 : p - 1))

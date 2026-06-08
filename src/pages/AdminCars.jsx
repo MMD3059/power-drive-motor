@@ -8,7 +8,7 @@ const defaultCar = {
   name: "", brand: "Chevrolet", model: "", year: new Date().getFullYear(),
   price: "", fuelType: "Petrol", transmission: "Automatic", engine: "",
   horsepower: "", mileage: "", seats: 5, color: "", description: "", description_es: "",
-  features: [], image: "", images: [], sold: false,
+  features: [], image: "", images: [], sold: false, vin: "",
 }
 
 const brands = [
@@ -82,6 +82,7 @@ export default function AdminCars() {
     fd.append("color", form.color)
     fd.append("description", form.description)
     fd.append("description_es", form.description_es)
+    fd.append("vin", form.vin)
     fd.append("features", JSON.stringify(form.features))
     fd.append("sold", form.sold ? "true" : "false")
 
@@ -284,6 +285,11 @@ export default function AdminCars() {
                 <input type="text" value={form.color} onChange={(e) => setForm({ ...form, color: e.target.value })}
                   className="w-full px-4 py-2.5 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white text-sm focus:outline-none focus:border-neon-500/40" />
               </div>
+              <div>
+                <label className="block text-xs text-dark-200 mb-1">VIN</label>
+                <input type="text" value={form.vin} onChange={(e) => setForm({ ...form, vin: e.target.value })}
+                  className="w-full px-4 py-2.5 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white text-sm focus:outline-none focus:border-neon-500/40 font-mono uppercase" />
+              </div>
               <div className="flex items-end">
                 <label className="flex items-center gap-3 cursor-pointer group">
                   <input type="checkbox" checked={form.sold} onChange={(e) => setForm({ ...form, sold: e.target.checked })}
@@ -374,6 +380,7 @@ export default function AdminCars() {
                 <th className="text-left p-4 font-semibold">Vehicle</th>
                 <th className="text-left p-4 font-semibold">Brand</th>
                 <th className="text-left p-4 font-semibold">Year</th>
+                <th className="text-left p-4 font-semibold">VIN</th>
                 <th className="text-left p-4 font-semibold">Photos</th>
                 <th className="text-left p-4 font-semibold">Status</th>
                 <th className="text-right p-4 font-semibold">Price</th>
@@ -398,6 +405,7 @@ export default function AdminCars() {
                   </td>
                   <td className="p-4 text-dark-200">{car.brand}</td>
                   <td className="p-4 text-dark-200">{car.year}</td>
+                  <td className="p-4 text-dark-200 text-xs font-mono">{car.vin || "—"}</td>
                   <td className="p-4">
                     <span className="flex items-center gap-1 text-dark-200 text-xs">
                       <Image size={14} /> {car.images?.length || 1}
