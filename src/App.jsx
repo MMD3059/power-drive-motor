@@ -25,6 +25,8 @@ import AdminDashboard from "./pages/AdminDashboard"
 import AdminIndex from "./pages/AdminIndex"
 import AdminCars from "./pages/AdminCars"
 import AdminMessages from "./pages/AdminMessages"
+import AdminFBAutoposter from "./pages/AdminFBAutoposter"
+import AdminServiceDetail from "./pages/AdminServiceDetail"
 
 export default function App() {
   return (
@@ -35,6 +37,8 @@ export default function App() {
           <Route index element={<AdminIndex />} />
           <Route path="cars" element={<AdminCars />} />
           <Route path="messages" element={<AdminMessages />} />
+          <Route path="services/fb-autoposter" element={<AdminFBAutoposter />} />
+          <Route path="services/:service" element={<AdminServiceDetail />} />
         </Route>
         <Route path="*" element={<PublicLayout />} />
       </Routes>

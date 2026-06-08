@@ -1,18 +1,18 @@
 import { useOutletContext, Link, useNavigate } from "react-router-dom"
 import { useState, useEffect } from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import { Car, MessageSquare, Download, Globe, Search, Smartphone, Camera, ShoppingCart, Target, Users, MessageCircle, CheckCircle, XCircle, TrendingUp, ExternalLink } from "lucide-react"
+import { motion } from "framer-motion"
+import { Car, MessageSquare, Download, Globe, Search, Smartphone, Camera, ShoppingCart, Target, Users, MessageCircle, TrendingUp } from "lucide-react"
 
 const API = import.meta.env.DEV ? "http://localhost:3001/api" : "/api"
 
 const services = [
   { name: "Dealer Website", desc: "Professional dealership website", icon: Globe, color: "from-blue-600 to-cyan-400", status: true, to: "/PDM-admin/cars" },
-  { name: "Google Vehicle Listings", desc: "Auto ads on Google Search", icon: Search, color: "from-green-600 to-emerald-400", status: true, href: "https://www.google.com/retail/solutions/merchant-center/" },
-  { name: "Craigslist", desc: "Auto poster to Craigslist", icon: Smartphone, color: "from-orange-600 to-yellow-400", status: true, href: "https://accounts.craigslist.org/" },
-  { name: "FB Marketplace Autoposter", desc: "Auto list on Facebook Marketplace", icon: Camera, color: "from-indigo-600 to-blue-400", status: true, href: "https://business.facebook.com/" },
-  { name: "Google Shop / Network", desc: "Shop and display network ads", icon: ShoppingCart, color: "from-red-600 to-pink-400", status: true, href: "https://www.google.com/retail/solutions/merchant-center/" },
-  { name: "FB Marketplace as Business", desc: "List as a business account", icon: TrendingUp, color: "from-purple-600 to-violet-400", status: true, href: "https://business.facebook.com/" },
-  { name: "Local Dominance", desc: "Dominate local search results", icon: Target, color: "from-teal-600 to-emerald-400", status: true, modal: "Local Dominance" },
+  { name: "Google Vehicle Listings", desc: "Auto ads on Google Search", icon: Search, color: "from-green-600 to-emerald-400", status: true, to: "/PDM-admin/services/google-listings" },
+  { name: "Craigslist", desc: "Auto poster to Craigslist", icon: Smartphone, color: "from-orange-600 to-yellow-400", status: true, to: "/PDM-admin/services/craigslist" },
+  { name: "FB Marketplace Autoposter", desc: "Auto list on Facebook Marketplace", icon: Camera, color: "from-indigo-600 to-blue-400", status: true, to: "/PDM-admin/services/fb-autoposter" },
+  { name: "Google Shop / Network", desc: "Shop and display network ads", icon: ShoppingCart, color: "from-red-600 to-pink-400", status: true, to: "/PDM-admin/services/google-shop" },
+  { name: "FB Marketplace as Business", desc: "List as a business account", icon: TrendingUp, color: "from-purple-600 to-violet-400", status: true, to: "/PDM-admin/services/fb-business" },
+  { name: "Local Dominance", desc: "Dominate local search results", icon: Target, color: "from-teal-600 to-emerald-400", status: true, to: "/PDM-admin/services/local-dominance" },
   { name: "Smart CRM", desc: "Manage customers and leads", icon: Users, color: "from-rose-600 to-pink-400", status: true, to: "/PDM-admin/messages" },
   { name: "Instant Messaging", desc: "Real-time customer chat", icon: MessageCircle, color: "from-sky-600 to-cyan-400", status: true, to: "/PDM-admin/messages" },
 ]
@@ -21,7 +21,6 @@ export default function AdminIndex() {
   const { stats } = useOutletContext()
   const navigate = useNavigate()
   const [allCars, setAllCars] = useState([])
-  const [toast, setToast] = useState(null)
   const recentCars = allCars.slice(0, 5)
   const available = allCars.filter(c => !c.sold).length
   const sold = allCars.filter(c => c.sold).length
@@ -32,17 +31,8 @@ export default function AdminIndex() {
       .then((cars) => setAllCars(cars))
   }, [])
 
-  useEffect(() => {
-    if (toast) {
-      const t = setTimeout(() => setToast(null), 3000)
-      return () => clearTimeout(t)
-    }
-  }, [toast])
-
   const handleService = (svc) => {
-    if (svc.to) { navigate(svc.to); return }
-    if (svc.href) { window.open(svc.href, "_blank", "noopener"); return }
-    if (svc.modal) { setToast(svc.modal); return }
+    navigate(svc.to)
   }
 
   const handleBackup = async () => {
@@ -132,13 +122,11 @@ export default function AdminIndex() {
                   <p className="text-white font-semibold text-sm truncate group-hover:brightness-110 transition-all">{svc.name}</p>
                   <p className="text-dark-300 text-xs mt-0.5 truncate">{svc.desc}</p>
                 </div>
-                <div className="shrink-0 flex items-center">
-                  {svc.href ? (
-                    <ExternalLink size={12} className="text-dark-400 group-hover:text-white transition-colors" />
-                  ) : svc.status ? (
-                    <CheckCircle size={14} className="text-green-500" />
+                <div className="shrink-0">
+                  {svc.status ? (
+                    <div className="w-2 h-2 rounded-full bg-green-500" />
                   ) : (
-                    <XCircle size={14} className="text-red-500" />
+                    <div className="w-2 h-2 rounded-full bg-red-500" />
                   )}
                 </div>
               </div>
@@ -200,21 +188,6 @@ export default function AdminIndex() {
           </div>
         </div>
       </div>
-
-      <AnimatePresence>
-        {toast && (
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 50 }}
-            className="fixed bottom-6 right-6 z-50 glass rounded-xl px-5 py-3 border border-neon-500/20 shadow-2xl"
-          >
-            <p className="text-white text-sm font-medium">
-              <span className="text-neon-500">Coming:</span> {toast} service configuration
-            </p>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </div>
   )
 }
