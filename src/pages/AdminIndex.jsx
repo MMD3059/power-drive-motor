@@ -1,25 +1,27 @@
-import { useOutletContext, Link } from "react-router-dom"
+import { useOutletContext, Link, useNavigate } from "react-router-dom"
 import { useState, useEffect } from "react"
-import { motion } from "framer-motion"
-import { Car, MessageSquare, Download, Globe, Search, Smartphone, Camera, ShoppingCart, Target, Users, MessageCircle, CheckCircle, XCircle, TrendingUp } from "lucide-react"
+import { motion, AnimatePresence } from "framer-motion"
+import { Car, MessageSquare, Download, Globe, Search, Smartphone, Camera, ShoppingCart, Target, Users, MessageCircle, CheckCircle, XCircle, TrendingUp, ExternalLink } from "lucide-react"
 
 const API = import.meta.env.DEV ? "http://localhost:3001/api" : "/api"
 
 const services = [
-  { name: "Dealer Website", desc: "Professional dealership website", icon: Globe, color: "from-blue-600 to-cyan-400", status: true },
-  { name: "Google Vehicle Listings", desc: "Auto ads on Google Search", icon: Search, color: "from-green-600 to-emerald-400", status: true },
-  { name: "Craigslist", desc: "Auto poster to Craigslist", icon: Smartphone, color: "from-orange-600 to-yellow-400", status: true },
-  { name: "FB Marketplace Autoposter", desc: "Auto list on Facebook Marketplace", icon: Camera, color: "from-indigo-600 to-blue-400", status: true },
-  { name: "Google Shop / Network", desc: "Shop and display network ads", icon: ShoppingCart, color: "from-red-600 to-pink-400", status: true },
-  { name: "FB Marketplace as Business", desc: "List as a business account", icon: TrendingUp, color: "from-purple-600 to-violet-400", status: true },
-  { name: "Local Dominance", desc: "Dominate local search results", icon: Target, color: "from-teal-600 to-emerald-400", status: true },
-  { name: "Smart CRM", desc: "Manage customers and leads", icon: Users, color: "from-rose-600 to-pink-400", status: true },
-  { name: "Instant Messaging", desc: "Real-time customer chat", icon: MessageCircle, color: "from-sky-600 to-cyan-400", status: true },
+  { name: "Dealer Website", desc: "Professional dealership website", icon: Globe, color: "from-blue-600 to-cyan-400", status: true, to: "/PDM-admin/cars" },
+  { name: "Google Vehicle Listings", desc: "Auto ads on Google Search", icon: Search, color: "from-green-600 to-emerald-400", status: true, href: "https://www.google.com/retail/solutions/merchant-center/" },
+  { name: "Craigslist", desc: "Auto poster to Craigslist", icon: Smartphone, color: "from-orange-600 to-yellow-400", status: true, href: "https://accounts.craigslist.org/" },
+  { name: "FB Marketplace Autoposter", desc: "Auto list on Facebook Marketplace", icon: Camera, color: "from-indigo-600 to-blue-400", status: true, href: "https://business.facebook.com/" },
+  { name: "Google Shop / Network", desc: "Shop and display network ads", icon: ShoppingCart, color: "from-red-600 to-pink-400", status: true, href: "https://www.google.com/retail/solutions/merchant-center/" },
+  { name: "FB Marketplace as Business", desc: "List as a business account", icon: TrendingUp, color: "from-purple-600 to-violet-400", status: true, href: "https://business.facebook.com/" },
+  { name: "Local Dominance", desc: "Dominate local search results", icon: Target, color: "from-teal-600 to-emerald-400", status: true, modal: "Local Dominance" },
+  { name: "Smart CRM", desc: "Manage customers and leads", icon: Users, color: "from-rose-600 to-pink-400", status: true, to: "/PDM-admin/messages" },
+  { name: "Instant Messaging", desc: "Real-time customer chat", icon: MessageCircle, color: "from-sky-600 to-cyan-400", status: true, to: "/PDM-admin/messages" },
 ]
 
 export default function AdminIndex() {
   const { stats } = useOutletContext()
+  const navigate = useNavigate()
   const [allCars, setAllCars] = useState([])
+  const [toast, setToast] = useState(null)
   const recentCars = allCars.slice(0, 5)
   const available = allCars.filter(c => !c.sold).length
   const sold = allCars.filter(c => c.sold).length
@@ -29,6 +31,19 @@ export default function AdminIndex() {
       .then((r) => r.json())
       .then((cars) => setAllCars(cars))
   }, [])
+
+  useEffect(() => {
+    if (toast) {
+      const t = setTimeout(() => setToast(null), 3000)
+      return () => clearTimeout(t)
+    }
+  }, [toast])
+
+  const handleService = (svc) => {
+    if (svc.to) { navigate(svc.to); return }
+    if (svc.href) { window.open(svc.href, "_blank", "noopener"); return }
+    if (svc.modal) { setToast(svc.modal); return }
+  }
 
   const handleBackup = async () => {
     const token = localStorage.getItem("admin-token")
@@ -100,12 +115,13 @@ export default function AdminIndex() {
         <h2 className="text-white font-bold text-lg mb-4">AUTO DEALER 360 SERVICES</h2>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {services.map((svc, i) => (
-            <motion.div
+            <motion.button
               key={svc.name}
+              onClick={() => handleService(svc)}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.03 }}
-              className={`glass-card rounded-xl p-5 border border-white/5 hover:border-white/20 transition-all group relative overflow-hidden`}
+              className="glass-card rounded-xl p-5 border border-white/5 hover:border-white/20 transition-all group relative overflow-hidden text-left w-full cursor-pointer"
             >
               <div className={`absolute inset-0 opacity-0 group-hover:opacity-5 transition-opacity bg-gradient-to-br ${svc.color}`} />
               <div className="relative flex items-start gap-4">
@@ -113,18 +129,20 @@ export default function AdminIndex() {
                   <svc.icon size={18} className="text-white" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-white font-semibold text-sm truncate">{svc.name}</p>
+                  <p className="text-white font-semibold text-sm truncate group-hover:brightness-110 transition-all">{svc.name}</p>
                   <p className="text-dark-300 text-xs mt-0.5 truncate">{svc.desc}</p>
                 </div>
-                <div className="shrink-0">
-                  {svc.status ? (
+                <div className="shrink-0 flex items-center">
+                  {svc.href ? (
+                    <ExternalLink size={12} className="text-dark-400 group-hover:text-white transition-colors" />
+                  ) : svc.status ? (
                     <CheckCircle size={14} className="text-green-500" />
                   ) : (
                     <XCircle size={14} className="text-red-500" />
                   )}
                 </div>
               </div>
-            </motion.div>
+            </motion.button>
           ))}
         </div>
       </div>
@@ -182,6 +200,21 @@ export default function AdminIndex() {
           </div>
         </div>
       </div>
+
+      <AnimatePresence>
+        {toast && (
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 50 }}
+            className="fixed bottom-6 right-6 z-50 glass rounded-xl px-5 py-3 border border-neon-500/20 shadow-2xl"
+          >
+            <p className="text-white text-sm font-medium">
+              <span className="text-neon-500">Coming:</span> {toast} service configuration
+            </p>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   )
 }
