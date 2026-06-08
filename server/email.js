@@ -27,24 +27,44 @@ const TYPE_SUBJECTS = {
   "test-drive": "New Test Drive Booking",
 }
 
+function waLink(phone, text) {
+  if (!phone) return ""
+  const p = phone.replace(/[^0-9]/g, "")
+  if (p.length < 7) return ""
+  return `https://wa.me/${p}?text=${encodeURIComponent(text)}`
+}
+
 export async function sendEmailNotification(type, data) {
-  if (!process.env.EMAIL_PASS) return
+  const hasEmail = process.env.EMAIL_PASS
+  const adminPhone = process.env.ADMIN_PHONE || ""
 
   const subject = TYPE_SUBJECTS[type] || "New Message"
   let body = `Name: ${data.name}\nEmail: ${data.email}\nPhone: ${data.phone || "N/A"}\n`
-
   if (data.subject) body += `Subject: ${data.subject}\n`
   if (data.message) body += `\n---\n${data.message}`
+  body += `\n\nType: ${type || "contact"}`
 
-  try {
-    await transporter.sendMail({
-      from: `"Power Drive Motor" <${process.env.EMAIL_USER || "Powerdrivemotorllc@gmail.com"}>`,
-      to: "Powerdrivemotorllc@gmail.com",
-      subject: `${subject} - ${data.name}`,
-      text: body,
-    })
-    console.log(`Email sent for ${type} from ${data.name}`)
-  } catch (e) {
-    console.error("Email send failed:", e.message)
+  const waText = `${subject}\nName: ${data.name}\nEmail: ${data.email}\nPhone: ${data.phone || "N/A"}${data.message ? `\n\n${data.message}` : ""}`
+
+  const waUrl = waLink(adminPhone || data.phone, waText)
+
+  body += waUrl ? `\n\nWhatsApp: ${waUrl}` : ""
+
+  if (hasEmail) {
+    try {
+      await transporter.sendMail({
+        from: `"Power Drive Motor" <${process.env.EMAIL_USER || "Powerdrivemotorllc@gmail.com"}>`,
+        to: "Powerdrivemotorllc@gmail.com",
+        subject: `${subject} - ${data.name}`,
+        text: body,
+      })
+      console.log(`Email sent for ${type} from ${data.name}`)
+    } catch (e) {
+      console.error("Email send failed:", e.message)
+    }
+  }
+
+  if (waUrl && adminPhone) {
+    console.log(`WhatsApp link generated: ${waUrl}`)
   }
 }

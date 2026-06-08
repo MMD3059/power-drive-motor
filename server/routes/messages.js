@@ -2,6 +2,7 @@ import { Router } from "express"
 import db from "../db.js"
 import { requireAuth } from "../middleware/auth.js"
 import { sendEmailNotification } from "../email.js"
+import { sendWhatsAppNotification } from "../whatsapp.js"
 
 const router = Router()
 
@@ -16,6 +17,7 @@ router.post("/", (req, res) => {
   ).run(name, email, phone || "", subject || "", message, type || "contact")
 
   sendEmailNotification(type || "contact", { name, email, phone, subject, message })
+  sendWhatsAppNotification(type || "contact", { name, email, phone, subject, message })
 
   res.status(201).json({ message: "Message sent successfully" })
 })

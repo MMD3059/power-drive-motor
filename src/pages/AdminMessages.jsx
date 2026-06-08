@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from "react"
 import { motion } from "framer-motion"
-import { Trash2, Mail, Phone, Calendar, MessageSquare } from "lucide-react"
+import { Trash2, Mail, Phone, Calendar, MessageSquare, MessageCircle } from "lucide-react"
 
 const API = import.meta.env.DEV ? "http://localhost:3001/api" : "/api"
 
@@ -163,6 +163,9 @@ export default function AdminMessages() {
                   <div className="flex items-center gap-2 text-dark-200 text-sm">
                     <Phone size={16} className="text-neon-500" />
                     <a href={`tel:${selected.phone}`} className="hover:text-neon-500">{selected.phone}</a>
+                    <a href={`https://wa.me/${selected.phone.replace(/[^0-9]/g, "")}?text=${encodeURIComponent(`Hi ${selected.name}, regarding your inquiry...`)}`} target="_blank" rel="noopener" className="ml-auto flex items-center gap-1 px-2 py-1 rounded-lg bg-green-500/10 text-green-400 text-xs hover:bg-green-500/20 transition-all">
+                      <MessageCircle size={12} /> WhatsApp
+                    </a>
                   </div>
                 )}
                 <div className="flex items-center gap-2 text-dark-200 text-sm">
