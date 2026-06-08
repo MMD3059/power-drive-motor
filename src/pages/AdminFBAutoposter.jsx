@@ -11,6 +11,7 @@ export default function AdminFBAutoposter() {
   const [selected, setSelected] = useState(null)
   const [copied, setCopied] = useState(false)
   const [search, setSearch] = useState("")
+  const [step, setStep] = useState("copy")
 
   useEffect(() => {
     fetch(`${API}/cars`)
@@ -45,7 +46,7 @@ export default function AdminFBAutoposter() {
     const text = `${buildText(car)}\n\n${car.description || ""}\n\n${buildTags(car)}`
     navigator.clipboard.writeText(text)
     setCopied(true)
-    setTimeout(() => setCopied(false), 2000)
+    setStep("open")
   }
 
   const markPosted = (id) => {
@@ -106,7 +107,7 @@ export default function AdminFBAutoposter() {
                     <span className="text-[10px] text-green-500 font-semibold bg-green-500/10 px-2 py-1 rounded-full">Posted</span>
                   )}
                   <button
-                    onClick={() => { setSelected(car); setCopied(false) }}
+                    onClick={() => { setSelected(car); setCopied(false); setStep("copy") }}
                     className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white text-xs font-semibold hover:brightness-110 transition-all"
                   >
                     <Share2 size={14} />
@@ -158,19 +159,27 @@ export default function AdminFBAutoposter() {
                 className="flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-neon-500/10 border border-neon-500/20 text-neon-500 text-sm font-semibold hover:bg-neon-500/20 transition-all"
               >
                 {copied ? <Check size={16} /> : <Copy size={16} />}
-                {copied ? "Copied!" : "Copy Listing Text"}
+                {copied ? "Copied! Text is ready to paste" : "1. Copy Listing Text"}
               </button>
-              <button
-                onClick={() => { markPosted(selected.id); openFB() }}
-                className="flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white text-sm font-semibold hover:brightness-110 transition-all"
-              >
-                <ExternalLink size={16} />
-                Open Facebook & Paste
-              </button>
+              {step === "open" && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="flex flex-col gap-2"
+                >
+                  <button
+                    onClick={() => { markPosted(selected.id); openFB() }}
+                    className="flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white text-sm font-semibold hover:brightness-110 transition-all"
+                  >
+                    <ExternalLink size={16} />
+                    2. Open Facebook & Paste (Ctrl+V / Cmd+V)
+                  </button>
+                </motion.div>
+              )}
             </div>
 
             <p className="text-dark-400 text-[10px] text-center mt-4">
-              1. Click "Copy Listing Text" · 2. Click "Open Facebook" · 3. Paste & Publish
+              Copy the text → Open Facebook Marketplace → Ctrl+V / Cmd+V to paste → Publish
             </p>
           </motion.div>
         </motion.div>
