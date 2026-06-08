@@ -5,6 +5,7 @@ import {
   fetchLatestBaileysVersion,
 } from "@whiskeysockets/baileys"
 import path from "path"
+import fs from "fs"
 import { fileURLToPath } from "url"
 import pino from "pino"
 
@@ -94,6 +95,14 @@ async function start() {
         if (statusCode === DisconnectReason.loggedOut) {
           connectionStatus = "logged_out"
           notify()
+          try {
+            if (fs.existsSync(AUTH_DIR)) {
+              fs.rmSync(AUTH_DIR, { recursive: true, force: true })
+              console.log("Deleted old auth files, fresh QR needed")
+            }
+          } catch (e) {
+            console.error("Failed to delete auth dir:", e.message)
+          }
           setTimeout(start, 1000)
         } else {
           connectionStatus = "disconnected"
@@ -141,6 +150,13 @@ export async function logout() {
       console.error("Logout error:", e.message)
     }
     sock = null
+  }
+  try {
+    if (fs.existsSync(AUTH_DIR)) {
+      fs.rmSync(AUTH_DIR, { recursive: true, force: true })
+    }
+  } catch (e) {
+    console.error("Failed to delete auth dir:", e.message)
   }
   currentQR = null
   connectionStatus = "disconnected"
