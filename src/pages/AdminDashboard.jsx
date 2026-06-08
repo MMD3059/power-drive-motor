@@ -1,7 +1,7 @@
 import { Outlet, useNavigate, Link } from "react-router-dom"
 import { useEffect, useState } from "react"
 import { motion } from "framer-motion"
-import { Car, MessageSquare, LayoutDashboard, LogOut, Menu, X, Users, DollarSign, BarChart3, Upload, Globe, MessageCircle } from "lucide-react"
+import { Car, MessageSquare, LayoutDashboard, LogOut, Menu, X, Users, DollarSign, BarChart3, Upload, Globe } from "lucide-react"
 
 const API = import.meta.env.DEV ? "http://localhost:3001/api" : "/api"
 
@@ -43,7 +43,6 @@ export default function AdminDashboard() {
     { to: "/PDM-admin/services/fb-autoposter", icon: Globe, label: "Facebook" },
     { to: "/PDM-admin/reports", icon: BarChart3, label: "Reports" },
     { to: "/PDM-admin/csv-import", icon: Upload, label: "CSV Import" },
-    { to: "/PDM-admin/whatsapp", icon: MessageCircle, label: "WhatsApp" },
   ]
 
   const isActive = (path, end) => {
