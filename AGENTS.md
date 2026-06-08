@@ -24,7 +24,7 @@ node server/index.js  # Run everything together (:3001)
 - **Username:** `H.Hayyawi`
 - **Password:** `hayderhayyawibusinesses7`
 - **Plan:** Starter ($7/mo) + Persistent Disk 1GB at /data ($2/mo) — no sleep
-- **Domain:** `powerdrivermotor.com` at GoDaddy (not yet pointed)
+- **Domain:** `powerdrivermotor.com` — pointed to Render, live
 - **Server:** port 3001, Vite proxies `/api` and `/uploads` to it
 - **Node:** `/tmp/node-v22.14.0-darwin-x64/bin/node` (macOS 12, no system Node)
 - **Desktop shortcuts:** `Start Power Drive.command` / `Stop Power Drive.command`
@@ -76,8 +76,13 @@ node server/index.js  # Run everything together (:3001)
 ## Environment Variables (Render)
 - `DB_PATH=/data/data.db` — Database path on Persistent Disk
 - `JWT_SECRET` — JWT signing key (required, set permanent value)
+- `ADMIN_PASSWORD` — Admin login password (optional, defaults if not set)
 - `EMAIL_PASS` — Gmail App Password for email notifications (optional)
 - `EMAIL_USER` — Gmail address for sending (optional, defaults to Powerdrivemotorllc@gmail.com)
+- `ADMIN_PHONE` — Your WhatsApp number with country code (e.g., `+9647xxxxxxxx`) — required for WhatsApp notifications
+- `TWILIO_SID` — Twilio Account SID (optional, for Twilio WhatsApp API)
+- `TWILIO_TOKEN` — Twilio Auth Token (optional)
+- `TWILIO_WHATSAPP` — Twilio WhatsApp sender number (optional)
 - `NODE_ENV=production` — For production on Render (disables /api/debug)
 
 ## i18n (English/Spanish)
@@ -86,12 +91,21 @@ node server/index.js  # Run everything together (:3001)
 - Context: `src/i18n/context.jsx`
 - Toggle button in navbar (not Google Translate)
 
+## WhatsApp Notifications
+- Two methods: **Baileys** (free, scan QR once) or **Twilio** (paid)
+- Baileys auto-connects on server start — auth saved to `wa-auth/` dir (persistent on Render)
+- Admin page at `/PDM-admin/whatsapp` to scan QR & check status
+- Falls back to generating a `wa.me` link if neither method is configured
+- New messages (contact/credit/trade-in/test-drive) auto-send to `ADMIN_PHONE`
+- On Render: Baileys auth persists across restarts via Persistent Disk
+- Packages: `@whiskeysockets/baileys`, `qrcode`, `pino` (already installed)
+
 ## Gotchas
 - server/seed.js only seeds when DB is empty — safety check prevents re-insert
 - `/api/debug` disabled in production — gated by NODE_ENV
 - backdrop-filter on navbar breaks `position: fixed` children — backdrop and side drawer moved outside `<nav>`
 - CDN images only accept 4:3 aspect ratio (`fit-in/400x300` works, `fit-in/600x400` returns 403)
-- Domain parked at GoDaddy — not yet pointed to Render
+- Domain `powerdrivermotor.com` pointed to Render — live
 - Cloudflare tunnel URL changes every restart (random subdomain) — for local dev sharing
 - User communicates in Arabic using Latin script (e.g., "shu", "bde", "keef")
 - Canvas animation removed (CSS-only effects used instead to avoid lag)

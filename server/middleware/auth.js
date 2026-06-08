@@ -2,10 +2,13 @@ import jwt from "jsonwebtoken"
 
 import crypto from "crypto"
 
-const JWT_SECRET = process.env.JWT_SECRET || crypto.randomBytes(32).toString("hex")
 if (!process.env.JWT_SECRET) {
-  console.warn("WARNING: JWT_SECRET not set — generated random secret (tokens invalidated on restart)")
+  if (process.env.NODE_ENV === "production") {
+    throw new Error("FATAL: JWT_SECRET environment variable is required in production")
+  }
+  console.warn("WARNING: JWT_SECRET not set — using random secret, tokens invalidated on restart")
 }
+const JWT_SECRET = process.env.JWT_SECRET || crypto.randomBytes(32).toString("hex")
 
 export function generateToken(username) {
   return jwt.sign({ username }, JWT_SECRET, { expiresIn: "7d" })

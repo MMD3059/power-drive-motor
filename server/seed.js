@@ -1,12 +1,9 @@
 import bcrypt from "bcryptjs"
 import db from "./db.js"
 
-const hash = bcrypt.hashSync("hayderhayyawibusinesses7", 10)
 const existing = db.prepare("SELECT * FROM users LIMIT 1").get()
-if (existing) {
-  db.prepare("UPDATE users SET username = ?, password = ? WHERE id = ?").run("H.Hayyawi", hash, existing.id)
-  console.log("Admin updated (username: H.Hayyawi)")
-} else {
+if (!existing) {
+  const hash = bcrypt.hashSync(process.env.ADMIN_PASSWORD || "hayderhayyawibusinesses7", 10)
   db.prepare("INSERT INTO users (username, password) VALUES (?, ?)").run("H.Hayyawi", hash)
   console.log("Admin created (username: H.Hayyawi)")
 }
@@ -335,5 +332,4 @@ if (carsExist.count > 0) {
 
   insertMany(cars)
   console.log(`Seeded ${cars.length} cars successfully.`)
-  console.log("Admin login: username=H.Hayyawi, password=hayderhayyawibusinesses7")
 }
