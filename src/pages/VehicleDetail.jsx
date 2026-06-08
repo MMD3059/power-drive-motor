@@ -74,7 +74,7 @@ export default function VehicleDetail() {
 
         <div className="grid lg:grid-cols-2 gap-4 lg:gap-12">
           {lightbox && (
-            <div className="fixed inset-0 z-[60] bg-black/95 flex items-center justify-center" onClick={() => setLightbox(false)} onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
+            <div className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center" onClick={() => setLightbox(false)} onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
               <button onClick={() => setLightbox(false)} className="absolute top-6 right-6 text-white/60 hover:text-white transition-colors z-10">
                 <X size={32} />
               </button>
