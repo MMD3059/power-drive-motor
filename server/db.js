@@ -61,6 +61,8 @@ try { db.exec("ALTER TABLE cars ADD COLUMN images TEXT NOT NULL DEFAULT '[]'"); 
 try { db.exec("ALTER TABLE cars ADD COLUMN sold INTEGER NOT NULL DEFAULT 0"); } catch {}
 try { db.exec("ALTER TABLE cars ADD COLUMN description_es TEXT NOT NULL DEFAULT ''"); } catch {}
 try { db.exec("ALTER TABLE cars ADD COLUMN vin TEXT NOT NULL DEFAULT ''"); } catch {}
+try { db.exec("ALTER TABLE cars ADD COLUMN fb_commerce_id TEXT NOT NULL DEFAULT ''"); } catch {}
+try { db.exec("ALTER TABLE cars ADD COLUMN fb_commerce_status TEXT NOT NULL DEFAULT ''"); } catch {}
 
 // Login attempt tracking
 db.exec(`CREATE TABLE IF NOT EXISTS login_attempts (
