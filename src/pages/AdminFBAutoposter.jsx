@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import { Link } from "react-router-dom"
 import { motion } from "framer-motion"
-import { ArrowLeft, Copy, ExternalLink, Facebook, Check, Search } from "lucide-react"
+import { ArrowLeft, Copy, ExternalLink, Check, Search, Share2 } from "lucide-react"
 
 const API = import.meta.env.DEV ? "http://localhost:3001/api" : "/api"
 
@@ -109,7 +109,7 @@ export default function AdminFBAutoposter() {
                     onClick={() => { setSelected(car); setCopied(false) }}
                     className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white text-xs font-semibold hover:brightness-110 transition-all"
                   >
-                    <Facebook size={14} />
+                    <Share2 size={14} />
                     Post to FB
                   </button>
                 </div>
