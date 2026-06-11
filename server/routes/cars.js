@@ -109,14 +109,16 @@ router.put("/:id", requireAuth, upload.array("images", 10), (req, res) => {
   } = req.body
 
   let images = []
+  let hasExistingImages = false
   if (req.body.existingImages) {
+    hasExistingImages = true
     try { images = JSON.parse(req.body.existingImages) } catch {}
   }
   if (req.files && req.files.length > 0) {
     const newImages = req.files.map((f) => `/uploads/${f.filename}`)
     images = [...images, ...newImages]
   }
-  if (images.length === 0) {
+  if (!hasExistingImages && images.length === 0) {
     try { images = JSON.parse(existing.images || "[]") } catch {}
     if (images.length === 0 && existing.image) images = [existing.image]
   }

@@ -86,7 +86,7 @@ export default function AdminCars() {
     fd.append("features", JSON.stringify(form.features))
     fd.append("sold", form.sold ? "true" : "false")
 
-    if (editing && form.images.length > 0) {
+    if (editing) {
       fd.append("existingImages", JSON.stringify(form.images))
     }
     if (!editing && form.image && !imageFiles.length) {
