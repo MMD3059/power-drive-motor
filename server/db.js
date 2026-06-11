@@ -25,7 +25,7 @@ db.exec(`
     model TEXT NOT NULL,
     year INTEGER NOT NULL,
     price REAL NOT NULL,
-    fuelType TEXT NOT NULL DEFAULT 'Petrol',
+    fuelType TEXT NOT NULL DEFAULT 'Gas',
     transmission TEXT NOT NULL DEFAULT 'Automatic',
     engine TEXT NOT NULL DEFAULT '',
     horsepower INTEGER NOT NULL DEFAULT 0,

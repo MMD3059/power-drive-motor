@@ -90,7 +90,7 @@ router.post("/", requireAuth, upload.array("images", 10), (req, res) => {
 
   const result = stmt.run(
     name, brand, model, parseInt(year), parseFloat(price),
-    fuelType || "Petrol", transmission || "Automatic", engine || "",
+    fuelType || "Gas", transmission || "Automatic", engine || "",
     parseInt(horsepower) || 0, parseInt(mileage) || 0, parseInt(seats) || 5,
     color || "", image, imagesStr, description || "", description_es || "", featuresStr, sold, vin || ""
   )

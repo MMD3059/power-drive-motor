@@ -6,7 +6,7 @@ const API = import.meta.env.DEV ? "http://localhost:3001/api" : "/api"
 
 const defaultCar = {
   name: "", brand: "Chevrolet", model: "", year: new Date().getFullYear(),
-  price: "", fuelType: "Petrol", transmission: "Automatic", engine: "",
+  price: "", fuelType: "Gas", transmission: "Automatic", engine: "",
   horsepower: "", mileage: "", seats: 5, color: "", description: "", description_es: "",
   features: [], image: "", images: [], sold: false, vin: "",
 }
@@ -279,7 +279,7 @@ export default function AdminCars() {
                 <label className="block text-xs text-dark-200 mb-1">Fuel Type</label>
                 <select value={form.fuelType} onChange={(e) => setForm({ ...form, fuelType: e.target.value })}
                   className="w-full px-4 py-2.5 bg-dark-700/80 border border-neon-500/10 rounded-xl text-white text-sm focus:outline-none focus:border-neon-500/40">
-                  <option>Petrol</option>
+                  <option>Gas</option>
                   <option>Diesel</option>
                   <option>Hybrid</option>
                   <option>Electric</option>

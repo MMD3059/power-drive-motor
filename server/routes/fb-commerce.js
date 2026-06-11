@@ -50,7 +50,7 @@ router.post("/fb/commerce/add", requireAuth, (req, res) => {
       model: car.model,
       year: car.year,
       mileage: { value: car.mileage, unit: "miles" },
-      fuel_type: car.fuelType || "Petrol",
+      fuel_type: car.fuelType || "Gas",
       transmission: car.transmission || "Automatic",
       exterior_color: car.color || "",
       engine: car.engine || "",

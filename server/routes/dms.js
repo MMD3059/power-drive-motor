@@ -186,7 +186,7 @@ router.post("/csv/import", requireAuth, upload.single("file"), (req, res) => {
         insert.run(
           name, brand, model, year, price,
           parseInt(mapped.mileage >= 0 ? vals[mapped.mileage] : "0") || 0,
-          mapped.fuel >= 0 ? vals[mapped.fuel] : "Petrol",
+          mapped.fuel >= 0 ? vals[mapped.fuel] : "Gas",
           mapped.transmission >= 0 ? vals[mapped.transmission] : "Automatic",
           mapped.engine >= 0 ? vals[mapped.engine] : "",
           parseInt(mapped.horsepower >= 0 ? vals[mapped.horsepower] : "0") || 0,
