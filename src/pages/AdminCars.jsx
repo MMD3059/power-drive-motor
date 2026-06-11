@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
-import { Plus, Edit2, Trash2, X, Image, CheckCircle, XCircle } from "lucide-react"
+import { Plus, Edit2, Trash2, X, Image, CheckCircle, XCircle, GripVertical, ChevronUp, ChevronDown } from "lucide-react"
 
 const API = import.meta.env.DEV ? "http://localhost:3001/api" : "/api"
 
@@ -53,6 +53,8 @@ export default function AdminCars() {
   const [featureInput, setFeatureInput] = useState("")
   const [imageFiles, setImageFiles] = useState([])
   const [imagePreviews, setImagePreviews] = useState([])
+  const [orderedImages, setOrderedImages] = useState([])
+  const [dragIndex, setDragIndex] = useState(null)
   const [loading, setLoading] = useState(false)
 
   const token = localStorage.getItem("admin-token")
@@ -66,6 +68,10 @@ export default function AdminCars() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     setLoading(true)
+
+    const existingUrls = orderedImages.filter((o) => o.type === "existing").map((o) => o.url)
+    const newFiles = orderedImages.filter((o) => o.type === "new").map((o) => o.file)
+    const hasNew = newFiles.length > 0
 
     const fd = new FormData()
     fd.append("name", form.name)
@@ -86,14 +92,11 @@ export default function AdminCars() {
     fd.append("features", JSON.stringify(form.features))
     fd.append("sold", form.sold ? "true" : "false")
 
-    if (editing) {
-      fd.append("existingImages", JSON.stringify(form.images))
-    }
-    if (!editing && form.image && !imageFiles.length) {
-      fd.append("existingImages", JSON.stringify([form.image]))
+    if (editing || existingUrls.length > 0 || (!hasNew && form.image)) {
+      fd.append("existingImages", JSON.stringify(existingUrls.length > 0 ? existingUrls : form.image ? [form.image] : []))
     }
 
-    imageFiles.forEach((f) => fd.append("images", f))
+    newFiles.forEach((f) => fd.append("images", f))
 
     const url = editing ? `${API}/cars/${editing.id}` : `${API}/cars`
     const method = editing ? "PUT" : "POST"
@@ -152,6 +155,7 @@ export default function AdminCars() {
     setForm({ ...car, features: car.features || [], images: car.images || [] })
     setImageFiles([])
     setImagePreviews([])
+    setOrderedImages((car.images || []).map((url) => ({ id: `e-${url}`, type: "existing", url })))
     setShowForm(true)
   }
 
@@ -161,6 +165,7 @@ export default function AdminCars() {
     setShowForm(false)
     setImageFiles([])
     setImagePreviews([])
+    setOrderedImages([])
     setFeatureInput("")
   }
 
@@ -180,17 +185,46 @@ export default function AdminCars() {
     setImageFiles((prev) => [...prev, ...files])
     const previews = files.map((f) => URL.createObjectURL(f))
     setImagePreviews((prev) => [...prev, ...previews])
+    const newItems = files.map((f, i) => ({
+      id: `n-${Date.now()}-${i}`,
+      type: "new",
+      url: previews[i],
+      file: f,
+    }))
+    setOrderedImages((prev) => [...prev, ...newItems])
   }
 
-  const removeNewImage = (i) => {
-    URL.revokeObjectURL(imagePreviews[i])
-    setImageFiles((prev) => prev.filter((_, idx) => idx !== i))
-    setImagePreviews((prev) => prev.filter((_, idx) => idx !== i))
+  const removeImage = (index) => {
+    const item = orderedImages[index]
+    if (item.type === "new") URL.revokeObjectURL(item.url)
+    setOrderedImages((prev) => prev.filter((_, i) => i !== index))
   }
 
-  const removeExistingImage = (i) => {
-    setForm({ ...form, images: form.images.filter((_, idx) => idx !== i) })
+  const moveImage = (index, dir) => {
+    const to = index + dir
+    if (to < 0 || to >= orderedImages.length) return
+    setOrderedImages((prev) => {
+      const next = [...prev]
+      ;[next[index], next[to]] = [next[to], next[index]]
+      return next
+    })
   }
+
+  const handleDragStart = (index) => setDragIndex(index)
+
+  const handleDragOver = (e, index) => {
+    e.preventDefault()
+    if (dragIndex === null || dragIndex === index) return
+    setOrderedImages((prev) => {
+      const next = [...prev]
+      const [removed] = next.splice(dragIndex, 1)
+      next.splice(index, 0, removed)
+      return next
+    })
+    setDragIndex(index)
+  }
+
+  const handleDragEnd = () => setDragIndex(null)
 
   return (
     <div>
@@ -332,28 +366,39 @@ export default function AdminCars() {
             </div>
 
             <div>
-              <label className="block text-xs text-dark-200 mb-1">Images (select multiple)</label>
+              <label className="block text-xs text-dark-200 mb-1">Images (drag to reorder)</label>
               <input type="file" accept="image/*" multiple onChange={handleImageSelect}
                 className="w-full text-sm text-dark-200 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:bg-dark-700 file:text-neon-500 file:text-sm file:font-semibold hover:file:bg-dark-600" />
 
-              {(form.images.length > 0 || imagePreviews.length > 0) && (
+              {orderedImages.length > 0 && (
                 <div className="flex flex-wrap gap-2 mt-3">
-                  {editing && form.images.map((img, i) => (
-                    <div key={`e-${i}`} className="relative group">
-                      <img src={img} alt="" className="h-20 w-28 object-cover rounded-lg border border-neon-500/20" />
-                      <button type="button" onClick={() => removeExistingImage(i)}
-                        className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                        <X size={12} />
-                      </button>
-                    </div>
-                  ))}
-                  {imagePreviews.map((preview, i) => (
-                    <div key={`n-${i}`} className="relative group">
-                      <img src={preview} alt="" className="h-20 w-28 object-cover rounded-lg border border-neon-500/40" />
-                      <button type="button" onClick={() => removeNewImage(i)}
-                        className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                        <X size={12} />
-                      </button>
+                  {orderedImages.map((item, i) => (
+                    <div
+                      key={item.id}
+                      draggable
+                      onDragStart={() => handleDragStart(i)}
+                      onDragOver={(e) => handleDragOver(e, i)}
+                      onDragEnd={handleDragEnd}
+                      className={`relative group flex flex-col items-center ${dragIndex === i ? "opacity-50" : ""}`}
+                    >
+                      <div className="relative">
+                        <img src={item.url} alt="" className="h-20 w-28 object-cover rounded-lg border border-neon-500/20 cursor-grab active:cursor-grabbing" />
+                        <button type="button" onClick={() => removeImage(i)}
+                          className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                          <X size={12} />
+                        </button>
+                      </div>
+                      <div className="flex items-center gap-1 mt-1">
+                        <button type="button" onClick={() => moveImage(i, -1)} disabled={i === 0}
+                          className="p-0.5 rounded text-dark-200 hover:text-white disabled:opacity-20 disabled:cursor-not-allowed">
+                          <ChevronUp size={14} />
+                        </button>
+                        {i === 0 && <span className="text-[9px] text-neon-500 font-semibold">Main</span>}
+                        <button type="button" onClick={() => moveImage(i, 1)} disabled={i === orderedImages.length - 1}
+                          className="p-0.5 rounded text-dark-200 hover:text-white disabled:opacity-20 disabled:cursor-not-allowed">
+                          <ChevronDown size={14} />
+                        </button>
+                      </div>
                     </div>
                   ))}
                 </div>
