@@ -52,7 +52,11 @@ app.use((req, res, next) => {
   next()
 })
 
-app.use("/uploads", express.static(path.join(__dirname, "uploads")))
+const uploadsDir = process.env.DB_PATH
+  ? path.join(path.dirname(process.env.DB_PATH || "/data/data.db"), "uploads")
+  : path.join(__dirname, "uploads")
+if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir, { recursive: true })
+app.use("/uploads", express.static(uploadsDir))
 
 if (process.env.NODE_ENV !== "production") {
   app.get("/api/debug", (req, res) => {
