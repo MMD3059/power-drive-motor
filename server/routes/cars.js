@@ -46,7 +46,9 @@ function parseCar(c) {
 
 router.get("/", (req, res) => {
   const cars = db.prepare("SELECT * FROM cars ORDER BY created_at DESC").all()
-  res.json(cars.map(parseCar))
+  const parsed = cars.map(parseCar)
+  parsed.forEach(c => { if (c.image && !c.image.startsWith("http")) console.log("Car", c.id, "image:", c.image, "images:", c.images) })
+  res.json(parsed)
 })
 
 router.get("/:id", (req, res) => {
@@ -61,22 +63,28 @@ router.post("/", requireAuth, upload.array("images", 10), (req, res) => {
     engine, horsepower, mileage, seats, color, description, description_es, features, vin,
   } = req.body
 
+  console.log("POST files:", req.files?.length, "body keys:", Object.keys(req.body))
+
   let images = []
   if (req.files && req.files.length > 0) {
     images = req.files.map((f) => `/uploads/${f.filename}`)
+    console.log("New upload paths:", images)
   }
   if (req.body.existingImages) {
     try {
       const existing = JSON.parse(req.body.existingImages)
       images = [...existing, ...images]
+      console.log("existingImages parsed:", existing)
     } catch {}
   }
   if (images.length === 0 && req.body.image) {
     images = [req.body.image]
+    console.log("Fallback to req.body.image:", req.body.image)
   }
 
   const image = images[0] || ""
   const imagesStr = JSON.stringify(images)
+  console.log("Final image:", image, "imagesStr:", imagesStr)
   const featuresStr = JSON.stringify(features ? (Array.isArray(features) ? features : JSON.parse(features)) : [])
 
   const stmt = db.prepare(`
